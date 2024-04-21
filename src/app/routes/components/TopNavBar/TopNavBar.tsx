@@ -2,7 +2,6 @@ import React from 'react';
 import { useAppSelector, useAppDispatch } from '../../../hooks'
 
 import * as appStateReducer from "../../../store/appState/appState.reducer";
-import * as projectReducer from "../../../store/project/project.reducer";
 
 import './TopNavBar.css';
 
@@ -27,22 +26,15 @@ const app = remote.app
 
 export default function TopNavBar () {
 
-	const appState = useAppSelector(state => state.appState)
-	const project = useAppSelector(state => state.project)
+	const theme = useAppSelector(state => state.appState.theme)
+	const route = useAppSelector(state => state.appState.route)
 	const dispatch = useAppDispatch();
-
-	function selectedTabId() {
-		if(appState.route == 'project')
-			return project.route.current
-		else
-			return 'workspace'
-	}
 
 	return (
 		
 		<Navbar 
 			id="TopNavBar" 
-			className={'sticky top-0 px-2 py-0 ' + appState.theme + ' shadow[0_5px_5px_0_rgba(0, 0, 0, 0.13)]'}>
+			className={'sticky top-0 px-2 py-0 ' + theme + ' shadow[0_5px_5px_0_rgba(0, 0, 0, 0.13)]'}>
 			<NavbarGroup id="TopNavBarGroupLeft" align={Alignment.LEFT}>
 				{/* SETTINGS DROPDOWN */}
 				<Popover content={<Settings />} position={Position.BOTTOM_RIGHT}>
@@ -55,7 +47,7 @@ export default function TopNavBar () {
 				<Tabs
 					id="TopNavTabs"
 					onChange={ (navbarTabId) => handleTabChange(navbarTabId) }
-					selectedTabId={selectedTabId()}
+					selectedTabId={route}
 					animate={true}
 					fill={true}>
 						<Tab id="databaseTab" className="mr-0" >
@@ -95,11 +87,11 @@ export default function TopNavBar () {
 
 	function handleTabChange(navbarTabId:any) {
 		console.log("Tab '" + navbarTabId + "' got clicked.")
-		if( navbarTabId != project.route.current) {
-			dispatch(projectReducer.changeCurrentProjectRoute(navbarTabId));
+		if( navbarTabId != route) {
+			dispatch(appStateReducer.setRoute(navbarTabId));
 		}
 		else {
-			console.log("Current route is already \\" + project.route.current)
+			console.log("Current route is already \\" + route)
 		}
 	}
 }
