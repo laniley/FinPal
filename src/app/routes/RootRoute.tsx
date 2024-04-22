@@ -2,12 +2,11 @@ import { useAppSelector, useAppDispatch } from './../hooks'
 
 import * as appStateReducer from "./../store/appState/appState.reducer";
 
-import ProjectRoute from './routes/ProjectRoute/ProjectRoute';
-
 import { dataPath, filePath, appStateAPI } from '../../api/appStateAPI'
 import { TopNavBar } from '../components';
 import AnalysisRoute from './routes/AnalysisRoute/AnalysisRoute';
 import DatabaseRoute from './routes/DatabaseRoute/DatabaseRoute';
+import DividendsRoute from './routes/DividendsRoute/DividendsRoute';
 
 console.log("dataPath: " + dataPath)
 console.log("filePath: " + filePath)
@@ -51,6 +50,6 @@ export function Content() {
 	if(route == 'databaseTab')
 		return(<DatabaseRoute/>)
 	else if(route == 'dividendsTab')
-		return(<DatabaseRoute/>)
+		return(<DividendsRoute/>)
 	else return (<AnalysisRoute/>)
 }
