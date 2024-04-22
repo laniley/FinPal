@@ -37,8 +37,9 @@ export default function RootRoute() {
 	return (
 		<div id="RootRoute" className="h-screen">
 			<TopNavBar />
-			<div id="Title" className={`typewriter font-semibold flex items-center p-3 bg-gradient-to-l from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% text-2xl`}></div>
-			<div id="rootContent" className="absolute flex flex-col w-full top-[100px] bottom-0">
+			<div id="Title" className={`flex items-center p-2 bg-gradient-to-l from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%`}></div>
+			
+			<div id="rootContent" className="absolute flex flex-col w-full top-[65px] bottom-0">
 				<Content />
 			</div>
 		</div>

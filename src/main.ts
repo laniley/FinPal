@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 
@@ -6,6 +6,12 @@ import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electro
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
+
+ipcMain.on('asynchronous-message', (event, arg) => {
+    console.log(arg); // prints "ping"
+    if (arg === 'ping') event.reply('asynchronous-reply', 'pong!');
+    else event.reply('asynchronous-reply', 'please, send me ping.');
+}); 
 
 // Keep a reference for dev mode
 let dev = false
