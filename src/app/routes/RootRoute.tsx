@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from './../hooks'
 import * as appStateReducer from "./../store/appState/appState.reducer";
 
 import { dataPath, filePath, appStateAPI } from '../../api/appStateAPI'
-import { TopNavBar } from '../components';
+import TopNavBar from './components/TopNavBar/TopNavBar';
 import AnalysisRoute from './routes/AnalysisRoute/AnalysisRoute';
 import DatabaseRoute from './routes/DatabaseRoute/DatabaseRoute';
 import DividendsRoute from './routes/DividendsRoute/DividendsRoute';
