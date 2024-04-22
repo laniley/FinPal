@@ -27,7 +27,7 @@ const app = remote.app
 export default function TopNavBar () {
 
 	const theme = useAppSelector(state => state.appState.theme)
-	const route = useAppSelector(state => state.appState.route)
+	const route = useAppSelector(state => state.appState.selectedTab)
 	const dispatch = useAppDispatch();
 
 	return (
@@ -51,19 +51,19 @@ export default function TopNavBar () {
 					animate={true}
 					fill={true}>
 						
-						<Tab id="analysisTab">
+						<Tab id="analysisTab" data-testid="analysisTab">
 							<Icon icon="timeline-line-chart" className="mr-2" /> Analysis
 						</Tab>
 
 						<NavbarDivider className="ml-0 mb-[15px]" />
 
-						<Tab id="databaseTab" className="mr-0" >
+						<Tab id="databaseTab" data-testid="databaseTab" className="mr-0" >
 							<Icon icon="database" className="mr-2 ml-2" /> Database
 						</Tab>
 
 						<NavbarDivider className="ml-0 mb-[15px]" />
 
-						<Tab id="dividendsTab">
+						<Tab id="dividendsTab" data-testid="dividendsTab">
 							<Icon icon="calendar" className="mr-2" /> Dividends
 						</Tab>
 						
@@ -89,7 +89,7 @@ export default function TopNavBar () {
 	function handleTabChange(navbarTabId:any) {
 		console.log("Tab '" + navbarTabId + "' got clicked.")
 		if( navbarTabId != route) {
-			dispatch(appStateReducer.changeRoute(navbarTabId));
+			dispatch(appStateReducer.changeSelectedTab(navbarTabId));
 		}
 		else {
 			console.log("Current route is already \\" + route)
