@@ -7,6 +7,7 @@ const { dialog } = require('@electron/remote');
 export const initialState = {
 	selectedTab: "databaseTab",
 	theme: "bp5-dark",
+	database: ""
 } as AppState
 
 export const changeSelectedTab = createAsyncThunk(
@@ -16,7 +17,7 @@ export const changeSelectedTab = createAsyncThunk(
 		let state:any = thunkAPI.getState()
 		thunkAPI.dispatch(setSelectedTab(navbarTabId))
 		state = thunkAPI.getState()
-		appStateAPI.save(state.appState)
+		appStateAPI.saveSelectedTab(state.appState.selectedTab)
 		return state.appState
   }
 )
@@ -31,6 +32,9 @@ const appStateSlice = createSlice({
 		setTheme(state, action) {
 			state.theme = action.payload
 		},
+		setDatabase(state, action) {
+			state.database = action.payload
+		},
 	}
 })
 
@@ -40,6 +44,7 @@ const { actions, reducer } = appStateSlice
 export const {
 	setSelectedTab, 
 	setTheme,
+	setDatabase
 } = actions
 
 export default reducer

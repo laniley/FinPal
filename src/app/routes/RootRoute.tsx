@@ -34,6 +34,14 @@ export default function RootRoute() {
 		console.log("selectedTab: not set");
 	}
 
+	if (result.database) {
+		console.log("database: " + result.database);
+		dispatch(appStateReducer.setDatabase(result.database))
+	}
+	else {
+		console.log("database: not set");
+	}
+
 	return (
 		<div id="RootRoute" className="h-screen">
 			<TopNavBar />

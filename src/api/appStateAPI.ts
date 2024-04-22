@@ -11,6 +11,7 @@ class AppStateAPI {
   _current_content = {
     selectedTab: "",
     theme: "",
+    database: ""
   }
 
   load() {
@@ -35,14 +36,15 @@ class AppStateAPI {
     return this._current_content
   }
 
-  save(state:AppState) {
-    console.log("Saving the AppState to '" + filePath + "' ...")
-    fs.writeFileSync( filePath, JSON.stringify(state))
-  }
-
   saveTheme(theme:string) {
     this.load()
     Object.assign(this._current_content, { theme: theme });
+    fs.writeFileSync( filePath, JSON.stringify(this._current_content))
+  }
+
+  saveSelectedTab(selectedTab:string) {
+    this.load()
+    Object.assign(this._current_content, { selectedTab: selectedTab });
     fs.writeFileSync( filePath, JSON.stringify(this._current_content))
   }
 }

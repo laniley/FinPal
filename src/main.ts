@@ -7,16 +7,40 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+const fs = require('fs');
+const dataPath = app.getPath('userData');
+const filePath = path.join(dataPath, 'config.json');
+
+let result = fs.readFileSync( filePath, { encoding: 'utf8', flag: 'r' } )
+let json = { database: '' }
+if(result) {
+  try {
+    json = JSON.parse(result)
+  } catch (e) {
+    console.log("JSON.parse of " + filePath + " failed.")
+  }
+}
+else {
+  console.log('Config file ' + filePath + ' is empty.')
+}
+
+console.log(json)
+
+const sqlite3 = require('sqlite3');
+const dbPath = json.database;
+const database = new sqlite3.Database(dbPath, (err:any) => {
+  if (err) console.error('Database opening error: ', err);
+});
+
 ipcMain.on('asynchronous-message', (event, arg) => {
-    console.log(arg); // prints "ping"
-    if (arg === 'ping') event.reply('asynchronous-reply', 'pong!');
-    else event.reply('asynchronous-reply', 'please, send me ping.');
+  const sql = arg;
+  database.all(sql, (err:any, rows:any) => {
+      event.reply('asynchronous-reply', (err && err.message) || rows);
+  });
 }); 
 
 // Keep a reference for dev mode
 let dev = false
-console.log(process.defaultApp)
-console.log(process.execPath)
 if (!app.isPackaged) {
   dev = true
   console.log("Executing in DEV mode!\n");
