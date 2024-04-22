@@ -50,14 +50,15 @@ export default function TopNavBar () {
 					selectedTabId={route}
 					animate={true}
 					fill={true}>
-						<Tab id="databaseTab" className="mr-0" >
-							<Icon icon="database" className="mr-2 ml-2" /> Database
-						</Tab>
 						
-						<NavbarDivider className="ml-0 mb-[15px]" />
-
 						<Tab id="analysisTab">
 							<Icon icon="timeline-line-chart" className="mr-2" /> Analysis
+						</Tab>
+
+						<NavbarDivider className="ml-0 mb-[15px]" />
+
+						<Tab id="databaseTab" className="mr-0" >
+							<Icon icon="database" className="mr-2 ml-2" /> Database
 						</Tab>
 
 						<NavbarDivider className="ml-0 mb-[15px]" />

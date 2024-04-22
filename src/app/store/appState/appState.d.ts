@@ -1,4 +1,4 @@
 interface AppState {
-  route: "databaseTab" | "analisysTab" | "dividendsTab",
+  route: "analisysTab" | "databaseTab" | "dividendsTab",
   theme: string,
 }
