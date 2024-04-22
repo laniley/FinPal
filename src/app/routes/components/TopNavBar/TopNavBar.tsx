@@ -88,7 +88,7 @@ export default function TopNavBar () {
 	function handleTabChange(navbarTabId:any) {
 		console.log("Tab '" + navbarTabId + "' got clicked.")
 		if( navbarTabId != route) {
-			dispatch(appStateReducer.setRoute(navbarTabId));
+			dispatch(appStateReducer.changeRoute(navbarTabId));
 		}
 		else {
 			console.log("Current route is already \\" + route)

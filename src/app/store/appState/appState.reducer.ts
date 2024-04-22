@@ -1,11 +1,25 @@
+import { TabId } from '@blueprintjs/core';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { appStateAPI } from './../../../../src/api/appStateAPI';
 
 const { dialog } = require('@electron/remote');
 
 export const initialState = {
-	route: "database",
+	route: "databaseTab",
 	theme: "bp5-dark",
 } as AppState
+
+export const changeRoute = createAsyncThunk(
+  'appState/changeCurrentRootRoute',
+  async (navbarTabId:TabId, thunkAPI) => {
+		console.log("Changing the current root route to '" + navbarTabId + "' ...")
+		let state:any = thunkAPI.getState()
+		thunkAPI.dispatch(setRoute(navbarTabId))
+		state = thunkAPI.getState()
+		appStateAPI.save(state.appState)
+		return state.appState
+  }
+)
 
 const appStateSlice = createSlice({
 	name: 'appState',

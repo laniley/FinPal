@@ -2,8 +2,6 @@ import { useAppSelector, useAppDispatch } from './../hooks'
 
 import * as appStateReducer from "./../store/appState/appState.reducer";
 
-import WelcomeRoute from './routes/WelcomeRoute/WelcomeRoute';
-import WorkspaceRoute from './routes/WorkspaceRoute/WorkspaceRoute';
 import ProjectRoute from './routes/ProjectRoute/ProjectRoute';
 
 import { dataPath, filePath, appStateAPI } from '../../api/appStateAPI'
@@ -47,25 +45,8 @@ export function Content() {
 			<TopNavBar />
 			<div id="Title" className={`typewriter font-semibold flex items-center p-3 bg-gradient-to-l from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% text-2xl`}></div>
 			<div id="rootContent" className="absolute flex flex-col w-full top-[100px] bottom-0">
-				<div><SubRoute /></div>
+				<ProjectRoute />
 			</div>
 		</div>
 	)
-}
-
-export function SubRoute() {
-
-	const root_route = useAppSelector(state => state.appState.route)
-	
-	return <ProjectRoute />
-/*
-	if(root_route == 'project' && current_project) {
-		return <ProjectRoute />
-	}
-	else if (workspace_path) {
-		return <WorkspaceRoute />
-	}
-	else {
-		return <WelcomeRoute />
-	}*/
 }
