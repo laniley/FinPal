@@ -5,16 +5,16 @@ import { appStateAPI } from './../../../../src/api/appStateAPI';
 const { dialog } = require('@electron/remote');
 
 export const initialState = {
-	route: "databaseTab",
+	selectedTab: "databaseTab",
 	theme: "bp5-dark",
 } as AppState
 
-export const changeRoute = createAsyncThunk(
-  'appState/changeCurrentRootRoute',
+export const changeSelectedTab = createAsyncThunk(
+  'appState/changeSelectedTab',
   async (navbarTabId:TabId, thunkAPI) => {
-		console.log("Changing the current root route to '" + navbarTabId + "' ...")
+		console.log("Changing the selected tab to '" + navbarTabId + "' ...")
 		let state:any = thunkAPI.getState()
-		thunkAPI.dispatch(setRoute(navbarTabId))
+		thunkAPI.dispatch(setSelectedTab(navbarTabId))
 		state = thunkAPI.getState()
 		appStateAPI.save(state.appState)
 		return state.appState
@@ -25,8 +25,8 @@ const appStateSlice = createSlice({
 	name: 'appState',
 	initialState,
 	reducers: {
-		setRoute(state, action) {
-			state.route = action.payload
+		setSelectedTab(state, action) {
+			state.selectedTab = action.payload
 		},
 		setTheme(state, action) {
 			state.theme = action.payload
@@ -38,7 +38,7 @@ const appStateSlice = createSlice({
 const { actions, reducer } = appStateSlice
 // Extract and export each action creator by name
 export const {
-	setRoute, 
+	setSelectedTab, 
 	setTheme,
 } = actions
 

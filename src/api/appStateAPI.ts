@@ -9,8 +9,8 @@ export const filePath = path.join(dataPath, 'config.json');
 class AppStateAPI {
 
   _current_content = {
-      route: "",
-      theme: "",
+    selectedTab: "",
+    theme: "",
   }
 
   load() {
