@@ -6,6 +6,8 @@ import ProjectRoute from './routes/ProjectRoute/ProjectRoute';
 
 import { dataPath, filePath, appStateAPI } from '../../api/appStateAPI'
 import { TopNavBar } from '../components';
+import AnalysisRoute from './routes/AnalysisRoute/AnalysisRoute';
+import DatabaseRoute from './routes/DatabaseRoute/DatabaseRoute';
 
 console.log("dataPath: " + dataPath)
 console.log("filePath: " + filePath)
@@ -25,28 +27,30 @@ export default function RootRoute() {
 		console.log("theme: not set");
 	}
 
-	if (result.route) {
-		console.log("route: " + result.route);
-		dispatch(appStateReducer.setRoute(result.route))
+	if (result.selectedTab) {
+		console.log("selectedTab: " + result.selectedTab);
+		dispatch(appStateReducer.changeSelectedTab(result.selectedTab))
 	}
 	else {
-		console.log("route: not set");
+		console.log("selectedTab: not set");
 	}
 
 	return (
-		<Content />
-	);
-}
-
-export function Content() {
-	const theme = useAppSelector(state => state.appState.theme)
-	return(
 		<div id="RootRoute" className="h-screen">
 			<TopNavBar />
 			<div id="Title" className={`typewriter font-semibold flex items-center p-3 bg-gradient-to-l from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% text-2xl`}></div>
 			<div id="rootContent" className="absolute flex flex-col w-full top-[100px] bottom-0">
-				<ProjectRoute />
+				<Content />
 			</div>
 		</div>
-	)
+	);
+}
+
+export function Content() {
+	const route = useAppSelector(state => state.appState.selectedTab)
+	if(route == 'databaseTab')
+		return(<DatabaseRoute/>)
+	else if(route == 'dividendsTab')
+		return(<DatabaseRoute/>)
+	else return (<AnalysisRoute/>)
 }
