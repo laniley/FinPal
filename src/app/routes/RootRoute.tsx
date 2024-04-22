@@ -1,12 +1,11 @@
 import { useAppSelector, useAppDispatch } from './../hooks'
-
 import * as appStateReducer from "./../store/appState/appState.reducer";
-
 import { dataPath, filePath, appStateAPI } from '../../api/appStateAPI'
 import TopNavBar from './components/TopNavBar/TopNavBar';
 import AnalysisRoute from './routes/AnalysisRoute/AnalysisRoute';
 import DatabaseRoute from './routes/DatabaseRoute/DatabaseRoute';
 import DividendsRoute from './routes/DividendsRoute/DividendsRoute';
+import sendAsync from './../../renderer';
 
 console.log("dataPath: " + dataPath)
 console.log("filePath: " + filePath)
@@ -37,6 +36,17 @@ export default function RootRoute() {
 	if (result.database) {
 		console.log("database: " + result.database);
 		dispatch(appStateReducer.setDatabase(result.database))
+		let sql  = 'CREATE TABLE IF NOT EXISTS transactions ('
+				sql += 'date DATE, type VARCHAR NOT NULL, asset VARCHAR NOT NULL, amount, price_per_share, '
+				sql += 'CONSTRAINT primary_key PRIMARY KEY (date, type, asset))'
+		console.log(sql)
+		sendAsync(sql).then((result) => {
+			console.log(result)
+			sendAsync('SELECT * FROM transactions').then((result:Transaction[]) => {
+				console.log(result)
+				dispatch(appStateReducer.setTransactions(result))
+			});
+		});
 	}
 	else {
 		console.log("database: not set");
