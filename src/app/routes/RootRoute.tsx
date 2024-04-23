@@ -40,9 +40,10 @@ export default function RootRoute() {
 				sql += 'ID INTEGER PRIMARY KEY, date DATE, type VARCHAR NOT NULL, asset VARCHAR NOT NULL, amount, price_per_share)'
 		console.log(sql)
 		sendAsync(sql).then((result) => {
-			console.log(result)
-			sendAsync('SELECT * FROM transactions').then((result:Transaction[]) => {
-				console.log(result)
+			sql = 'SELECT * FROM transactions'
+			console.log(sql)
+			sendAsync(sql).then((result:Transaction[]) => {
+				console.log('result: ', result)
 				dispatch(appStateReducer.setTransactions(result))
 			});
 		});

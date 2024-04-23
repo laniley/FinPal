@@ -30,11 +30,11 @@ export default function TransactionListItem(props: {transaction:Transaction}) {
 
   return (
     <tr>
-      <td><input id="dateInput" type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validate()} /></td>
-      <td><input id="typeInput" type="text" value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validate()} /></td>
-      <td><input id="assetInput" type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validate()} /></td>
-      <td><input id="amountInput" type="text" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validate()} /></td>
-      <td><input id="priceInput" type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validate()} /></td>
+      <td><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validate()} /></td>
+      <td><input id={"typeInput" + props.transaction.ID} type="text" value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validate()} /></td>
+      <td><input id={"assetInput" + props.transaction.ID} type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validate()} /></td>
+      <td><input id={"amountInput" + props.transaction.ID} type="text" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validate()} /></td>
+      <td><input id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validate()} /></td>
     </tr>
   );
 }
