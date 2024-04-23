@@ -37,8 +37,7 @@ export default function RootRoute() {
 		console.log("database: " + result.database);
 		dispatch(appStateReducer.setDatabase(result.database))
 		let sql  = 'CREATE TABLE IF NOT EXISTS transactions ('
-				sql += 'date DATE, type VARCHAR NOT NULL, asset VARCHAR NOT NULL, amount, price_per_share, '
-				sql += 'CONSTRAINT primary_key PRIMARY KEY (date, type, asset))'
+				sql += 'ID INTEGER PRIMARY KEY, date DATE, type VARCHAR NOT NULL, asset VARCHAR NOT NULL, amount, price_per_share)'
 		console.log(sql)
 		sendAsync(sql).then((result) => {
 			console.log(result)

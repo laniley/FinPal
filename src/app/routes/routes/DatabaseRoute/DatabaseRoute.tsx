@@ -7,6 +7,8 @@ import {
 
 import { getBgColor } from '../../../store/appState/appState.selectors';
 import { useEffect, useState } from 'react';
+import * as appStateReducer from './../../../../../src/app/store/appState/appState.reducer';
+import TransactionListItem from './components/TransactionListItem';
 
 export default function DatabaseRoute() {
 
@@ -23,11 +25,22 @@ export default function DatabaseRoute() {
 
 	function validate() {
 		console.log('validate')
-		if(dateInput && typeInput && assetInput) {
-			let sql  = 'INSERT OR REPLACE INTO transactions (date, type, asset, amount, price_per_share) '
+		if(dateInput && typeInput && assetInput && amountInput && priceInput) {
+			let sql  = 'INSERT INTO transactions (date, type, asset, amount, price_per_share) '
 					sql += 'VALUES (\'' + dateInput + '\',\'' + typeInput + '\',\'' + assetInput + '\',\'' + amountInput + '\',\'' + priceInput + '\')'
 					console.log(sql)
-			sendAsync(sql).then((result) => console.log(result));
+			setDateInput('')
+			setTypeInput('')
+			setAssetInput('')
+			setAmountInput('')
+			setPriceInput('')
+			sendAsync(sql).then((result) => {
+				console.log(result)
+				sendAsync('SELECT * FROM transactions').then((result:Transaction[]) => {
+					console.log(result)
+					dispatch(appStateReducer.setTransactions(result))
+				});
+			});
 		}	
 	}
 
@@ -49,23 +62,14 @@ export default function DatabaseRoute() {
 					</thead>
 					<tbody>
 						<tr>
-							<td><input id="dateInput" type="date" onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validate()} /></td>
-							<td><input id="typeInput" type="text" onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validate()} /></td>
-							<td><input id="assetInput" type="text" onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validate()} /></td>
-							<td><input id="amountInput" type="text" onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validate()} /></td>
-							<td><input id="priceInput" type="text" onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validate()} /></td>
+							<td><input id="dateInput" type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validate()} /></td>
+							<td><input id="typeInput" type="text" value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validate()} /></td>
+							<td><input id="assetInput" type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validate()} /></td>
+							<td><input id="amountInput" type="text" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validate()} /></td>
+							<td><input id="priceInput" type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validate()} /></td>
 						</tr>
 						{transactions.map((transaction, i) => {
-							console.log(transaction.date)
-							return (
-								<tr key={"transaction-" + i}>
-									<td>{transaction.date}</td>
-									<td>{transaction.type}</td>
-									<td>{transaction.asset}</td>
-									<td>{transaction.amount}</td>
-									<td>{transaction.price}</td>
-								</tr>
-							)
+							return (<TransactionListItem key={"transaction-" + i} transaction={transaction} />)
 						})}
 					</tbody>
 				</table>

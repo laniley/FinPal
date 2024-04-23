@@ -6,9 +6,10 @@ interface AppState {
 }
 
 interface Transaction {
+	ID: number,
 	date: string,
 	type: string,
 	asset: string,
 	amount: string,
-	price: string
+	price_per_share: string
 }
