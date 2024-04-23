@@ -60,10 +60,10 @@ const createWindow = () => {
     show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: false,
       nodeIntegration: true,
 			nodeIntegrationInWorker: true,
       nodeIntegrationInSubFrames: true,
-      contextIsolation: false,
       webSecurity: false // to allow copying of local files
     },
   });

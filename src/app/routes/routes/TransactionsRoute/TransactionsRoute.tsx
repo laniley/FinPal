@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import * as appStateReducer from './../../../../../src/app/store/appState/appState.reducer';
 import TransactionListItem from './components/TransactionListItem';
 
-export default function DatabaseRoute() {
+export default function TransactionsRoute() {
 
 	const dispatch = useAppDispatch();
 	const theme = useAppSelector(state => state.appState.theme)
@@ -46,7 +46,7 @@ export default function DatabaseRoute() {
 
 	return (
 		<div
-			id="DatabaseRoute"
+			id="TransactionsRoute"
 			className={'absolute top-[0px] bottom-0 flex flex-col w-full ' + theme}>
 			<div id="Main" className="flex p-3 overflow-auto">
 				<div className="flex grow justify-center align-center">

@@ -5,7 +5,7 @@ import { appStateAPI } from './../../../../src/api/appStateAPI';
 const { dialog } = require('@electron/remote');
 
 export const initialState = {
-	selectedTab: "databaseTab",
+	selectedTab: "transactionsTab",
 	theme: "bp5-dark",
 	database: "",
 	transactions: []

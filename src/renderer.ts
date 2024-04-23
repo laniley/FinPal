@@ -26,8 +26,7 @@
  * ```
  */
 
-const electron = window.require('electron');
-const { ipcRenderer } = electron;
+const { ipcRenderer } = require('electron');
 
 export default function send(message:any) {
     return new Promise((resolve) => {

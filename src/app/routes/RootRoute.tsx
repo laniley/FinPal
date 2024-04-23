@@ -3,7 +3,7 @@ import * as appStateReducer from "./../store/appState/appState.reducer";
 import { dataPath, filePath, appStateAPI } from '../../api/appStateAPI'
 import TopNavBar from './components/TopNavBar/TopNavBar';
 import AnalysisRoute from './routes/AnalysisRoute/AnalysisRoute';
-import DatabaseRoute from './routes/DatabaseRoute/DatabaseRoute';
+import TransactionsRoute from './routes/TransactionsRoute/TransactionsRoute';
 import DividendsRoute from './routes/DividendsRoute/DividendsRoute';
 import sendAsync from './../../renderer';
 
@@ -65,8 +65,8 @@ export default function RootRoute() {
 
 export function Content() {
 	const route = useAppSelector(state => state.appState.selectedTab)
-	if(route == 'databaseTab')
-		return(<DatabaseRoute/>)
+	if(route == 'transactionsTab')
+		return(<TransactionsRoute/>)
 	else if(route == 'dividendsTab')
 		return(<DividendsRoute/>)
 	else return (<AnalysisRoute/>)

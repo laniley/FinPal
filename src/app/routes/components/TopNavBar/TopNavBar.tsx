@@ -57,8 +57,8 @@ export default function TopNavBar () {
 
 						<NavbarDivider className="ml-0 mb-[15px]" />
 
-						<Tab id="databaseTab" data-testid="databaseTab" className="mr-0" >
-							<Icon icon="database" className="mr-2 ml-2" /> Database
+						<Tab id="transactionsTab" data-testid="transactionsTab" className="mr-0" >
+							<Icon icon="list" className="mr-2 ml-2" /> Transactions
 						</Tab>
 
 						<NavbarDivider className="ml-0 mb-[15px]" />
