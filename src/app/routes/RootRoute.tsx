@@ -1,5 +1,7 @@
 import { useAppSelector, useAppDispatch } from './../hooks'
 import * as appStateReducer from "./../store/appState/appState.reducer";
+import * as transactionsReducer from '../store/transactions/transactions.reducer';
+import * as transactionCreationReducer from '../store/transactionCreation/transactionCreation.reducer';
 import { dataPath, filePath, appStateAPI } from '../../api/appStateAPI'
 import TopNavBar from './components/TopNavBar/TopNavBar';
 import AnalysisRoute from './routes/AnalysisRoute/AnalysisRoute';
@@ -37,14 +39,27 @@ export default function RootRoute() {
 		console.log("database: " + result.database);
 		dispatch(appStateReducer.setDatabase(result.database))
 		let sql  = 'CREATE TABLE IF NOT EXISTS transactions ('
-				sql += 'ID INTEGER PRIMARY KEY, date DATE, type VARCHAR NOT NULL, asset VARCHAR NOT NULL, amount, price_per_share)'
+				sql += 'ID INTEGER PRIMARY KEY, '
+				sql += 'date DATE, '
+				sql += 'type VARCHAR NOT NULL, '
+				sql += 'asset VARCHAR NOT NULL, '
+				sql += 'amount, '
+				sql += 'price_per_share, '
+				sql += 'fee, '
+				sql += 'solidarity_surcharge)'
 		console.log(sql)
 		sendAsync(sql).then((result) => {
-			sql = 'SELECT * FROM transactions'
+			let sql  = 'SELECT MAX(ID) as ID FROM transactions'
 			console.log(sql)
-			sendAsync(sql).then((result:Transaction[]) => {
-				console.log('result: ', result)
-				dispatch(appStateReducer.setTransactions(result))
+			sendAsync(sql).then((result:any) => {
+				console.log('Max ID: ' + result[0].ID)
+				dispatch(transactionCreationReducer.setNewID(result[0].ID + 1))
+				sql = 'SELECT * FROM transactions'
+				console.log(sql)
+				sendAsync(sql).then((result:Transaction[]) => {
+					console.log('result: ', result)
+					dispatch(transactionsReducer.setTransactions(result))
+				});
 			});
 		});
 	}
@@ -65,10 +80,10 @@ export default function RootRoute() {
 }
 
 export function Content() {
-	const route = useAppSelector(state => state.appState.selectedTab)
-	if(route == 'transactionsTab')
+	const selectedTab = useAppSelector(state => state.appState.selectedTab)
+	if(selectedTab == 'transactionsTab')
 		return(<TransactionsRoute/>)
-	else if(route == 'dividendsTab')
+	else if(selectedTab == 'dividendsTab')
 		return(<DividendsRoute/>)
 	else return (<AnalysisRoute/>)
 }

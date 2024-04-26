@@ -7,8 +7,7 @@ const { dialog } = require('@electron/remote');
 export const initialState = {
 	selectedTab: "transactionsTab",
 	theme: "bp5-dark",
-	database: "",
-	transactions: []
+	database: ""
 } as AppState
 
 export const changeSelectedTab = createAsyncThunk(
@@ -36,9 +35,6 @@ const appStateSlice = createSlice({
 		setDatabase(state, action) {
 			state.database = action.payload
 		},
-		setTransactions(state, action) {
-			state.transactions = action.payload
-		},
 	}
 })
 
@@ -49,7 +45,6 @@ export const {
 	setSelectedTab, 
 	setTheme,
 	setDatabase,
-	setTransactions
 } = actions
 
 export default reducer

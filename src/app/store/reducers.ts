@@ -1,12 +1,14 @@
 // @flow
 import { combineReducers } from '@reduxjs/toolkit';
-import { routerReducer } from 'react-router-redux';
 
 import appState from './appState/appState.reducer';
+import transactions from './transactions/transactions.reducer';
+import transactionCreation from './transactionCreation/transactionCreation.reducer'
 
 export const rootReducer = combineReducers({
 	appState,
-	routerReducer,
+	transactions,
+	transactionCreation
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
