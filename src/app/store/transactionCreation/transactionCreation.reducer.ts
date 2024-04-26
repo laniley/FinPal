@@ -98,14 +98,15 @@ export const validate = createAsyncThunk(
       state.transactionCreation.feeInputGotTouched && 
       state.transactionCreation.solidaritySurchargeInputGotTouched
    ) {
-    let sql  = 'INSERT OR REPLACE INTO transactions (ID, date, type, asset, amount, price_per_share, fee) '
+    let sql  = 'INSERT OR REPLACE INTO transactions (ID, date, type, asset, amount, price_per_share, fee, solidarity_surcharge) '
         sql += 'VALUES (\'' + state.transactionCreation.newID
-        sql += '\',\'' + state.transactionCreation.dateInput 
-        sql += '\',\'' + state.transactionCreation.typeInput 
-        sql += '\',\'' + state.transactionCreation.assetInput 
-        sql += '\',\'' + state.transactionCreation.amountInput 
-        sql += '\',\'' + state.transactionCreation.priceInput 
-        sql += '\',\'' + state.transactionCreation.feeInput + '\')'
+        sql += '\',\'' + state.transactionCreation.dateInput
+        sql += '\',\'' + state.transactionCreation.typeInput.replace('\'', '\'\'')
+        sql += '\',\'' + state.transactionCreation.assetInput.replace('\'', '\'\'')
+        sql += '\',\'' + state.transactionCreation.amountInput.replace('\'', '\'\'') 
+        sql += '\',\'' + state.transactionCreation.priceInput.replace('\'', '\'\'') 
+        sql += '\',\'' + state.transactionCreation.feeInput.replace('\'', '\'\'')
+        sql += '\',\'' + state.transactionCreation.solidaritySurchargeInput.replace('\'', '\'\'') + '\')'
     
     console.log(sql)
      

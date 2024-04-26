@@ -2,6 +2,7 @@ import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import sendAsync from '../../../../../renderer';
 import * as appStateReducer from '../../../../store/appState/appState.reducer';
+import * as transactionsReducer from '../../../../store/transactions/transactions.reducer';
 
 export default function TransactionListItem(props: {i: number, transaction:Transaction}) {
 
@@ -32,7 +33,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 				console.log(result)
 				sendAsync('SELECT * FROM transactions').then((result:Transaction[]) => {
 					console.log(result)
-					dispatch(appStateReducer.setTransactions(result))
+					dispatch(transactionsReducer.setTransactions(result))
 				});
 			});
 		}	
@@ -43,7 +44,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 			console.log(result)
 			sendAsync('SELECT * FROM transactions').then((result:Transaction[]) => {
 				console.log(result)
-				dispatch(appStateReducer.setTransactions(result))
+				dispatch(transactionsReducer.setTransactions(result))
 			});
 		});
 	}
@@ -52,7 +53,12 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
     <tr>
 			<th>{props.i}</th>
       <td><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td><input id={"typeInput" + props.transaction.ID} type="text" value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+      <td>
+				<select id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validateAndSave()}>
+					<option value="Buy" selected>Buy</option>
+					<option value="Sell">Sell</option>
+				</select>
+			</td>
       <td><input id={"assetInput" + props.transaction.ID} type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
       <td><input id={"amountInput" + props.transaction.ID} type="text" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
       <td><input id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
