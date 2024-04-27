@@ -1,6 +1,5 @@
 import { TabId } from '@blueprintjs/core';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-//import { appStateAPI } from './../../../../src/api/appStateAPI';
 
 export const initialState = {
 	selectedTab: "transactionsTab",
@@ -15,7 +14,7 @@ export const changeSelectedTab = createAsyncThunk(
 		let state:any = thunkAPI.getState()
 		thunkAPI.dispatch(setSelectedTab(navbarTabId))
 		state = thunkAPI.getState()
-		//appStateAPI.saveSelectedTab(state.appState.selectedTab)
+		window.API.appState.saveSelectedTab(state.appState.selectedTab)
 		return state.appState
   }
 )

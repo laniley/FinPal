@@ -11,7 +11,8 @@ declare global {
         dataPath: string,
         filePath: string,
         load():any,
-        saveTheme(theme:string):any
+        saveTheme(theme:string):any,
+        saveSelectedTab(selectedTab:string):any
       },
       send(sql:string):any,
       quit():any

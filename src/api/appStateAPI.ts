@@ -31,13 +31,13 @@ export function load() {
 }
 
 export function saveTheme(theme:string) {
-  this.load()
-  Object.assign(this._current_content, { theme: theme });
-  fs.writeFileSync( filePath, JSON.stringify(this._current_content))
+  load()
+  Object.assign(_current_content, { theme: theme });
+  fs.writeFileSync( filePath, JSON.stringify(_current_content))
 }
 
 export function saveSelectedTab(selectedTab:string) {
-  this.load()
-  Object.assign(this._current_content, { selectedTab: selectedTab });
-  fs.writeFileSync( filePath, JSON.stringify(this._current_content))
+  load()
+  Object.assign(_current_content, { selectedTab: selectedTab });
+  fs.writeFileSync( filePath, JSON.stringify(_current_content))
 }

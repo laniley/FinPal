@@ -19,7 +19,7 @@ describe('TopNavBar component', () => {
     it('changes the current root route to "transactionsTab" if the tab got clicked and if appState.route != "transactionsTab" ', async() => {
       
       const user = userEvent.setup()
-      const appState = Object.assign({}, appStateReducer.initialState, { })
+      const appState = Object.assign({}, appStateReducer.initialState)
 
       const {getAllById} = render(<RootRoute />, { preloadedState: { appState: appState } })
       act(() => {
@@ -30,6 +30,7 @@ describe('TopNavBar component', () => {
       await waitFor(() => {
         expect(getAllById('TransactionsRoute').length).toEqual(1);
       })
+      
     });
 
   })
