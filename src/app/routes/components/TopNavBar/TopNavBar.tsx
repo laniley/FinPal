@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAppSelector, useAppDispatch } from '../../../hooks'
 
 import * as appStateReducer from "../../../store/appState/appState.reducer";
@@ -20,9 +19,6 @@ import {
   Tabs,
   Tooltip,
 } from '@blueprintjs/core';
-
-const remote = require('@electron/remote')
-const app = remote.app
 
 export default function TopNavBar () {
 
@@ -57,6 +53,12 @@ export default function TopNavBar () {
 
 						<NavbarDivider className="ml-0 mb-[15px]" />
 
+						<Tab id="assetsTab" data-testid="assetsTab" className="mr-0" >
+							<Icon icon="list" className="mr-2 ml-2" /> Assets
+						</Tab>
+
+						<NavbarDivider className="ml-0 mb-[15px]" />
+
 						<Tab id="transactionsTab" data-testid="transactionsTab" className="mr-0" >
 							<Icon icon="list" className="mr-2 ml-2" /> Transactions
 						</Tab>
@@ -79,7 +81,7 @@ export default function TopNavBar () {
 						id="quit"
 						minimal={true}
 						icon="small-cross"
-						onClick={() => remote.app.quit()}
+						onClick={() => window.API.quit()}
 					/>
 				</Tooltip>
       </NavbarGroup>

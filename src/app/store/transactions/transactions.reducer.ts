@@ -6,7 +6,6 @@ export const setTransactions = createAsyncThunk(
   'transactions/sortTransactions',
   async (transactions:Transaction[], thunkAPI) => {
 		const sorted = transactions.slice().sort((a:Transaction, b:Transaction) => sortBy(a, b, 'date', 'desc'))
-		let state:any = thunkAPI.getState()
 		thunkAPI.dispatch(setTransactionsInternal(sorted))
   }
 )

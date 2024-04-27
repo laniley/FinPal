@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import sendAsync from './../../../renderer';
-import * as appStateReducer from '../appState/appState.reducer';
 import * as transactionsReducer from '../transactions/transactions.reducer';
 
 export const initialState = {
@@ -110,15 +108,15 @@ export const validate = createAsyncThunk(
     
     console.log(sql)
      
-    sendAsync(sql).then((result) => {
+    window["API"].send(sql).then((result:any) => {
       console.log(result)
       let sql  = 'SELECT MAX(ID) as ID FROM transactions'
 			console.log(sql)
-			sendAsync(sql).then((result:any) => {
+			window["API"].send(sql).then((result:any) => {
 				thunkAPI.dispatch(setNewID(result[0].ID + 1))
 				sql = 'SELECT * FROM transactions'
 				console.log(sql)
-				sendAsync(sql).then((result:Transaction[]) => {
+				window["API"].send(sql).then((result:Transaction[]) => {
 					console.log('result: ', result)
 					thunkAPI.dispatch(transactionsReducer.setTransactions(result))
 				});

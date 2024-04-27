@@ -1,6 +1,5 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
-import sendAsync from '../../../../../renderer';
 import * as appStateReducer from '../../../../store/appState/appState.reducer';
 import * as transactionsReducer from '../../../../store/transactions/transactions.reducer';
 
@@ -29,9 +28,9 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 					sql += '\',\'' + solidaritySurchargeInput
 					sql += '\')'
 					console.log(sql)
-			sendAsync(sql).then((result) => {
+				window.API.send(sql).then((result:any) => {
 				console.log(result)
-				sendAsync('SELECT * FROM transactions').then((result:Transaction[]) => {
+				window.API.send('SELECT * FROM transactions').then((result:Transaction[]) => {
 					console.log(result)
 					dispatch(transactionsReducer.setTransactions(result))
 				});
@@ -40,9 +39,9 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 	}
 
 	function deleteTransaction(ID:number) {
-		sendAsync('DELETE FROM transactions WHERE ID = ' + ID).then((result:string) => {
+		window.API.send('DELETE FROM transactions WHERE ID = ' + ID).then((result:string) => {
 			console.log(result)
-			sendAsync('SELECT * FROM transactions').then((result:Transaction[]) => {
+			window.API.send('SELECT * FROM transactions').then((result:Transaction[]) => {
 				console.log(result)
 				dispatch(transactionsReducer.setTransactions(result))
 			});
@@ -55,7 +54,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
       <td><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
       <td>
 				<select id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validateAndSave()}>
-					<option value="Buy" selected>Buy</option>
+					<option value="Buy">Buy</option>
 					<option value="Sell">Sell</option>
 				</select>
 			</td>

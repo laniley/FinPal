@@ -7,5 +7,7 @@ declare const MAIN_WINDOW_VITE_NAME: string;
 interface State {
   appState?: AppState,
   transactions?: Transactions,
-  transactionCreation?: TransactionCreation
+  transactionCreation?: TransactionCreation,
+  assets?: asserts,
+  assetCreation?: AssetCreation
 }

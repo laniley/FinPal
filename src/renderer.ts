@@ -25,18 +25,6 @@
  *  });
  * ```
  */
-
-const { ipcRenderer } = require('electron');
-
-export default function send(message:any) {
-    return new Promise((resolve) => {
-        ipcRenderer.once('asynchronous-reply', (_, arg) => {
-            resolve(arg);
-        });
-        ipcRenderer.send('asynchronous-message', message);
-    });
-}
-
 import './app.css';
 
 console.log('👋 This message is being logged by "renderer.ts", included via Vite');

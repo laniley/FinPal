@@ -7,7 +7,6 @@ export default function TransactionsRoute() {
 
 	const dispatch = useAppDispatch();
 	const theme = useAppSelector(state => state.appState.theme)
-	const transactions = useAppSelector(state => state.transactions.transactions)
 	const dateInput = useAppSelector(state => state.transactionCreation.dateInput)
 	const typeInput = useAppSelector(state => state.transactionCreation.typeInput)
 	const assetInput = useAppSelector(state => state.transactionCreation.assetInput)
@@ -15,13 +14,7 @@ export default function TransactionsRoute() {
 	const priceInput = useAppSelector(state => state.transactionCreation.priceInput)
 	const feeInput = useAppSelector(state => state.transactionCreation.feeInput)
 	const solidaritySurchargeInput = useAppSelector(state => state.transactionCreation.solidaritySurchargeInput)
-
-	function MappedTransactions() {
-		const transactions = useAppSelector(state => state.transactions.transactions)
-		return transactions.map((transaction, i) => {
-			return (<TransactionListItem key={"transaction-" + i} i={i+1} transaction={transaction} />)
-		})
-	}
+	const transactions = useAppSelector(state => state.transactions.transactions)
 
 	return (
 		<div
@@ -32,7 +25,7 @@ export default function TransactionsRoute() {
 					<table>
 						<thead>
 							<tr>
-								<th></th>
+								<th>#</th>
 								<th>Date</th>
 								<th>Type</th>
 								<th>Asset</th>
@@ -48,7 +41,7 @@ export default function TransactionsRoute() {
 								<td><input id="dateInput" type="date" value={dateInput} onChange={(e) => dispatch(transactionCreationReducer.setDateInput(e.target.value))} onBlur={() => { dispatch(transactionCreationReducer.handleDateInputGotTouched()) }} /></td>
 								<td>
 									<select id="typeInput" name="typeInput" value={typeInput} onChange={(e) => dispatch(transactionCreationReducer.setTypeInput(e.target.value))} onBlur={() => { dispatch(transactionCreationReducer.handleTypeInputGotTouched()) }}>
-										<option value="Buy" selected>Buy</option>
+										<option value="Buy">Buy</option>
 										<option value="Sell">Sell</option>
 									</select>
 								</td>
@@ -58,7 +51,9 @@ export default function TransactionsRoute() {
 								<td><input id="feeInput" type="text" value={feeInput} onChange={(e) => dispatch(transactionCreationReducer.setFeeInput(e.target.value))} onBlur={() => { dispatch(transactionCreationReducer.handleFeeInputGotTouched()) }} /></td>
 								<td><input id="solidaritySurchargeInput" type="text" value={solidaritySurchargeInput} onChange={(e) => dispatch(transactionCreationReducer.setSolidaritySurchargeInput(e.target.value))} onBlur={() => { dispatch(transactionCreationReducer.handleSolidaritySurchargeInputGotTouched()) }} /></td>
 							</tr>
-							<MappedTransactions/>
+							{transactions.map((transaction, i) => {
+								return (<TransactionListItem key={"transaction-" + i} i={i+1} transaction={transaction} />)
+							})}
 						</tbody>
 					</table>
 				</div>

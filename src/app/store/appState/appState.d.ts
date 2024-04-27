@@ -1,5 +1,5 @@
 interface AppState {
-  selectedTab: "analisysTab" | "transactionsTab" | "dividendsTab",
+  selectedTab: "analisysTab" | "assetsTab" | "transactionsTab" | "dividendsTab",
   theme: string,
   database: string
 }
