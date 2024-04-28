@@ -1,16 +1,12 @@
 import { useAppSelector, useAppDispatch } from './../../../hooks'
 
-import * as assetCreationReducer from '../../../store/assetCreation/assetCreation.reducer';
+import AssetCreation from './components/AssetCreation';
 import AssetListItem from './components/AssetListItem';
 
 export default function AnalysisRoute() {
 
-	const dispatch = useAppDispatch();
 	const theme = useAppSelector(state => state.appState.theme)
-	const nameInput = useAppSelector(state => state.assetCreation.nameInput)
-	const kgvInput = useAppSelector(state => state.assetCreation.kgvInput)
-	const assets = useAppSelector(state => state.assets.assets)
-
+	
 	return (
 		<div
 			id="AssetsRoute"
@@ -25,19 +21,18 @@ export default function AnalysisRoute() {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td></td>
-							<td><input id="nameInput" type="text" value={nameInput} onChange={(e) => dispatch(assetCreationReducer.setNameInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleNameInputGotTouched()) }} /></td>
-							<td><input id="kgvInput" type="text" value={kgvInput} onChange={(e) => dispatch(assetCreationReducer.setKGVInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleKGVInputGotTouched()) }} /></td>
-						</tr>
-						{
-							assets.map((asset, i) => {
-								return (<AssetListItem key={"asset-" + i} i={i+1} asset={asset} />)
-							})
-						}
+						<AssetCreation/>
+						<AssetList/>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	);
+}
+
+function AssetList():JSX.Element {
+	const assets = useAppSelector(state => state.assets.assets)
+	return <>{
+		assets.map((asset, i) => (<AssetListItem key={"asset-" + asset.ID} i={i+1} asset={asset} />))
+	}</>
 }

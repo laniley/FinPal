@@ -52,7 +52,7 @@ export default function TransactionsRoute() {
 								<td><input id="solidaritySurchargeInput" type="text" value={solidaritySurchargeInput} onChange={(e) => dispatch(transactionCreationReducer.setSolidaritySurchargeInput(e.target.value))} onBlur={() => { dispatch(transactionCreationReducer.handleSolidaritySurchargeInputGotTouched()) }} /></td>
 							</tr>
 							{transactions.map((transaction, i) => {
-								return (<TransactionListItem key={"transaction-" + i} i={i+1} transaction={transaction} />)
+								return (<TransactionListItem key={"transaction-" + transaction.ID} i={i+1} transaction={transaction} />)
 							})}
 						</tbody>
 					</table>

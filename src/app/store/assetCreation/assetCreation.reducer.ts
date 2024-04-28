@@ -38,7 +38,7 @@ export const validate = createAsyncThunk(
        state.assetCreation.kgvInputGotTouched
    ) {
     let sql  = 'INSERT OR REPLACE INTO assets (ID, name, kgv) '
-        sql += 'VALUES (\'' + state.transactionCreation.newID
+        sql += 'VALUES (\'' + state.assetCreation.newID
         sql += '\',\'' + state.assetCreation.nameInput.replace('\'', '\'\'')
         sql += '\',\'' + state.assetCreation.kgvInput.replace('\'', '\'\'') + '\')'
     
@@ -48,11 +48,11 @@ export const validate = createAsyncThunk(
       console.log(result)
       let sql  = 'SELECT MAX(ID) as ID FROM assets'
 			console.log(sql)
-			window["API"].send(sql).then((result:any) => {
+			window.API.send(sql).then((result:any) => {
 				thunkAPI.dispatch(setNewID(result[0].ID + 1))
 				sql = 'SELECT * FROM assets'
 				console.log(sql)
-				window["API"].send(sql).then((result:Asset[]) => {
+				window.API.send(sql).then((result:Asset[]) => {
 					console.log('result: ', result)
 					thunkAPI.dispatch(assetsReducer.setAssets(result))
 				});
@@ -64,7 +64,7 @@ export const validate = createAsyncThunk(
 )
 
 export const reset = createAsyncThunk(
-  'transactionCreation/reset',
+  'assetCreation/reset',
   async (props, thunkAPI) => {
 		thunkAPI.dispatch(setNameInputGotTouched(false))
 		thunkAPI.dispatch(setNameInput(''))
@@ -91,7 +91,7 @@ const assetCreationSlice = createSlice({
 			state.nameInput = action.payload
 		},
 		setNameInputGotTouched(state, action) {
-			state.kgvInputGotTouched = action.payload
+			state.nameInputGotTouched = action.payload
 		},
     setKGVInput(state, action) {
 			state.nameInput = action.payload

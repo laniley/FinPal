@@ -20,7 +20,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 					console.log(sql)
 					window.API.send(sql).then((result:any) => {
 				console.log(result)
-				window["API"].send('SELECT * FROM assets').then((result:Asset[]) => {
+				window.API.send('SELECT * FROM assets').then((result:Asset[]) => {
 					console.log(result)
 					dispatch(assetsReducer.setAssets(result))
 				});
@@ -41,7 +41,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
   return (
     <tr>
 			<th>{props.i}</th>
-      <td><input id={"dateInput_" + props.asset.ID} type="date" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+      <td><input id={"dateInput_" + props.asset.ID} type="rext" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
       <td><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
     </tr>
   );

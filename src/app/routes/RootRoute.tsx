@@ -1,5 +1,7 @@
 import { useAppSelector, useAppDispatch } from './../hooks'
 import * as appStateReducer from "./../store/appState/appState.reducer";
+import * as assetsReducer from '../store/assets/assets.reducer';
+import * as assetCreationReducer from '../store/assetCreation/assetCreation.reducer';
 import * as transactionsReducer from '../store/transactions/transactions.reducer';
 import * as transactionCreationReducer from '../store/transactionCreation/transactionCreation.reducer';
 
@@ -38,30 +40,10 @@ export default function RootRoute() {
 	if (result.database) {
 		console.log("database: " + result.database);
 		dispatch(appStateReducer.setDatabase(result.database))
-		let sql  = 'CREATE TABLE IF NOT EXISTS transactions ('
-				sql += 'ID INTEGER PRIMARY KEY, '
-				sql += 'date DATE, '
-				sql += 'type VARCHAR NOT NULL, '
-				sql += 'asset VARCHAR NOT NULL, '
-				sql += 'amount, '
-				sql += 'price_per_share, '
-				sql += 'fee, '
-				sql += 'solidarity_surcharge)'
-		console.log(sql)
-		window.API.send(sql).then((result:any) => {
-			let sql  = 'SELECT MAX(ID) as ID FROM transactions'
-			console.log(sql)
-			window.API.send(sql).then((result:any) => {
-				console.log('Max ID: ' + result[0].ID)
-				dispatch(transactionCreationReducer.setNewID(result[0].ID + 1))
-				sql = 'SELECT * FROM transactions'
-				console.log(sql)
-				window.API.send(sql).then((result:Transaction[]) => {
-					console.log('result: ', result)
-					dispatch(transactionsReducer.setTransactions(result))
-				});
-			});
-		});
+		setupAssets().then(() => {
+			console.log("Test")
+			setupTransactions()
+		})
 	}
 	else {
 		console.log("database: not set");
@@ -77,6 +59,61 @@ export default function RootRoute() {
 			</div>
 		</div>
 	);
+
+	async function setupAssets() {
+		var sql  = 'CREATE TABLE IF NOT EXISTS assets ('
+				sql += 'ID INTEGER PRIMARY KEY, '
+				sql += 'name VARCHAR NOT NULL, '
+				sql += 'kgv)'
+		console.log(sql)
+		await window.API.send(sql)
+		sql  = 'SELECT MAX(ID) as ID FROM assets'
+		console.log(sql)
+		var result = await window.API.send(sql)
+		var newID = 0
+		if(result[0]) {
+			newID = result[0].ID + 1
+		}
+		console.log('New ID (assets): ' + newID)
+		dispatch(assetCreationReducer.setNewID(newID))
+		sql = 'SELECT * FROM assets'
+		console.log(sql)
+		result = await window.API.send(sql)
+		console.log('result: ', result)
+		dispatch(assetsReducer.setAssets(result))
+	}
+
+	function setupTransactions() {
+		let sql  = 'CREATE TABLE IF NOT EXISTS transactions ('
+				sql += 'ID INTEGER PRIMARY KEY, '
+				sql += 'date DATE, '
+				sql += 'type VARCHAR NOT NULL, '
+				sql += 'asset VARCHAR NOT NULL, '
+				sql += 'amount, '
+				sql += 'price_per_share, '
+				sql += 'fee, '
+				sql += 'solidarity_surcharge)'
+		console.log(sql)
+		window.API.send(sql).then((result:any) => {
+			let sql  = 'SELECT MAX(ID) as ID FROM transactions'
+			console.log(sql)
+			window.API.send(sql).then((result:any) => {
+				console.log(result)
+				var newID = 0
+				if(result[0]) {
+					newID = result[0].ID + 1
+				}
+				console.log('New ID (transactions): ' + newID)
+				dispatch(transactionCreationReducer.setNewID(newID + 1))
+				sql = 'SELECT * FROM transactions'
+				console.log(sql)
+				window.API.send(sql).then((result:Transaction[]) => {
+					console.log('result: ', result)
+					dispatch(transactionsReducer.setTransactions(result))
+				});
+			});
+		});
+	}
 }
 
 export function Content() {

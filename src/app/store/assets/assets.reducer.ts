@@ -5,7 +5,7 @@ export const initialState = { assets:[] as Asset[] }
 export const setAssets = createAsyncThunk(
   'assets/sortAssets',
   async (assets:Asset[], thunkAPI) => {
-		const sorted = assets.slice().sort((a:Asset, b:Asset) => sortBy(a, b, 'name', 'desc'))
+		const sorted = assets.slice().sort((a:Asset, b:Asset) => sortBy(a, b, 'name', 'asc'))
 		thunkAPI.dispatch(setAssetsInternal(sorted))
   }
 )
