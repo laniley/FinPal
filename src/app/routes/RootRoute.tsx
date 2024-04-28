@@ -41,7 +41,6 @@ export default function RootRoute() {
 		console.log("database: " + result.database);
 		dispatch(appStateReducer.setDatabase(result.database))
 		setupAssets().then(() => {
-			console.log("Test")
 			setupTransactions()
 		})
 	}
@@ -83,36 +82,38 @@ export default function RootRoute() {
 		dispatch(assetsReducer.setAssets(result))
 	}
 
-	function setupTransactions() {
+	async function setupTransactions() {
 		let sql  = 'CREATE TABLE IF NOT EXISTS transactions ('
 				sql += 'ID INTEGER PRIMARY KEY, '
 				sql += 'date DATE, '
 				sql += 'type VARCHAR NOT NULL, '
 				sql += 'asset VARCHAR NOT NULL, '
-				sql += 'amount, '
-				sql += 'price_per_share, '
-				sql += 'fee, '
-				sql += 'solidarity_surcharge)'
+				sql += 'amount REAL, '
+				sql += 'price_per_share REAL, '
+				sql += 'fee REAL, '
+				sql += 'solidarity_surcharge REAL)'
 		console.log(sql)
-		window.API.send(sql).then((result:any) => {
-			let sql  = 'SELECT MAX(ID) as ID FROM transactions'
-			console.log(sql)
-			window.API.send(sql).then((result:any) => {
-				console.log(result)
-				var newID = 0
-				if(result[0]) {
-					newID = result[0].ID + 1
-				}
-				console.log('New ID (transactions): ' + newID)
-				dispatch(transactionCreationReducer.setNewID(newID + 1))
-				sql = 'SELECT * FROM transactions'
-				console.log(sql)
-				window.API.send(sql).then((result:Transaction[]) => {
-					console.log('result: ', result)
-					dispatch(transactionsReducer.setTransactions(result))
-				});
-			});
-		});
+		await window.API.send(sql)
+			 sql  = 'SELECT MAX(ID) as ID FROM transactions'
+		console.log(sql)
+		var result = await window.API.send(sql)
+		console.log(result)
+		var newID = 0
+		if(result[0]) {
+			newID = result[0].ID + 1
+		}
+		console.log('New ID (transactions): ' + newID)
+		dispatch(transactionCreationReducer.setNewID(newID + 1))
+				sql  = 'CREATE VIEW IF NOT EXISTS transactions_v AS '
+				sql += 'SELECT *, ((CASE WHEN type = \'Sell\' THEN 1 ELSE -1 END) * (amount*price_per_share))-fee-IFNULL(solidarity_surcharge,0) as in_out FROM transactions'
+		console.log(sql)
+		result = await window.API.send(sql)
+		console.log('result: ', result)
+				sql = 'SELECT * FROM transactions_v'
+		console.log(sql)
+		result = await window.API.send(sql)
+		console.log('result: ', result)
+		dispatch(transactionsReducer.setTransactions(result))
 	}
 }
 

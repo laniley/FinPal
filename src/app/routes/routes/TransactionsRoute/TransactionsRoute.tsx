@@ -25,6 +25,7 @@ export default function TransactionsRoute() {
 								<th>Price per share</th>
 								<th>Fee</th>
 								<th>Solidarity Surcharge</th>
+								<th>In-/Outcome</th>
 							</tr>
 						</thead>
 						<tbody>

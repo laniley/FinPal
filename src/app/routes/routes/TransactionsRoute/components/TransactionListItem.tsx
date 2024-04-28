@@ -5,14 +5,20 @@ import * as transactionsReducer from '../../../../store/transactions/transaction
 
 export default function TransactionListItem(props: {i: number, transaction:Transaction}) {
 
+	const price_per_share = (Math.round(props.transaction.price_per_share * 100) / 100).toFixed(2)
+	const fee = (Math.round(props.transaction.fee * 100) / 100).toFixed(2)
+	const solidarity_surcharge = (Math.round(props.transaction.solidarity_surcharge * 100) / 100).toFixed(2)
+	const in_out = (Math.round(props.transaction.in_out * 100) / 100).toFixed(2)
+
   const dispatch = useAppDispatch();
   const [dateInput, setDateInput] = useState(props.transaction.date || '');
 	const [typeInput, setTypeInput] = useState(props.transaction.type || '');
 	const [assetInput, setAssetInput] = useState(props.transaction.asset || '');
 	const [amountInput, setAmountInput] = useState(props.transaction.amount || '');
-	const [priceInput, setPriceInput] = useState(props.transaction.price_per_share || '');
-	const [feeInput, setFeeInput] = useState(props.transaction.fee || '');
-	const [solidaritySurchargeInput, setSolidaritySurchargeInput] = useState(props.transaction.solidarity_surcharge || '');
+	const [priceInput, setPriceInput] = useState(price_per_share);
+	const [feeInput, setFeeInput] = useState(fee);
+	const [solidaritySurchargeInput, setSolidaritySurchargeInput] = useState(solidarity_surcharge);
+	const [inOutInput] = useState(in_out);
 
   function validateAndSave() {
 		
@@ -30,7 +36,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 					console.log(sql)
 				window.API.send(sql).then((result:any) => {
 				console.log(result)
-				window.API.send('SELECT * FROM transactions').then((result:Transaction[]) => {
+				window.API.send('SELECT * FROM transactions_v').then((result:Transaction[]) => {
 					console.log(result)
 					dispatch(transactionsReducer.setTransactions(result))
 				});
@@ -41,7 +47,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 	function deleteTransaction(ID:number) {
 		window.API.send('DELETE FROM transactions WHERE ID = ' + ID).then((result:string) => {
 			console.log(result)
-			window.API.send('SELECT * FROM transactions').then((result:Transaction[]) => {
+			window.API.send('SELECT * FROM transactions_v').then((result:Transaction[]) => {
 				console.log(result)
 				dispatch(transactionsReducer.setTransactions(result))
 			});
@@ -63,6 +69,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
       <td><input id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td><input id={"feeInput" + props.transaction.ID} type="text" value={feeInput} onChange={(e) => setFeeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td><input id={"solidaritySurchargeInput" + props.transaction.ID} type="text" value={solidaritySurchargeInput} onChange={(e) => setSolidaritySurchargeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+			<td>{in_out}</td>
 			<td><input id={"delete" + props.transaction.ID} type="button" value="Delete" onClick={(e) => deleteTransaction(props.transaction.ID)} /></td>
     </tr>
   );

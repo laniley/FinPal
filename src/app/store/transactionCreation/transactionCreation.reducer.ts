@@ -101,10 +101,10 @@ export const validate = createAsyncThunk(
         sql += '\',\'' + state.transactionCreation.dateInput
         sql += '\',\'' + state.transactionCreation.typeInput.replace('\'', '\'\'')
         sql += '\',\'' + state.transactionCreation.assetInput.replace('\'', '\'\'')
-        sql += '\',\'' + state.transactionCreation.amountInput.replace('\'', '\'\'') 
-        sql += '\',\'' + state.transactionCreation.priceInput.replace('\'', '\'\'') 
-        sql += '\',\'' + state.transactionCreation.feeInput.replace('\'', '\'\'')
-        sql += '\',\'' + state.transactionCreation.solidaritySurchargeInput.replace('\'', '\'\'') + '\')'
+        sql += '\',\'' + state.transactionCreation.amountInput.replace(',', '.') 
+        sql += '\',\'' + state.transactionCreation.priceInput.replace(',', '.') 
+        sql += '\',\'' + state.transactionCreation.feeInput.replace(',', '.')
+        sql += '\',\'' + state.transactionCreation.solidaritySurchargeInput.replace(',', '.') + '\')'
     
     console.log(sql)
      

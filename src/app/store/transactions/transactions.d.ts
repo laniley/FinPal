@@ -3,8 +3,9 @@ interface Transaction {
 	date: string,
 	type: string,
 	asset: string,
-	amount: string,
-	price_per_share: string,
-	fee: string,
-	solidarity_surcharge: string
+	amount: float,
+	price_per_share: float,
+	fee: float,
+	solidarity_surcharge: float,
+	in_out: float
 }
