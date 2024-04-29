@@ -41,7 +41,9 @@ export default function RootRoute() {
 		console.log("database: " + result.database);
 		dispatch(appStateReducer.setDatabase(result.database))
 		setupAssets().then(() => {
-			setupTransactions()
+			setupTransactions().then(() => {
+				setupAssetsView()
+			})
 		})
 	}
 	else {
@@ -75,11 +77,6 @@ export default function RootRoute() {
 		}
 		console.log('New ID (assets): ' + newID)
 		dispatch(assetCreationReducer.setNewID(newID))
-		sql = 'SELECT * FROM assets'
-		console.log(sql)
-		result = await window.API.send(sql)
-		console.log('result: ', result)
-		dispatch(assetsReducer.setAssets(result))
 	}
 
 	async function setupTransactions() {
@@ -114,6 +111,27 @@ export default function RootRoute() {
 		result = await window.API.send(sql)
 		console.log('result: ', result)
 		dispatch(transactionsReducer.setTransactions(result))
+	}
+
+	async function setupAssetsView() {
+		let sql  = 'CREATE VIEW IF NOT EXISTS assets_v AS '
+				sql += 		'SELECT '
+				sql += 			'assets.ID as ID, '
+				sql += 			'asset as name, '
+				sql += 			'kgv, '
+				sql +=			'SUM(CASE WHEN type = \'Buy\' THEN amount ELSE amount * -1 END) AS current_shares, '
+				sql += 			'SUM(in_out) AS current_sum_in_out '
+				sql +=		'FROM transactions_v '
+				sql +=		'LEFT JOIN assets ON transactions_v.asset = assets.name '
+				sql +=		'GROUP BY assets.ID, asset, kgv'
+		console.log(sql)
+		let result = await window.API.send(sql)
+		console.log('result: ', result)
+				sql = 'SELECT * FROM assets_v'
+		console.log(sql)
+		result = await window.API.send(sql)
+		console.log('result: ', result)
+		dispatch(assetsReducer.setAssets(result))
 	}
 }
 

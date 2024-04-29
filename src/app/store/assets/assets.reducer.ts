@@ -19,9 +19,9 @@ function sortBy(a:Asset, b:Asset, property:string, direction:'asc'|'desc') {
 	}
 	else if(property == 'KGV') {
 		if(direction == 'asc')
-			return a.KGV.localeCompare(b.KGV)
+			return a.kgv.localeCompare(b.kgv)
 		else
-			return b.KGV.localeCompare(a.KGV)
+			return b.kgv.localeCompare(a.kgv)
 	}
 }
 

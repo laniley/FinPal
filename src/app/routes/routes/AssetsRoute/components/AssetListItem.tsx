@@ -7,7 +7,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 
   const dispatch = useAppDispatch();
   const [nameInput, setNameInput] = useState(props.asset.name || '');
-	const [kgvInput, setKGVInput] = useState(props.asset.KGV || '');
+	const [kgvInput, setKGVInput] = useState(props.asset.kgv || '');
 
   function validateAndSave() {
 		
@@ -41,7 +41,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
   return (
     <tr>
 			<th>{props.i}</th>
-      <td><input id={"dateInput_" + props.asset.ID} type="rext" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+      <td><input id={"nameInput_" + props.asset.ID} type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
       <td><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
     </tr>
   );

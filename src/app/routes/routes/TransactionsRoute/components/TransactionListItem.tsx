@@ -1,6 +1,5 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
-import * as appStateReducer from '../../../../store/appState/appState.reducer';
 import * as transactionsReducer from '../../../../store/transactions/transactions.reducer';
 
 export default function TransactionListItem(props: {i: number, transaction:Transaction}) {
@@ -18,7 +17,6 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 	const [priceInput, setPriceInput] = useState(price_per_share);
 	const [feeInput, setFeeInput] = useState(fee);
 	const [solidaritySurchargeInput, setSolidaritySurchargeInput] = useState(solidarity_surcharge);
-	const [inOutInput] = useState(in_out);
 
   function validateAndSave() {
 		
