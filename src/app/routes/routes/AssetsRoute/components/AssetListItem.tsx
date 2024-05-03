@@ -9,6 +9,8 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
   const [nameInput, setNameInput] = useState(props.asset.name || '');
 	const [kgvInput, setKGVInput] = useState(props.asset.kgv || '');
 
+	const current_sum_in_out = (Math.round(props.asset.current_sum_in_out * 100) / 100).toFixed(2)
+
   function validateAndSave() {
 		
 		if(nameInput) {
@@ -38,11 +40,15 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 		});
 	}
 
+	const bgColor = props.asset.current_sum_in_out > 0 ? "bg-emerald-600" : "bg-pink-700"
+
   return (
     <tr>
-			<th>{props.i}</th>
-      <td><input id={"nameInput_" + props.asset.ID} type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+			<td className="border-2 border-slate-600">{props.i}</td>
+      <td className="border-2 border-slate-600"><input id={"nameInput_" + props.asset.ID} type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+      <td className="border-2 border-slate-600"><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+			<td className="border-2 border-slate-600">{props.asset.current_shares}</td>
+			<td className={"px-2 border-2 border-slate-600 text-right " + bgColor}>{current_sum_in_out} €</td>
     </tr>
   );
 }

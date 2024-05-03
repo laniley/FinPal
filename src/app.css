@@ -22,6 +22,8 @@ button:focus, .bp5-tab:focus {
 
 input {
 	font-family: Verdana;
+	padding: 5px;
+	margin: 1px;
 }
 
 .row {

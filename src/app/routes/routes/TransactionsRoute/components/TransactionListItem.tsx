@@ -52,23 +52,25 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 		});
 	}
 
+	const bgColor = props.transaction.type == "Buy" ? "bg-emerald-600" : "bg-pink-700"
+
   return (
     <tr>
 			<th>{props.i}</th>
-      <td><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td>
-				<select id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validateAndSave()}>
+      <td className="border-2 border-slate-600"><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+      <td className="border-2 border-slate-600">
+				<select className={bgColor} id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validateAndSave()}>
 					<option value="Buy">Buy</option>
 					<option value="Sell">Sell</option>
 				</select>
 			</td>
-      <td><input id={"assetInput" + props.transaction.ID} type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td><input id={"amountInput" + props.transaction.ID} type="text" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td><input id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-			<td><input id={"feeInput" + props.transaction.ID} type="text" value={feeInput} onChange={(e) => setFeeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-			<td><input id={"solidaritySurchargeInput" + props.transaction.ID} type="text" value={solidaritySurchargeInput} onChange={(e) => setSolidaritySurchargeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-			<td>{in_out}</td>
-			<td><input id={"delete" + props.transaction.ID} type="button" value="Delete" onClick={(e) => deleteTransaction(props.transaction.ID)} /></td>
+      <td className="border-2 border-slate-600"><input id={"assetInput" + props.transaction.ID} type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+      <td className="border-2 border-slate-600"><input id={"amountInput" + props.transaction.ID} type="text" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+      <td className="border-2 border-slate-600"><input className="text-right" id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+			<td className="border-2 border-slate-600"><input className="text-right" id={"feeInput" + props.transaction.ID} type="text" value={feeInput} onChange={(e) => setFeeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+			<td className="border-2 border-slate-600"><input className="text-right" id={"solidaritySurchargeInput" + props.transaction.ID} type="text" value={solidaritySurchargeInput} onChange={(e) => setSolidaritySurchargeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+			<td className={"border-2 border-slate-600 text-right " + bgColor}>{in_out}</td>
+			<td className="border-2 border-slate-600"><input id={"delete" + props.transaction.ID} type="button" value="Delete" onClick={(e) => deleteTransaction(props.transaction.ID)} /></td>
     </tr>
   );
 }

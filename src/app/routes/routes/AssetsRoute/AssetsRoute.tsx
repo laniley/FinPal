@@ -18,6 +18,8 @@ export default function AnalysisRoute() {
 							<th>#</th>
 							<th>Name</th>
 							<th>KGV</th>
+							<th>Shares</th>
+							<th>In-/Outcome</th>
 						</tr>
 					</thead>
 					<tbody>
