@@ -8,6 +8,7 @@ interface State {
   appState?: AppState,
   transactions?: Transactions,
   transactionCreation?: TransactionCreation,
+  transactionFilter?: TransactionFilter,
   assets?: asserts,
   assetCreation?: AssetCreation
 }
