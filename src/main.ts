@@ -32,10 +32,18 @@ const database = new sqlite3.Database(dbPath, (err:any) => {
   if (err) console.error('Database opening error: ', err);
 });
 
-ipcMain.on('asynchronous-message', (event, arg) => {
+ipcMain.on('async-db-message', (event, arg) => {
   const sql = arg;
   database.all(sql, (err:any, rows:any) => {
-      event.reply('asynchronous-reply', (err && err.message) || rows);
+      event.reply('async-db-reply', (err && err.message) || rows);
+  });
+});
+
+import yahooFinance from 'yahoo-finance2';
+
+ipcMain.on('finance-api-message', (event, args) => {
+  yahooFinance.quoteSummary(args.symbol).then((result) => {
+    event.reply('finance-api-reply', result);
   });
 }); 
 

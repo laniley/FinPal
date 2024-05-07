@@ -52,14 +52,15 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 		});
 	}
 
-	const bgColor = props.transaction.type == "Buy" ? "bg-emerald-600" : "bg-pink-700"
+	const bgColorType = props.transaction.type == "Buy" ? "bg-emerald-600" : "bg-pink-700"
+	const bgColorInOut = props.transaction.in_out > 0 ? "bg-emerald-600" : "bg-pink-700"
 
   return (
     <tr>
 			<th>{props.i}</th>
       <td className="border-2 border-slate-600"><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
       <td className="border-2 border-slate-600">
-				<select className={bgColor} id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validateAndSave()}>
+				<select className={bgColorType} id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validateAndSave()}>
 					<option value="Buy">Buy</option>
 					<option value="Sell">Sell</option>
 				</select>
@@ -69,7 +70,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
       <td className="border-2 border-slate-600"><input className="text-right" id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td className="border-2 border-slate-600"><input className="text-right" id={"feeInput" + props.transaction.ID} type="text" value={feeInput} onChange={(e) => setFeeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td className="border-2 border-slate-600"><input className="text-right" id={"solidaritySurchargeInput" + props.transaction.ID} type="text" value={solidaritySurchargeInput} onChange={(e) => setSolidaritySurchargeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-			<td className={"border-2 border-slate-600 text-right " + bgColor}>{in_out}</td>
+			<td className={"border-2 border-slate-600 text-right " + bgColorInOut}>{in_out}</td>
 			<td className="border-2 border-slate-600"><input id={"delete" + props.transaction.ID} type="button" value="Delete" onClick={(e) => deleteTransaction(props.transaction.ID)} /></td>
     </tr>
   );

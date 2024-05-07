@@ -5,6 +5,7 @@ import AssetListItem from './components/AssetListItem';
 
 export default function AnalysisRoute() {
 
+	const assets = useAppSelector(state => state.assets.assets)
 	const theme = useAppSelector(state => state.appState.theme)
 	
 	return (
@@ -17,14 +18,16 @@ export default function AnalysisRoute() {
 						<tr>
 							<th>#</th>
 							<th>Name</th>
+							<th>Symbol</th>
 							<th>KGV</th>
 							<th>Shares</th>
+							<th>Price</th>
 							<th>In-/Outcome</th>
 						</tr>
 					</thead>
 					<tbody>
 						<AssetCreation/>
-						<AssetList/>
+						<AssetList assets={assets}/>
 					</tbody>
 				</table>
 			</div>
@@ -32,9 +35,8 @@ export default function AnalysisRoute() {
 	);
 }
 
-function AssetList():JSX.Element {
-	const assets = useAppSelector(state => state.assets.assets)
+function AssetList(props:{assets:Asset[]}):JSX.Element {
 	return <>{
-		assets.map((asset, i) => (<AssetListItem key={"asset-" + asset.ID} i={i+1} asset={asset} />))
+		props.assets.map((asset, i) => (<AssetListItem key={"asset-" + asset.ID} i={i+1} asset={asset} />))
 	}</>
 }

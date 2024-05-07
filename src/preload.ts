@@ -14,7 +14,8 @@ declare global {
         saveTheme(theme:string):any,
         saveSelectedTab(selectedTab:string):any
       },
-      send(sql:string):any,
+      sendToDB(sql:string):any,
+      sendToFinanceAPI(args:{symbol:string}):any,
       quit():any
     }
   }
@@ -23,12 +24,20 @@ declare global {
 contextBridge.exposeInMainWorld('API', {
   appState: appState,
   quit: () => remote.app.quit(),
-  send(message:any) {
+  sendToDB(message:any) {
     return new Promise((resolve) => {
-        ipcRenderer.once('asynchronous-reply', (_, arg) => {
+        ipcRenderer.once('async-db-reply', (_, arg) => {
             resolve(arg);
         });
-        ipcRenderer.send('asynchronous-message', message);
+        ipcRenderer.send('async-db-message', message);
+    });
+  },
+  sendToFinanceAPI(args: { symbol:string}) {
+    return new Promise((resolve) => {
+        ipcRenderer.once('finance-api-reply', (_, arg) => {
+            resolve(arg);
+        });
+        ipcRenderer.send('finance-api-message', args);
     });
   },
 })

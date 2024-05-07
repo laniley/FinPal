@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import * as transactionsReducer from '../transactions/transactions.reducer';
+import * as assetsReducer from '../assets/assets.reducer';
 
 export const initialState = {
   newID: null,
@@ -108,17 +109,23 @@ export const validate = createAsyncThunk(
     
     console.log(sql)
      
-    window["API"].send(sql).then((result:any) => {
+    window.API.sendToDB(sql).then((result:any) => {
       console.log(result)
       let sql  = 'SELECT MAX(ID) as ID FROM transactions'
 			console.log(sql)
-			window["API"].send(sql).then((result:any) => {
+			window.API.sendToDB(sql).then((result:any) => {
 				thunkAPI.dispatch(setNewID(result[0].ID + 1))
-				sql = 'SELECT * FROM transactions'
+				sql = 'SELECT * FROM transactions_v'
 				console.log(sql)
-				window["API"].send(sql).then((result:Transaction[]) => {
+				window.API.sendToDB(sql).then((result:Transaction[]) => {
 					console.log('result: ', result)
 					thunkAPI.dispatch(transactionsReducer.setTransactions(result))
+          sql = 'SELECT * FROM assets_v'
+          console.log(sql)
+          window.API.sendToDB(sql).then((result:Asset[]) => {
+            console.log('result: ', result)
+            thunkAPI.dispatch(assetsReducer.setAssets(result))
+          });
 				});
 			});
      });
