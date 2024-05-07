@@ -9,6 +9,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const [symbolInput, setSymbolInput] = useState(props.asset.symbol || '');
 	const [kgvInput, setKGVInput] = useState(props.asset.kgv || '');
 
+	const current_price = (Math.round(props.asset.price * 100) / 100).toFixed(2)
 	const current_sum_in_out = (Math.round(props.asset.current_sum_in_out * 100) / 100).toFixed(2)
 
   function validateAndSave() {
@@ -50,7 +51,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<td className="border-2 border-slate-600"><input id={"symbolInput_" + props.asset.ID} type="text" value={symbolInput} onChange={(e) => setSymbolInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
       <td className="border-2 border-slate-600"><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td className="border-2 border-slate-600 px-2 ">{props.asset.current_shares}</td>
-			<td className="border-2 border-slate-600 px-2 text-right">{props.asset.price} {props.asset.currencySymbol}</td>
+			<td className="border-2 border-slate-600 px-2 text-right">{current_price} €</td>
 			<td className={"border-2 border-slate-600 px-2 text-right " + bgColor}>{current_sum_in_out} €</td>
     </tr>
   );

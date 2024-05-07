@@ -1,4 +1,5 @@
 import { useAppSelector, useAppDispatch } from './../hooks'
+import { Convert } from "easy-currencies";
 import * as appStateReducer from "./../store/appState/appState.reducer";
 import * as assetsReducer from '../store/assets/assets.reducer';
 import * as assetCreationReducer from '../store/assetCreation/assetCreation.reducer';
@@ -71,11 +72,15 @@ export default function RootRoute() {
 
 	async function loadPrices(assets:Asset[]) {
 		let assets_with_prices:Asset[] = []
+		const result = await Convert().from("USD").fetch();
+		const conversion_rate = result.rates.EUR
 		for(const asset of assets) {
 			console.log(asset.symbol)
 			const result:any = await loadPrice(asset.symbol)
 			console.log(result)
-			let asset_with_price = Object.assign({}, asset, { price: result.price.regularMarketPrice, currencySymbol: result.price.currencySymbol })
+			let asset_with_price = Object.assign({}, asset, { price: result.price.regularMarketPrice })
+			if(result.price.currencySymbol == '$')
+				asset_with_price.price *= conversion_rate
 			console.log(asset_with_price)
 			assets_with_prices.push(asset_with_price)
 		}
