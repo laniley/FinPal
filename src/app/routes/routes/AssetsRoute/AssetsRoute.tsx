@@ -7,6 +7,14 @@ export default function AnalysisRoute() {
 
 	const assets = useAppSelector(state => state.assets.assets)
 	const theme = useAppSelector(state => state.appState.theme)
+
+	var sum_in_out = 0
+
+	assets.forEach(asset => {
+		sum_in_out += asset.current_sum_in_out
+	});
+	
+	var sum_in_out_formatted = (Math.round(sum_in_out * 100) / 100).toFixed(2)
 	
 	return (
 		<div
@@ -21,12 +29,13 @@ export default function AnalysisRoute() {
 							<th>Symbol</th>
 							<th>KGV</th>
 							<th>Shares</th>
-							<th>Price</th>
+							<th>Current Price per Share</th>
+							<th>Current Value</th>
 							<th>In-/Outcome</th>
 						</tr>
 					</thead>
 					<tbody>
-						<AssetCreation/>
+						<AssetCreation sum_in_out={sum_in_out_formatted}/>
 						<AssetList assets={assets}/>
 					</tbody>
 				</table>

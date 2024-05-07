@@ -137,7 +137,10 @@ export default function RootRoute() {
 		console.log('New ID (transactions): ' + newID)
 		dispatch(transactionCreationReducer.setNewID(newID + 1))
 				sql  = 'CREATE VIEW IF NOT EXISTS transactions_v AS '
-				sql += 'SELECT *, ((CASE WHEN type = \'Sell\' THEN 1 ELSE -1 END) * (amount*price_per_share))-fee-IFNULL(solidarity_surcharge,0) as in_out FROM transactions'
+				sql += 'SELECT *, '
+				sql +=		'SUM(CASE WHEN type = \'Buy\' THEN amount ELSE amount * -1 END) OVER (PARTITION BY asset ORDER BY date) AS shares_cumulated, '
+				sql += 		'((CASE WHEN type = \'Sell\' THEN 1 ELSE -1 END) * (amount*price_per_share))-fee-IFNULL(solidarity_surcharge,0) as in_out '
+				sql += 'FROM transactions'
 		console.log(sql)
 		result = await window.API.sendToDB(sql)
 		console.log('result: ', result)

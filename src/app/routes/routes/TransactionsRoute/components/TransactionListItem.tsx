@@ -32,9 +32,9 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 					sql += '\',\'' + solidaritySurchargeInput
 					sql += '\')'
 					console.log(sql)
-				window.API.send(sql).then((result:any) => {
+				window.API.sendToDB(sql).then((result:any) => {
 				console.log(result)
-				window.API.send('SELECT * FROM transactions_v').then((result:Transaction[]) => {
+				window.API.sendToDB('SELECT * FROM transactions_v').then((result:Transaction[]) => {
 					console.log(result)
 					dispatch(transactionsReducer.setTransactions(result))
 				});
@@ -43,9 +43,9 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 	}
 
 	function deleteTransaction(ID:number) {
-		window.API.send('DELETE FROM transactions WHERE ID = ' + ID).then((result:string) => {
+		window.API.sendToDB('DELETE FROM transactions WHERE ID = ' + ID).then((result:string) => {
 			console.log(result)
-			window.API.send('SELECT * FROM transactions_v').then((result:Transaction[]) => {
+			window.API.sendToDB('SELECT * FROM transactions_v').then((result:Transaction[]) => {
 				console.log(result)
 				dispatch(transactionsReducer.setTransactions(result))
 			});
@@ -67,7 +67,8 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 			</td>
       <td className="border-2 border-slate-600"><input id={"assetInput" + props.transaction.ID} type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
       <td className="border-2 border-slate-600"><input id={"amountInput" + props.transaction.ID} type="text" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td className="border-2 border-slate-600"><input className="text-right" id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+      <td className="border-2 border-slate-600">{props.transaction.shares_cumulated}</td>
+			<td className="border-2 border-slate-600"><input className="text-right" id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td className="border-2 border-slate-600"><input className="text-right" id={"feeInput" + props.transaction.ID} type="text" value={feeInput} onChange={(e) => setFeeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td className="border-2 border-slate-600"><input className="text-right" id={"solidaritySurchargeInput" + props.transaction.ID} type="text" value={solidaritySurchargeInput} onChange={(e) => setSolidaritySurchargeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td className={"border-2 border-slate-600 text-right " + bgColorInOut}>{in_out}</td>

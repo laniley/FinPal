@@ -45,7 +45,8 @@ export default function TransactionsRoute() {
 										<Button intent={Intent.PRIMARY} icon="filter" tabIndex={0} />
 									</Popover>
 								</th>
-								<th>Amount</th>
+								<th>Shares</th>
+								<th>Shares (cumulated)</th>
 								<th>Price per share</th>
 								<th>Fee</th>
 								<th>Solidarity Surcharge</th>
