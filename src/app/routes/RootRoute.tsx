@@ -78,9 +78,11 @@ export default function RootRoute() {
 			console.log(asset.symbol)
 			const result:any = await loadPrice(asset.symbol)
 			console.log(result)
-			let asset_with_price = Object.assign({}, asset, { price: result.price.regularMarketPrice })
-			if(result.price.currencySymbol == '$')
+			let asset_with_price = Object.assign({}, asset, { price: result.price.regularMarketPrice, currencySymbol: result.price.currencySymbol })
+			if(result.price.currencySymbol == '$') {
 				asset_with_price.price *= conversion_rate
+				asset_with_price.currencySymbol = '€'
+			}
 			console.log(asset_with_price)
 			assets_with_prices.push(asset_with_price)
 		}
