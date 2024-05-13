@@ -1,6 +1,35 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { updateCurrentInvest } from './../assets/assets.reducer'
 
 export const initialState = { transactions:[] as Transaction[] }
+
+export const loadTransactions = createAsyncThunk(
+  'transactions/loadTransactions',
+  async (props, thunkAPI) => {
+		var sql = 'SELECT * FROM transactions_v'
+		console.log(sql)
+		var result = await window.API.sendToDB(sql)
+		result.forEach((transaction:Transaction) => {
+			if(transaction.rank == 1)
+				transaction.invest_cumulated = transaction.in_out
+			else
+				transaction.invest_cumulated = 0
+		});
+		result.forEach((transaction:Transaction) => {
+			var prev_trans = result.find((other_trans:Transaction) => other_trans.asset == transaction.asset && other_trans.rank == transaction.rank-1)
+			if(transaction.rank > 1 && transaction.type == 'Buy')
+				transaction.invest_cumulated = transaction.in_out + prev_trans.invest_cumulated
+			else if(transaction.rank > 1 && transaction.type == 'Sell')
+				transaction.invest_cumulated = transaction.shares_cumulated * prev_trans.invest_cumulated
+		});
+
+		console.log('result - load transactions: ', result)
+
+		thunkAPI.dispatch(setTransactions(result))
+
+		thunkAPI.dispatch(updateCurrentInvest())
+  }
+)
 
 export const setTransactions = createAsyncThunk(
   'transactions/sortTransactions',
@@ -10,7 +39,7 @@ export const setTransactions = createAsyncThunk(
   }
 )
 
-function sortBy(a:Transaction, b:Transaction, property:string, direction:'asc'|'desc') {
+export function sortBy(a:Transaction, b:Transaction, property:string, direction:'asc'|'desc') {
 	if(property == 'date') {
 		if(direction == 'asc')
 			return a.date.localeCompare(b.date)

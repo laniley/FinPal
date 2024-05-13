@@ -6,7 +6,7 @@ export const initialState = {
   newID: null,
   dateInput: '',
 	dateInputGotTouched: false,
-  typeInput: '',
+  typeInput: 'Buy',
   typeInputGotTouched: false,
   assetInput: '',
   assetInputGotTouched: false,
@@ -115,18 +115,8 @@ export const validate = createAsyncThunk(
 			console.log(sql)
 			window.API.sendToDB(sql).then((result:any) => {
 				thunkAPI.dispatch(setNewID(result[0].ID + 1))
-				sql = 'SELECT * FROM transactions_v'
-				console.log(sql)
-				window.API.sendToDB(sql).then((result:Transaction[]) => {
-					console.log('result: ', result)
-					thunkAPI.dispatch(transactionsReducer.setTransactions(result))
-          sql = 'SELECT * FROM assets_v'
-          console.log(sql)
-          window.API.sendToDB(sql).then((result:Asset[]) => {
-            console.log('result: ', result)
-            thunkAPI.dispatch(assetsReducer.setAssets(result))
-          });
-				});
+				thunkAPI.dispatch(transactionsReducer.loadTransactions())
+        thunkAPI.dispatch(assetsReducer.loadAssets())
 			});
      });
      thunkAPI.dispatch(reset())

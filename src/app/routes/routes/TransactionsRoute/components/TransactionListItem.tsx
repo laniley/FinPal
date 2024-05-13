@@ -7,6 +7,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 	const price_per_share = (Math.round(props.transaction.price_per_share * 100) / 100).toFixed(2)
 	const fee = (Math.round(props.transaction.fee * 100) / 100).toFixed(2)
 	const solidarity_surcharge = (Math.round(props.transaction.solidarity_surcharge * 100) / 100).toFixed(2)
+	const invest_cumulated = (Math.round(props.transaction.invest_cumulated * 100) / 100).toFixed(2)
 	const in_out = (Math.round(props.transaction.in_out * 100) / 100).toFixed(2)
 
   const dispatch = useAppDispatch();
@@ -71,6 +72,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 			<td className="border-2 border-slate-600"><input className="text-right" id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td className="border-2 border-slate-600"><input className="text-right" id={"feeInput" + props.transaction.ID} type="text" value={feeInput} onChange={(e) => setFeeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td className="border-2 border-slate-600"><input className="text-right" id={"solidaritySurchargeInput" + props.transaction.ID} type="text" value={solidaritySurchargeInput} onChange={(e) => setSolidaritySurchargeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+			<td className={"border-2 border-slate-600 text-right "}>{invest_cumulated}</td>
 			<td className={"border-2 border-slate-600 text-right " + bgColorInOut}>{in_out}</td>
 			<td className="border-2 border-slate-600"><input id={"delete" + props.transaction.ID} type="button" value="Delete" onClick={(e) => deleteTransaction(props.transaction.ID)} /></td>
     </tr>

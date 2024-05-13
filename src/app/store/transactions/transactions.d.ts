@@ -3,10 +3,12 @@ interface Transaction {
 	date: string,
 	type: string,
 	asset: string,
+	rank: number,
 	amount: float,
 	shares_cumulated: float,
 	price_per_share: float,
 	fee: float,
 	solidarity_surcharge: float,
+	invest_cumulated: float,
 	in_out: float
 }

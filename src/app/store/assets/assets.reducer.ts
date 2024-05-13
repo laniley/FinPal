@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { sortBy as sortTransactionsBy } from './../transactions/transactions.reducer'
+import { Convert } from "easy-currencies";
 
 export const initialState = { assets:[] as Asset[] }
 
@@ -9,6 +11,65 @@ export const setAssets = createAsyncThunk(
 		thunkAPI.dispatch(setAssetsInternal(sorted))
   }
 )
+
+export const loadAssets = createAsyncThunk(
+  'assets/loadAssets',
+  async (props, thunkAPI) => {
+		let sql = 'SELECT * FROM assets_v'
+		console.log(sql)
+		await window.API.sendToDB(sql).then(async (assets:Asset[]) => {
+			console.log('assets: ', assets)
+			thunkAPI.dispatch(setAssets(assets))
+			await thunkAPI.dispatch(updateCurrentInvest())
+			await thunkAPI.dispatch(loadPrices())
+		})
+  }
+)
+
+export const updateCurrentInvest = createAsyncThunk(
+  'assets/updateCurrentInvest',
+  async (props, thunkAPI) => {
+		let state = thunkAPI.getState() as State
+		const assets = state.assets.assets
+		var assets_new = [] as Asset[]
+		assets.forEach((asset:Asset) => {
+			const filtered = state.transactions.transactions.filter((trans:Transaction) => trans.asset == asset.name)
+			const sorted = filtered.slice().sort((a:Transaction, b:Transaction) => sortTransactionsBy(a, b, 'date', 'desc'))
+			asset = Object.assign({}, asset, { current_invest: sorted[0].invest_cumulated })
+			assets_new.push(asset)
+		})
+		thunkAPI.dispatch(setAssets(assets_new))
+  }
+)
+
+export const loadPrices = createAsyncThunk(
+  'assets/loadPrices',
+  async (props, thunkAPI) => {
+		let state = thunkAPI.getState() as State
+		let assets_with_prices:Asset[] = []
+		const result = await Convert().from("USD").fetch();
+		const conversion_rate = result.rates.EUR
+		for(const asset of state.assets.assets) {
+			console.log(asset.symbol)
+			const result:any = await loadPrice(asset.symbol)
+			console.log(result)
+			let asset_with_price = Object.assign({}, asset, { price: result.price.regularMarketPrice, currencySymbol: result.price.currencySymbol })
+			if(result.price.currencySymbol == '$') {
+				asset_with_price.price *= conversion_rate
+				asset_with_price.currencySymbol = '€'
+			}
+			console.log(asset_with_price)
+			assets_with_prices.push(asset_with_price)
+		}
+		console.log(assets_with_prices)
+		thunkAPI.dispatch(setAssets(assets_with_prices))
+  }
+)
+
+async function loadPrice(symbol:string) {
+	var result = await window.API.sendToFinanceAPI({symbol:symbol})
+	return result
+}
 
 function sortBy(a:Asset, b:Asset, property:string, direction:'asc'|'desc') {
 	if(property == 'name') {

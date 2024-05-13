@@ -50,6 +50,7 @@ export default function TransactionsRoute() {
 								<th>Price per share</th>
 								<th>Fee</th>
 								<th>Solidarity Surcharge</th>
+								<th>Invest (cumulated)</th>
 								<th>In-/Outcome</th>
 							</tr>
 						</thead>

@@ -1,5 +1,4 @@
 import { useAppSelector, useAppDispatch } from './../hooks'
-import { Convert } from "easy-currencies";
 import * as appStateReducer from "./../store/appState/appState.reducer";
 import * as assetsReducer from '../store/assets/assets.reducer';
 import * as assetCreationReducer from '../store/assetCreation/assetCreation.reducer';
@@ -44,13 +43,7 @@ export default function RootRoute() {
 		setupAssets().then(() => {
 			setupTransactions().then(() => {
 				setupAssetsView().then(() => {
-					let sql = 'SELECT * FROM assets_v'
-					console.log(sql)
-					window.API.sendToDB(sql).then((assets:Asset[]) => {
-						console.log('assets: ', assets)
-						dispatch(assetsReducer.setAssets(assets))
-						loadPrices(assets)
-					})
+					dispatch(assetsReducer.loadAssets())
 				})
 			})
 		})
@@ -69,31 +62,6 @@ export default function RootRoute() {
 			</div>
 		</div>
 	);
-
-	async function loadPrices(assets:Asset[]) {
-		let assets_with_prices:Asset[] = []
-		const result = await Convert().from("USD").fetch();
-		const conversion_rate = result.rates.EUR
-		for(const asset of assets) {
-			console.log(asset.symbol)
-			const result:any = await loadPrice(asset.symbol)
-			console.log(result)
-			let asset_with_price = Object.assign({}, asset, { price: result.price.regularMarketPrice, currencySymbol: result.price.currencySymbol })
-			if(result.price.currencySymbol == '$') {
-				asset_with_price.price *= conversion_rate
-				asset_with_price.currencySymbol = '€'
-			}
-			console.log(asset_with_price)
-			assets_with_prices.push(asset_with_price)
-		}
-		console.log(assets_with_prices)
-		dispatch(assetsReducer.setAssets(assets_with_prices))
-	}
-
-	async function loadPrice(symbol:string) {
-		var result = await window.API.sendToFinanceAPI({symbol:symbol})
-		return result
-	}
 
 	async function setupAssets() {
 		var sql  = 'CREATE TABLE IF NOT EXISTS assets ('
@@ -137,18 +105,24 @@ export default function RootRoute() {
 		console.log('New ID (transactions): ' + newID)
 		dispatch(transactionCreationReducer.setNewID(newID + 1))
 				sql  = 'CREATE VIEW IF NOT EXISTS transactions_v AS '
-				sql += 'SELECT *, '
-				sql +=		'SUM(CASE WHEN type = \'Buy\' THEN amount ELSE amount * -1 END) OVER (PARTITION BY asset ORDER BY date) AS shares_cumulated, '
-				sql += 		'((CASE WHEN type = \'Sell\' THEN 1 ELSE -1 END) * (amount*price_per_share))-fee-IFNULL(solidarity_surcharge,0) as in_out '
-				sql += 'FROM transactions'
+				sql += 'WITH pre_calcs AS ('
+				sql +=		'SELECT ID, asset, '
+				sql += 			'RANK() OVER (PARTITION BY asset ORDER BY Date) as rank,'
+				sql +=			'SUM(CASE WHEN type = \'Buy\' THEN amount ELSE amount * -1 END) OVER (PARTITION BY asset ORDER BY date) AS shares_cumulated, '
+				sql +=			'((CASE WHEN type = \'Sell\' THEN 1 ELSE -1 END) * (amount*price_per_share))-fee-IFNULL(solidarity_surcharge,0) as in_out '
+				sql +=		'FROM transactions'
+				sql += ') '
+				sql += 'SELECT transactions.*, '
+				sql +=		'pre_calcs.rank,'
+				sql +=		'pre_calcs.shares_cumulated, '
+				sql += 		'pre_calcs.in_out '
+				sql += 'FROM transactions '
+				sql +=			'LEFT JOIN pre_calcs ON transactions.ID = pre_calcs.ID '
+				sql += 			'LEFT JOIN pre_calcs AS previous ON pre_calcs.asset = previous.asset AND previous.rank = pre_calcs.rank-1'
 		console.log(sql)
 		result = await window.API.sendToDB(sql)
 		console.log('result: ', result)
-				sql = 'SELECT * FROM transactions_v'
-		console.log(sql)
-		result = await window.API.sendToDB(sql)
-		console.log('result: ', result)
-		dispatch(transactionsReducer.setTransactions(result))
+		await dispatch(transactionsReducer.loadTransactions())
 	}
 
 	async function setupAssetsView() {
@@ -168,7 +142,7 @@ export default function RootRoute() {
 				sql +=		'GROUP BY assets.ID, asset, kgv'
 		console.log(sql)
 		let result = await window.API.sendToDB(sql)
-		console.log('result: ', result)
+		console.log('result - assets_v: ', result)
 	}
 }
 

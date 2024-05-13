@@ -10,7 +10,11 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const [kgvInput, setKGVInput] = useState(props.asset.kgv || '');
 
 	const current_price = (Math.round(props.asset.price * 100) / 100).toFixed(2)
+	const current_invest = (Math.round(props.asset.current_invest * 100) / 100).toFixed(2)
 	const current_value = (Math.round(props.asset.current_shares * props.asset.price * 100) / 100).toFixed(2)
+	const current_profit_loss = (props.asset.current_shares * props.asset.price) + props.asset.current_invest
+	const current_profit_loss_formatted = (Math.round(current_profit_loss * 100) / 100).toFixed(2)
+	const current_profit_loss_percentage = (-1 * current_profit_loss/props.asset.current_invest * 100).toFixed(2)
 	const current_sum_in_out = (Math.round(props.asset.current_sum_in_out * 100) / 100).toFixed(2)
 
   function validateAndSave() {
@@ -43,7 +47,8 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 		});
 	}
 
-	const bgColor = props.asset.current_sum_in_out > 0 ? "bg-emerald-600" : "bg-pink-700"
+	const bgColor_ProfitLoss = current_profit_loss > 0 ? "bg-emerald-600" : (current_profit_loss == 0 ? "bg-slate-500" : "bg-pink-700")
+	const bgColor_InOut = props.asset.current_sum_in_out > 0 ? "bg-emerald-600" : "bg-pink-700"
 
   return (
     <tr>
@@ -53,8 +58,10 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
       <td className="border-2 border-slate-600"><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td className="border-2 border-slate-600 px-2 ">{props.asset.current_shares}</td>
 			<td className="border-2 border-slate-600 px-2 text-right">{current_price} {props.asset.currencySymbol}</td>
+			<td className="border-2 border-slate-600 px-2 text-right">{current_invest} {props.asset.currencySymbol}</td>
 			<td className="border-2 border-slate-600 px-2 text-right">{current_value} {props.asset.currencySymbol}</td>
-			<td className={"border-2 border-slate-600 px-2 text-right " + bgColor}>{current_sum_in_out} €</td>
+			<td className={"border-2 border-slate-600 px-2 text-right " + bgColor_ProfitLoss}>{current_profit_loss_formatted} {props.asset.currencySymbol} / {current_profit_loss_percentage} %</td>
+			<td className={"border-2 border-slate-600 px-2 text-right " + bgColor_InOut}>{current_sum_in_out} €</td>
     </tr>
   );
 }
