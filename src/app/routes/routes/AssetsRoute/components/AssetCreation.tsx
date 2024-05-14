@@ -19,7 +19,7 @@ export default function AnalysisRoute(props: {sum_in_out:string}) {
       <td className="border-2 border-slate-600"></td>
       <td className="border-2 border-slate-600"></td>
       <td className="border-2 border-slate-600"></td>
-      <td className="border-2 border-slate-600"></td>
+      <td className="border-2 border-slate-600 text-center"></td>
       <td className="border-2 border-slate-600">{props.sum_in_out} €</td>
     </tr>
 	);

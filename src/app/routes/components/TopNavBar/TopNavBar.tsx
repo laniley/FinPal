@@ -47,14 +47,8 @@ export default function TopNavBar () {
 					animate={true}
 					fill={true}>
 						
-						<Tab id="analysisTab" data-testid="analysisTab">
-							<Icon icon="timeline-line-chart" className="mr-2" /> Analysis
-						</Tab>
-
-						<NavbarDivider className="ml-0 mb-[15px]" />
-
 						<Tab id="assetsTab" data-testid="assetsTab" className="mr-0" >
-							<Icon icon="list" className="mr-2 ml-2" /> Assets
+							<Icon icon="timeline-line-chart" className="mr-2 ml-2" /> Assets
 						</Tab>
 
 						<NavbarDivider className="ml-0 mb-[15px]" />

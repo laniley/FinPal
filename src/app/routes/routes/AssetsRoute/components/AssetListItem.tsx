@@ -14,7 +14,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const current_value = (Math.round(props.asset.current_shares * props.asset.price * 100) / 100).toFixed(2)
 	const current_profit_loss = (props.asset.current_shares * props.asset.price) + props.asset.current_invest
 	const current_profit_loss_formatted = (Math.round(current_profit_loss * 100) / 100).toFixed(2)
-	const current_profit_loss_percentage = (-1 * current_profit_loss/props.asset.current_invest * 100).toFixed(2)
+	const current_profit_loss_percentage = (props.asset.current_invest != 0 ? -1 * current_profit_loss/props.asset.current_invest * 100 : 0).toFixed(2)
 	const current_sum_in_out = (Math.round(props.asset.current_sum_in_out * 100) / 100).toFixed(2)
 
   function validateAndSave() {

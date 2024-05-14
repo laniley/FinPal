@@ -1,10 +1,13 @@
+import { Button, Intent } from '@blueprintjs/core';
 import { useAppSelector, useAppDispatch } from './../../../hooks'
 
 import AssetCreation from './components/AssetCreation';
 import AssetListItem from './components/AssetListItem';
+import * as assetsReducer from './../../..//store/assets/assets.reducer';
 
 export default function AnalysisRoute() {
 
+	const dispatch = useAppDispatch();
 	const assets = useAppSelector(state => state.assets.assets)
 	const theme = useAppSelector(state => state.appState.theme)
 
@@ -24,7 +27,7 @@ export default function AnalysisRoute() {
 				<table>
 					<thead>
 						<tr>
-							<th>#</th>
+							<th><Button intent={Intent.PRIMARY} icon="refresh" onClick={(e) => dispatch(assetsReducer.loadAssets())} /></th>
 							<th>Name</th>
 							<th>Symbol</th>
 							<th>KGV</th>

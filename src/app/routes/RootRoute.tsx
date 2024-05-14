@@ -6,7 +6,6 @@ import * as transactionsReducer from '../store/transactions/transactions.reducer
 import * as transactionCreationReducer from '../store/transactionCreation/transactionCreation.reducer';
 
 import TopNavBar from './components/TopNavBar/TopNavBar';
-import AnalysisRoute from './routes/AnalysisRoute/AnalysisRoute';
 import TransactionsRoute from './routes/TransactionsRoute/TransactionsRoute';
 import DividendsRoute from './routes/DividendsRoute/DividendsRoute';
 import AssetsRoute from './routes/AssetsRoute/AssetsRoute';
@@ -154,5 +153,4 @@ export function Content() {
 		return(<DividendsRoute/>)
 	else if(selectedTab == 'assetsTab')
 		return(<AssetsRoute/>)
-	else return (<AnalysisRoute/>)
 }
