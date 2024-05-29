@@ -5,8 +5,13 @@ import { Convert } from "easy-currencies";
 export const initialState = { assets:[] as Asset[] }
 
 export const setAssets = createAsyncThunk(
-  'assets/sortAssets',
+  'assets/setAssets',
   async (assets:Asset[], thunkAPI) => {
+		assets.forEach(asset => {
+			let current_profit_loss = (asset.current_shares * asset.price) + asset.current_invest
+			asset.current_profit_loss_percentage = (asset.current_invest != 0 ? -1 * current_profit_loss/asset.current_invest * 100 : 0)
+			asset.current_profit_loss_percentage_formatted = (asset.current_invest != 0 ? -1 * current_profit_loss/asset.current_invest * 100 : 0).toFixed(2)
+		})
 		const sorted = assets.slice().sort((a:Asset, b:Asset) => sortBy(a, b, 'name', 'asc'))
 		thunkAPI.dispatch(setAssetsInternal(sorted))
   }
@@ -71,7 +76,7 @@ async function loadPrice(symbol:string) {
 	return result
 }
 
-function sortBy(a:Asset, b:Asset, property:string, direction:'asc'|'desc') {
+export function sortBy(a:Asset, b:Asset, property:string, direction:'asc'|'desc') {
 	if(property == 'name') {
 		if(direction == 'asc')
 			return a.name.localeCompare(b.name)
@@ -83,6 +88,16 @@ function sortBy(a:Asset, b:Asset, property:string, direction:'asc'|'desc') {
 			return a.kgv.localeCompare(b.kgv)
 		else
 			return b.kgv.localeCompare(a.kgv)
+	}
+	else if(property == 'current_profit_loss_percentage') {
+		if(direction == 'asc')
+			if(a.current_profit_loss_percentage > b.current_profit_loss_percentage)
+				return -1
+			else return 1
+		else
+			if(b.current_profit_loss_percentage < a.current_profit_loss_percentage)
+				return -1
+			else return 1
 	}
 }
 

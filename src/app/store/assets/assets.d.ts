@@ -7,5 +7,7 @@ interface Asset {
   current_invest?: float,
   current_sum_in_out?: float,
   price?: float,
-  currencySymbol?: string
+  currencySymbol?: string,
+  current_profit_loss_percentage: float,
+  current_profit_loss_percentage_formatted: string
 }
