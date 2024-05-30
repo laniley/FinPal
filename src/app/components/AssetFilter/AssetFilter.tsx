@@ -12,7 +12,7 @@ export default function AssetFilter(props: {filter:string[], reducer:any}) {
 
     const dispatch = useAppDispatch();
     const assets = useAppSelector(state => state.assets.assets)
-  
+
     return (
       <div>
         {assets.map((asset, i) => {
