@@ -9,6 +9,7 @@ export const setAssets = createAsyncThunk(
   async (assets:Asset[], thunkAPI) => {
 		assets.forEach(asset => {
 			let current_profit_loss = (asset.current_shares * asset.price) + asset.current_invest
+			asset.current_profit_loss = (asset.current_shares * asset.price) + asset.current_invest
 			asset.current_profit_loss_percentage = (asset.current_invest != 0 ? -1 * current_profit_loss/asset.current_invest * 100 : 0)
 			asset.current_profit_loss_percentage_formatted = (asset.current_invest != 0 ? -1 * current_profit_loss/asset.current_invest * 100 : 0).toFixed(2)
 		})

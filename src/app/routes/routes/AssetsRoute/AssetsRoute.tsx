@@ -19,6 +19,14 @@ export default function AnalysisRoute() {
 	
 	var sum_in_out_formatted = (Math.round(sum_in_out * 100) / 100).toFixed(2)
 
+	var sum_profit_lost = 0
+
+	assets.forEach(asset => {
+		sum_profit_lost += asset.current_profit_loss
+	});
+	
+	var sum_profit_loss_formatted = (Math.round(sum_profit_lost * 100) / 100).toFixed(2)
+
 	const active = assets.filter((asset:Asset) => asset.current_profit_loss_percentage != 0)
 	const inactive = assets.filter((asset:Asset) => asset.current_profit_loss_percentage == 0)
 	const sorted = active.slice().sort((a:Asset, b:Asset) => assetsReducer.sortBy(a, b, 'current_profit_loss_percentage', 'desc'))
@@ -45,7 +53,7 @@ export default function AnalysisRoute() {
 						</tr>
 					</thead>
 					<tbody>
-						<AssetCreation sum_in_out={sum_in_out_formatted}/>
+						<AssetCreation sum_in_out={sum_in_out_formatted} sum_profit_loss={sum_profit_loss_formatted}/>
 						<AssetList assets={all}/>
 					</tbody>
 				</table>
