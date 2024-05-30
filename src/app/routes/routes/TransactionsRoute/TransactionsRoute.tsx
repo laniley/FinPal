@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from './../../../hooks'
 
 import TransactionCreation from './components/TransactionCreation';
 import TransactionListItem from './components/TransactionListItem';
+import AssetFilter from './../../../components/AssetFilter/AssetFilter'
 import * as transactionFilterReducer from './../../../store/transactionFilter/transactionFilter.reducer';
 
 export default function TransactionsRoute() {
@@ -12,7 +13,7 @@ export default function TransactionsRoute() {
 	const assets = useAppSelector(state => state.assets.assets)
 	const filerForAssets = useAppSelector(state => state.transactionFilter.assets)
 	const transactions = useAppSelector(state => state.transactions.transactions)
-	
+	/*
 	function AssetFilterOptions() {
 		return (
 			<div>
@@ -27,7 +28,7 @@ export default function TransactionsRoute() {
 			</div>
 		)
 	}
-
+*/
 	return (
 		<div
 			id="TransactionsRoute"
@@ -41,9 +42,7 @@ export default function TransactionsRoute() {
 								<th>Date</th>
 								<th>Type</th>
 								<th>Asset 
-									<Popover content={AssetFilterOptions()}>
-										<Button intent={Intent.PRIMARY} icon="filter" tabIndex={0} />
-									</Popover>
+									<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />
 								</th>
 								<th>Shares</th>
 								<th>Shares (cumulated)</th>
