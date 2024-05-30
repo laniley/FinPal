@@ -10,5 +10,8 @@ interface State {
   transactionCreation?: TransactionCreation,
   transactionFilter?: TransactionFilter,
   assets?: asserts,
-  assetCreation?: AssetCreation
+  assetCreation?: AssetCreation,
+  dividends?: Dividends,
+  dividendCreation?: DividendCreation,
+  dividendsFilter?: DividendsFilter
 }

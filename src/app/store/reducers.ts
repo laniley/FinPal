@@ -7,6 +7,9 @@ import assetCreation from './assetCreation/assetCreation.reducer';
 import transactions from './transactions/transactions.reducer';
 import transactionFilter from './transactionFilter/transactionFilter.reducer';
 import transactionCreation from './transactionCreation/transactionCreation.reducer'
+import dividends from './dividends/dividends.reducer';
+import dividendsFilter from './dividendsFilter/dividendsFilter.reducer';
+import dividendCreation from './dividendCreation/dividendCreation.reducer'
 
 export const rootReducer = combineReducers({
 	appState,
@@ -14,7 +17,10 @@ export const rootReducer = combineReducers({
 	assetCreation,
 	transactions,
 	transactionFilter,
-	transactionCreation
+	transactionCreation,
+	dividends,
+	dividendsFilter,
+	dividendCreation
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

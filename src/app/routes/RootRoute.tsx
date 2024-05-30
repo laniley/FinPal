@@ -4,11 +4,14 @@ import * as assetsReducer from '../store/assets/assets.reducer';
 import * as assetCreationReducer from '../store/assetCreation/assetCreation.reducer';
 import * as transactionsReducer from '../store/transactions/transactions.reducer';
 import * as transactionCreationReducer from '../store/transactionCreation/transactionCreation.reducer';
+import * as dividendsReducer from '../store/dividends/dividends.reducer';
+import * as dividendCreationReducer from '../store/dividendCreation/dividendCreation.reducer';
 
 import TopNavBar from './components/TopNavBar/TopNavBar';
 import TransactionsRoute from './routes/TransactionsRoute/TransactionsRoute';
 import DividendsRoute from './routes/DividendsRoute/DividendsRoute';
 import AssetsRoute from './routes/AssetsRoute/AssetsRoute';
+
 
 export default function RootRoute() {
 
@@ -41,8 +44,10 @@ export default function RootRoute() {
 		dispatch(appStateReducer.setDatabase(result.database))
 		setupAssets().then(() => {
 			setupTransactions().then(() => {
-				setupAssetsView().then(() => {
-					dispatch(assetsReducer.loadAssets())
+				setupDividends().then(() => {
+					setupAssetsView().then(() => {
+						dispatch(assetsReducer.loadAssets())
+					})
 				})
 			})
 		})
@@ -102,7 +107,7 @@ export default function RootRoute() {
 			newID = result[0].ID + 1
 		}
 		console.log('New ID (transactions): ' + newID)
-		dispatch(transactionCreationReducer.setNewID(newID + 1))
+		dispatch(transactionCreationReducer.setNewID(newID))
 				sql  = 'CREATE VIEW IF NOT EXISTS transactions_v AS '
 				sql += 'WITH pre_calcs AS ('
 				sql +=		'SELECT ID, asset, '
@@ -122,6 +127,27 @@ export default function RootRoute() {
 		result = await window.API.sendToDB(sql)
 		console.log('result: ', result)
 		await dispatch(transactionsReducer.loadTransactions())
+	}
+
+	async function setupDividends() {
+		let sql  = 'CREATE TABLE IF NOT EXISTS dividends ('
+				sql += 'ID INTEGER PRIMARY KEY, '
+				sql += 'date DATE, '
+				sql += 'asset VARCHAR NOT NULL, '
+				sql += 'income REAL)'
+		console.log(sql)
+		await window.API.sendToDB(sql)
+			 sql  = 'SELECT MAX(ID) as ID FROM dividends'
+		console.log(sql)
+		var result = await window.API.sendToDB(sql)
+		console.log(result)
+		var newID = 0
+		if(result[0]) {
+			newID = result[0].ID + 1
+		}
+		console.log('New ID (dividends): ' + newID)
+		dispatch(dividendCreationReducer.setNewID(newID))
+		await dispatch(dividendsReducer.loadDividends())
 	}
 
 	async function setupAssetsView() {

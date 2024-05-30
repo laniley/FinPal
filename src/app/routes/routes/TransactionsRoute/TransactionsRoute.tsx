@@ -1,4 +1,3 @@
-import { Button, Icon, Intent, Popover } from '@blueprintjs/core';
 import { useAppSelector, useAppDispatch } from './../../../hooks'
 
 import TransactionCreation from './components/TransactionCreation';
@@ -8,27 +7,11 @@ import * as transactionFilterReducer from './../../../store/transactionFilter/tr
 
 export default function TransactionsRoute() {
 
-	const dispatch = useAppDispatch();
 	const theme = useAppSelector(state => state.appState.theme)
 	const assets = useAppSelector(state => state.assets.assets)
 	const filerForAssets = useAppSelector(state => state.transactionFilter.assets)
 	const transactions = useAppSelector(state => state.transactions.transactions)
-	/*
-	function AssetFilterOptions() {
-		return (
-			<div>
-				{assets.map((asset, i) => {
-					return (
-						<div key={"assetsFilter_" + asset.ID}>
-							<input id={"assetsFilter_" + asset.ID} type="checkbox" checked={filerForAssets.includes(asset.name)} onChange={(e) => dispatch(transactionFilterReducer.toggleAsset(asset.name))} />
-							<label htmlFor={"assetsFilter_" + asset.ID}>{asset.name}</label>
-						</div>
-					)
-				})}
-			</div>
-		)
-	}
-*/
+
 	return (
 		<div
 			id="TransactionsRoute"
