@@ -9,6 +9,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const [symbolInput, setSymbolInput] = useState(props.asset.symbol || '');
 	const [kgvInput, setKGVInput] = useState(props.asset.kgv || '');
 
+	const shares_formatted = (Math.round(props.asset.current_shares * 1000) / 1000).toFixed(3)
 	const current_price = (Math.round(props.asset.price * 100) / 100).toFixed(2)
 	const current_invest = (Math.round(props.asset.current_invest * 100) / 100).toFixed(2)
 	const current_value = (Math.round(props.asset.current_shares * props.asset.price * 100) / 100).toFixed(2)
@@ -55,7 +56,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
       <td className="border-2 border-slate-600"><input id={"nameInput_" + props.asset.ID} type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
 			<td className="border-2 border-slate-600"><input id={"symbolInput_" + props.asset.ID} type="text" value={symbolInput} onChange={(e) => setSymbolInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
       <td className="border-2 border-slate-600"><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-			<td className="border-2 border-slate-600 px-2 ">{props.asset.current_shares}</td>
+			<td className="border-2 border-slate-600 px-2 text-right">{shares_formatted}</td>
 			<td className="border-2 border-slate-600 px-2 text-right">{current_price} {props.asset.currencySymbol}</td>
 			<td className="border-2 border-slate-600 px-2 text-right">{current_invest} {props.asset.currencySymbol}</td>
 			<td className="border-2 border-slate-600 px-2 text-right">{current_value} {props.asset.currencySymbol}</td>

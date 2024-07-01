@@ -130,7 +130,7 @@ export const reset = createAsyncThunk(
 		thunkAPI.dispatch(setDateInputGotTouched(false))
 		thunkAPI.dispatch(setDateInput(''))
     thunkAPI.dispatch(setTypeInputGotTouched(false))
-		thunkAPI.dispatch(setTypeInput(''))
+		thunkAPI.dispatch(setTypeInput('Buy'))
     thunkAPI.dispatch(setAssetInputGotTouched(false))
 		thunkAPI.dispatch(setAssetInput(''))
     thunkAPI.dispatch(setAmountInputGotTouched(false))

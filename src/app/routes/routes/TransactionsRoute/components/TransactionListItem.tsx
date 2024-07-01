@@ -28,9 +28,9 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 					sql += '\',\'' + typeInput 
 					sql += '\',\'' + assetInput 
 					sql += '\',\'' + amountInput 
-					sql += '\',\'' + priceInput
-					sql += '\',\'' + feeInput
-					sql += '\',\'' + solidaritySurchargeInput
+					sql += '\',\'' + priceInput.replace(',', '.')
+					sql += '\',\'' + feeInput.replace(',', '.')
+					sql += '\',\'' + solidaritySurchargeInput.replace(',', '.')
 					sql += '\')'
 					console.log(sql)
 				window.API.sendToDB(sql).then((result:any) => {
