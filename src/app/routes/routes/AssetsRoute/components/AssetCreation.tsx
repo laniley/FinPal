@@ -2,7 +2,7 @@ import { useAppSelector, useAppDispatch } from './../../../../hooks'
 
 import * as assetCreationReducer from '../../../../store/assetCreation/assetCreation.reducer';
 
-export default function AnalysisRoute(props: {sum_in_out:string, sum_profit_loss:string}) {
+export default function AnalysisRoute(props: {sum_profit_loss:string, sum_dividends:string, sum_in_out:string, }) {
 
 	const dispatch = useAppDispatch();
 	const nameInput = useAppSelector(state => state.assetCreation.nameInput)
@@ -20,7 +20,8 @@ export default function AnalysisRoute(props: {sum_in_out:string, sum_profit_loss
       <td className="border-2 border-slate-600"></td>
       <td className="border-2 border-slate-600"></td>
       <td className="border-2 border-slate-600 text-center">{props.sum_profit_loss} €</td>
-      <td className="border-2 border-slate-600 text-right">{props.sum_in_out} €</td>
+      <td className="border-2 border-slate-600 text-right px-2">{props.sum_dividends} €</td>
+      <td className="border-2 border-slate-600 text-right px-2">{props.sum_in_out} €</td>
     </tr>
 	);
 }

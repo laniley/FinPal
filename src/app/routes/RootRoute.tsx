@@ -161,9 +161,10 @@ export default function RootRoute() {
 				sql += 			'SUM(CASE WHEN type = \'Sell\' THEN amount * price_per_share ELSE 0 END) AS profit, '
 				sql +=			'SUM(fee) AS fees, '
 				sql +=			'SUM(CASE WHEN type = \'Buy\' THEN amount ELSE amount * -1 END) AS current_shares, '
-				sql += 			'SUM(in_out) AS current_sum_in_out '
+				sql += 			'SUM(in_out) AS current_sum_in_out, '
+				sql +=			'(SELECT SUM(income) FROM dividends WHERE dividends.asset = assets.name) AS dividends '
 				sql +=		'FROM assets '
-				sql +=		'LEFT JOIN transactions_v ON transactions_v.asset = assets.name '
+				sql +=			'LEFT JOIN transactions_v ON transactions_v.asset = assets.name '
 				sql +=		'GROUP BY assets.ID, asset, kgv'
 		console.log(sql)
 		let result = await window.API.sendToDB(sql)

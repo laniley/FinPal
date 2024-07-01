@@ -11,21 +11,19 @@ export default function AnalysisRoute() {
 	const assets = useAppSelector(state => state.assets.assets)
 	const theme = useAppSelector(state => state.appState.theme)
 
+	var sum_profit_lost = 0
+	var sum_dividends = 0
 	var sum_in_out = 0
 
 	assets.forEach(asset => {
+		sum_profit_lost += asset.current_profit_loss
+		sum_dividends += asset.dividends
 		sum_in_out += asset.current_sum_in_out
 	});
 	
-	var sum_in_out_formatted = (Math.round(sum_in_out * 100) / 100).toFixed(2)
-
-	var sum_profit_lost = 0
-
-	assets.forEach(asset => {
-		sum_profit_lost += asset.current_profit_loss
-	});
-	
 	var sum_profit_loss_formatted = (Math.round(sum_profit_lost * 100) / 100).toFixed(2)
+	var sum_dividends_formatted = (Math.round(sum_dividends * 100) / 100).toFixed(2)
+	var sum_in_out_formatted = (Math.round(sum_in_out * 100) / 100).toFixed(2)
 
 	const active = assets.filter((asset:Asset) => asset.current_profit_loss_percentage != 0)
 	const inactive = assets.filter((asset:Asset) => asset.current_profit_loss_percentage == 0)
@@ -45,15 +43,16 @@ export default function AnalysisRoute() {
 							<th>Symbol</th>
 							<th>KGV</th>
 							<th>Shares</th>
-							<th>Current Price per Share</th>
-							<th>Current Invest</th>
-							<th>Current Value</th>
-							<th>Current Profit/Loss</th>
-							<th>In-/Outcome</th>
+							<th className="px-2">Current Price per Share</th>
+							<th className="px-2">Current Invest</th>
+							<th className="px-2">Current Value</th>
+							<th className="px-2">Current Profit/Loss</th>
+							<th className="px-2">Dividends</th>
+							<th className="px-2">In-/Outcome</th>
 						</tr>
 					</thead>
 					<tbody>
-						<AssetCreation sum_in_out={sum_in_out_formatted} sum_profit_loss={sum_profit_loss_formatted}/>
+						<AssetCreation sum_profit_loss={sum_profit_loss_formatted} sum_dividends={sum_dividends_formatted} sum_in_out={sum_in_out_formatted} />
 						<AssetList assets={all}/>
 					</tbody>
 				</table>

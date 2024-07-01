@@ -44,7 +44,7 @@ import yahooFinance from 'yahoo-finance2';
 ipcMain.on('finance-api-message', (event, args) => {
   yahooFinance.quoteSummary(args.symbol).then((result) => {
     event.reply('finance-api-reply', result);
-  });
+  }).catch((reason) => console.log('ERROR: finance-api-message: ', reason));
 }); 
 
 // Keep a reference for dev mode

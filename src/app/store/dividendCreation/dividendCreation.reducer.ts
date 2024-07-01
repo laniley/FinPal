@@ -57,14 +57,14 @@ export const validate = createAsyncThunk(
     
     console.log(sql)
      
-    window.API.sendToDB(sql).then((result:any) => {
+    await window.API.sendToDB(sql).then(async (result:any) => {
       console.log(result)
       let sql  = 'SELECT MAX(ID) as ID FROM dividends'
 			console.log(sql)
-			window.API.sendToDB(sql).then((result:any) => {
+			await window.API.sendToDB(sql).then(async (result:any) => {
 				thunkAPI.dispatch(setNewID(result[0].ID + 1))
-				thunkAPI.dispatch(dividendsReducer.loadDividends())
-        thunkAPI.dispatch(assetsReducer.loadAssets())
+				await thunkAPI.dispatch(dividendsReducer.loadDividends())
+        await thunkAPI.dispatch(assetsReducer.loadAssets())
 			});
      });
      thunkAPI.dispatch(reset())

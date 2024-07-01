@@ -10,5 +10,6 @@ interface Asset {
   currencySymbol?: string,
   current_profit_loss: float,
   current_profit_loss_percentage: float,
-  current_profit_loss_percentage_formatted: string
+  current_profit_loss_percentage_formatted: string,
+  dividends: float;
 }

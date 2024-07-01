@@ -13,7 +13,8 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const current_invest = (Math.round(props.asset.current_invest * 100) / 100).toFixed(2)
 	const current_value = (Math.round(props.asset.current_shares * props.asset.price * 100) / 100).toFixed(2)
 	const current_profit_loss_formatted = (Math.round(props.asset.current_profit_loss * 100) / 100).toFixed(2)
-	const current_sum_in_out = (Math.round(props.asset.current_sum_in_out * 100) / 100).toFixed(2)
+	const dividends_formatted = (Math.round(props.asset.dividends * 100) / 100).toFixed(2)
+	const current_sum_in_out = (Math.round((props.asset.current_sum_in_out + props.asset.dividends) * 100) / 100).toFixed(2)
 
   function validateAndSave() {
 		
@@ -59,6 +60,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<td className="border-2 border-slate-600 px-2 text-right">{current_invest} {props.asset.currencySymbol}</td>
 			<td className="border-2 border-slate-600 px-2 text-right">{current_value} {props.asset.currencySymbol}</td>
 			<td className={"border-2 border-slate-600 px-2 text-right " + bgColor_ProfitLoss}>{current_profit_loss_formatted} {props.asset.currencySymbol} / {props.asset.current_profit_loss_percentage_formatted} %</td>
+			<td className="border-2 border-slate-600 px-2 text-right">{dividends_formatted} {props.asset.currencySymbol}</td>
 			<td className={"border-2 border-slate-600 px-2 text-right " + bgColor_InOut}>{current_sum_in_out} €</td>
     </tr>
   );
