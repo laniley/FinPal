@@ -53,15 +53,21 @@ export const loadPrices = createAsyncThunk(
   async (props, thunkAPI) => {
 		let state = thunkAPI.getState() as State
 		let assets_with_prices:Asset[] = []
-		const result = await Convert().from("USD").fetch();
-		const conversion_rate = result.rates.EUR
+		const USD = await Convert().from("USD").fetch();
+		const DKK = await Convert().from("DKK").fetch();
+		const USD_conversion_rate = USD.rates.EUR
+		const DKK_conversion_rate = DKK.rates.EUR
 		for(const asset of state.assets.assets) {
 			console.log(asset.symbol)
 			const result:any = await loadPrice(asset.symbol)
 			console.log(result)
 			let asset_with_price = Object.assign({}, asset, { price: result.price.regularMarketPrice, currencySymbol: result.price.currencySymbol })
-			if(result.price.currencySymbol == '$') {
-				asset_with_price.price *= conversion_rate
+			if(result.price.currency == 'USD') {
+				asset_with_price.price *= USD_conversion_rate
+				asset_with_price.currencySymbol = '€'
+			}
+			else if(result.price.currency == 'DKK') {
+				asset_with_price.price *= DKK_conversion_rate
 				asset_with_price.currencySymbol = '€'
 			}
 			console.log(asset_with_price)
