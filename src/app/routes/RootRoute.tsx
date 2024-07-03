@@ -157,6 +157,7 @@ export default function RootRoute() {
 				sql += 			'assets.name as name, '
 				sql += 			'assets.symbol as symbol, '
 				sql += 			'kgv, '
+				sql +=			'AVG(transactions_v.price_per_share) AS avg_price_paid, '
 				sql += 			'SUM(CASE WHEN type = \'Buy\' THEN amount * price_per_share ELSE 0 END) AS invested, '
 				sql += 			'SUM(CASE WHEN type = \'Sell\' THEN amount * price_per_share ELSE 0 END) AS profit, '
 				sql +=			'SUM(fee) AS fees, '

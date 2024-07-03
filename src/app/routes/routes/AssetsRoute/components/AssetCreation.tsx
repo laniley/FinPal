@@ -19,6 +19,7 @@ export default function AnalysisRoute(props: {sum_profit_loss:string, sum_divide
       <td className="border-2 border-slate-600"></td>
       <td className="border-2 border-slate-600"></td>
       <td className="border-2 border-slate-600"></td>
+      <td className="border-2 border-slate-600"></td>
       <td className="border-2 border-slate-600 text-center">{props.sum_profit_loss} €</td>
       <td className="border-2 border-slate-600 text-right px-2">{props.sum_dividends} €</td>
       <td className="border-2 border-slate-600 text-right px-2">{props.sum_in_out} €</td>

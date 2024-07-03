@@ -44,6 +44,7 @@ export default function AnalysisRoute() {
 							<th>KGV</th>
 							<th>Shares</th>
 							<th className="px-2">Current Price per Share</th>
+							<th className="px-2">Avg Price Paid</th>
 							<th className="px-2">Current Invest</th>
 							<th className="px-2">Current Value</th>
 							<th className="px-2">Current Profit/Loss</th>
