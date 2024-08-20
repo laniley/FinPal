@@ -27,7 +27,7 @@ export const loadAssets = createAsyncThunk(
 			console.log('assets: ', assets)
 			thunkAPI.dispatch(setAssets(assets))
 			await thunkAPI.dispatch(updateCurrentInvest())
-			await thunkAPI.dispatch(loadPrices())
+			await thunkAPI.dispatch(loadPricesAndDividends())
 		})
   }
 )
@@ -48,7 +48,7 @@ export const updateCurrentInvest = createAsyncThunk(
   }
 )
 
-export const loadPrices = createAsyncThunk(
+export const loadPricesAndDividends = createAsyncThunk(
   'assets/loadPrices',
   async (props, thunkAPI) => {
 		let state = thunkAPI.getState() as State
@@ -59,9 +59,15 @@ export const loadPrices = createAsyncThunk(
 		const DKK_conversion_rate = DKK.rates.EUR
 		for(const asset of state.assets.assets) {
 			console.log(asset.symbol)
-			const result:any = await loadPrice(asset.symbol)
+			const result:any = await callFinanceAPI(asset.symbol)
 			console.log(result)
-			let asset_with_price = Object.assign({}, asset, { price: result.price.regularMarketPrice, currencySymbol: result.price.currencySymbol })
+			let asset_params_from_finance_api = { 
+				price: result.price.regularMarketPrice, 
+				currencySymbol: result.price.currencySymbol,
+				dividendYield: result.summaryDetail.dividendYield, // dividend per share
+				exDividendDate: Date.parse(result.summaryDetail.exDividendDate)
+			}
+			let asset_with_price = Object.assign({}, asset, asset_params_from_finance_api)
 			if(result.price.currency == 'USD') {
 				asset_with_price.price *= USD_conversion_rate
 				asset_with_price.currencySymbol = '€'
@@ -70,6 +76,7 @@ export const loadPrices = createAsyncThunk(
 				asset_with_price.price *= DKK_conversion_rate
 				asset_with_price.currencySymbol = '€'
 			}
+			asset_with_price = Object.assign({}, asset_with_price, { next_estimated_dividend_per_share: asset_with_price.price * result.summaryDetail.dividendYield})
 			console.log(asset_with_price)
 			assets_with_prices.push(asset_with_price)
 		}
@@ -78,7 +85,7 @@ export const loadPrices = createAsyncThunk(
   }
 )
 
-async function loadPrice(symbol:string) {
+async function callFinanceAPI(symbol:string) {
 	var result = await window.API.sendToFinanceAPI({symbol:symbol})
 	return result
 }
