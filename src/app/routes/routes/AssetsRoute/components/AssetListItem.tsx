@@ -25,7 +25,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 		if(nameInput && symbolInput && isinInput) {
 			let sql  = 'INSERT OR REPLACE INTO assets (ID, name, symbol, ISIN, KGV) '
 					sql += 'VALUES (\'' + props.asset.ID 
-					sql += '\',\'' + nameInput 
+					sql += '\',\'' + nameInput.replace('\'', '\'\'') 
 					sql += '\',\'' + symbolInput 
 					sql += '\',\'' + isinInput 
 					sql += '\',\'' + kgvInput 
