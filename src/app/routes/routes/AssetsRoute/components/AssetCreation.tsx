@@ -1,6 +1,7 @@
 import { useAppSelector, useAppDispatch } from './../../../../hooks'
 
 import * as assetCreationReducer from '../../../../store/assetCreation/assetCreation.reducer';
+import TableCell from '../../../../components/TableCell';
 
 export default function AnalysisRoute(props: {sum_profit_loss:string, sum_dividends:string, sum_in_out:string, }) {
 
@@ -11,18 +12,18 @@ export default function AnalysisRoute(props: {sum_profit_loss:string, sum_divide
 
 	return (
     <tr>
-      <td className="border-2 border-slate-600">*</td>
-      <td className="border-2 border-slate-600"><input id="nameInput" type="text" value={nameInput} onChange={(e) => dispatch(assetCreationReducer.setNameInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleNameInputGotTouched()) }} /></td>
-      <td className="border-2 border-slate-600"><input id="symbolInput" type="text" value={symbolInput} onChange={(e) => dispatch(assetCreationReducer.setSymbolInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleSymbolInputGotTouched()) }} /></td>
-      <td className="border-2 border-slate-600"><input id="kgvInput" type="text" value={kgvInput} onChange={(e) => dispatch(assetCreationReducer.setKGVInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleKGVInputGotTouched()) }} /></td>
-      <td className="border-2 border-slate-600"></td>
-      <td className="border-2 border-slate-600"></td>
-      <td className="border-2 border-slate-600"></td>
-      <td className="border-2 border-slate-600"></td>
-      <td className="border-2 border-slate-600"></td>
-      <td className="border-2 border-slate-600 text-center">{props.sum_profit_loss} €</td>
-      <td className="border-2 border-slate-600 text-right px-2">{props.sum_dividends} €</td>
-      <td className="border-2 border-slate-600 text-right px-2">{props.sum_in_out} €</td>
+      <TableCell>*</TableCell>
+      <TableCell><input id="nameInput" type="text" value={nameInput} onChange={(e) => dispatch(assetCreationReducer.setNameInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleNameInputGotTouched()) }} /></TableCell>
+      <TableCell><input id="symbolInput" type="text" value={symbolInput} onChange={(e) => dispatch(assetCreationReducer.setSymbolInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleSymbolInputGotTouched()) }} /></TableCell>
+      {/* <TableCell><input id="kgvInput" type="text" value={kgvInput} onChange={(e) => dispatch(assetCreationReducer.setKGVInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleKGVInputGotTouched()) }} /></TableCell> */}
+      <TableCell></TableCell>
+      <TableCell></TableCell>
+      <TableCell></TableCell>
+      <TableCell></TableCell>
+      <TableCell></TableCell>
+      <TableCell>{props.sum_profit_loss} €</TableCell>
+      <TableCell>{props.sum_dividends} €</TableCell>
+      <TableCell>{props.sum_in_out} €</TableCell>
     </tr>
 	);
 }

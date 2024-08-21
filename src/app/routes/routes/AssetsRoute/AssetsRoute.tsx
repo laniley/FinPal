@@ -41,7 +41,7 @@ export default function AnalysisRoute() {
 							<th><Button intent={Intent.PRIMARY} icon="refresh" onClick={(e) => dispatch(assetsReducer.loadAssets())} /></th>
 							<th>Name</th>
 							<th>Symbol</th>
-							<th>KGV</th>
+							{/* <th>KGV</th> */}
 							<th>Shares</th>
 							<th className="px-2">Current Price per Share</th>
 							<th className="px-2">Avg Price Paid</th>

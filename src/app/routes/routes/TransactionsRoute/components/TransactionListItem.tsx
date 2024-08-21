@@ -1,6 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import * as transactionsReducer from '../../../../store/transactions/transactions.reducer';
+import TableCell from '../../../../components/TableCell';
 
 export default function TransactionListItem(props: {i: number, transaction:Transaction}) {
 
@@ -58,23 +59,23 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 
   return (
     <tr>
-			<th>{props.i}</th>
-      <td className="border-2 border-slate-600"><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td className="border-2 border-slate-600">
+			<TableCell>{props.i}</TableCell>
+      <TableCell><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+      <TableCell>
 				<select className={bgColorType} id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validateAndSave()}>
 					<option value="Buy">Buy</option>
 					<option value="Sell">Sell</option>
 				</select>
-			</td>
-      <td className="border-2 border-slate-600"><input id={"assetInput" + props.transaction.ID} type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td className="border-2 border-slate-600"><input id={"amountInput" + props.transaction.ID} type="text" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td className="border-2 border-slate-600">{props.transaction.shares_cumulated}</td>
-			<td className="border-2 border-slate-600"><input className="text-right" id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-			<td className="border-2 border-slate-600"><input className="text-right" id={"feeInput" + props.transaction.ID} type="text" value={feeInput} onChange={(e) => setFeeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-			<td className="border-2 border-slate-600"><input className="text-right" id={"solidaritySurchargeInput" + props.transaction.ID} type="text" value={solidaritySurchargeInput} onChange={(e) => setSolidaritySurchargeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-			<td className={"border-2 border-slate-600 text-right "}>{invest_cumulated}</td>
-			<td className={"border-2 border-slate-600 text-right " + bgColorInOut}>{in_out}</td>
-			<td className="border-2 border-slate-600"><input id={"delete" + props.transaction.ID} type="button" value="Delete" onClick={(e) => deleteTransaction(props.transaction.ID)} /></td>
+			</TableCell>
+      <TableCell><input id={"assetInput" + props.transaction.ID} type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+      <TableCell><input id={"amountInput" + props.transaction.ID} type="text" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+      <TableCell>{props.transaction.shares_cumulated}</TableCell>
+			<TableCell><input className="text-right" id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+			<TableCell><input className="text-right" id={"feeInput" + props.transaction.ID} type="text" value={feeInput} onChange={(e) => setFeeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+			<TableCell><input className="text-right" id={"solidaritySurchargeInput" + props.transaction.ID} type="text" value={solidaritySurchargeInput} onChange={(e) => setSolidaritySurchargeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+			<TableCell additionalClassNames={"text-right"}>{invest_cumulated}</TableCell>
+			<TableCell additionalClassNames={"text-right"} bgColor={bgColorInOut}>{in_out}</TableCell>
+			<TableCell><input id={"delete" + props.transaction.ID} type="button" value="Delete" onClick={(e) => deleteTransaction(props.transaction.ID)} /></TableCell>
     </tr>
   );
 }

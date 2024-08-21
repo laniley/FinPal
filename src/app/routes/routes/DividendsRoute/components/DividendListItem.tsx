@@ -1,6 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import * as dividendsReducer from '../../../../store/dividends/dividends.reducer';
+import TableCell from '../../../../components/TableCell';
 
 export default function DividendListItem(props: {i: number, dividend:Dividend}) {
 
@@ -31,10 +32,10 @@ export default function DividendListItem(props: {i: number, dividend:Dividend}) 
 
   return (
     <tr>
-			<th>{props.i}</th>
-      <td className="border-2 border-slate-600"><input id={"dateInput_" + props.dividend.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td className="border-2 border-slate-600"><input id={"assetInput" + props.dividend.ID} type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td className="border-2 border-slate-600"><input id={"amountInput" + props.dividend.ID} type="text" value={incomeInput} onChange={(e) => setIncomeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
+			<TableCell>{props.i}</TableCell>
+      <TableCell><input id={"dateInput_" + props.dividend.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+      <TableCell><input id={"assetInput" + props.dividend.ID} type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+      <TableCell><input id={"amountInput" + props.dividend.ID} type="text" value={incomeInput} onChange={(e) => setIncomeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
     </tr>
   );
 }

@@ -1,6 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import * as assetsReducer from '../../../../store/assets/assets.reducer';
+import TableCell from '../../../../components/TableCell'
 
 export default function AssetListItem(props: {i: number, asset:Asset}) {
 
@@ -53,18 +54,18 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 
   return (
     <tr>
-			<td className="border-2 border-slate-600">{props.i}</td>
-      <td className="border-2 border-slate-600"><input id={"nameInput_" + props.asset.ID} type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-			<td className="border-2 border-slate-600"><input id={"symbolInput_" + props.asset.ID} type="text" value={symbolInput} onChange={(e) => setSymbolInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-      <td className="border-2 border-slate-600"><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></td>
-			<td className="border-2 border-slate-600 px-2 text-right">{shares_formatted}</td>
-			<td className="border-2 border-slate-600 px-2 text-right">{current_price} {props.asset.currencySymbol}</td>
-			<td className="border-2 border-slate-600 px-2 text-right">{avg_price_paid_formatted} {props.asset.currencySymbol}</td>
-			<td className="border-2 border-slate-600 px-2 text-right">{current_invest} {props.asset.currencySymbol}</td>
-			<td className="border-2 border-slate-600 px-2 text-right">{current_value} {props.asset.currencySymbol}</td>
-			<td className={"border-2 border-slate-600 px-2 text-right " + bgColor_ProfitLoss}>{current_profit_loss_formatted} {props.asset.currencySymbol} / {props.asset.current_profit_loss_percentage_formatted} %</td>
-			<td className="border-2 border-slate-600 px-2 text-right">{dividends_formatted} {props.asset.currencySymbol}</td>
-			<td className={"border-2 border-slate-600 px-2 text-right " + bgColor_InOut}>{current_sum_in_out} €</td>
+			<TableCell>{props.i}</TableCell>
+      <TableCell><input id={"nameInput_" + props.asset.ID} type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+			<TableCell><input id={"symbolInput_" + props.asset.ID} type="text" value={symbolInput} onChange={(e) => setSymbolInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+      {/* <TableCell><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell> */}
+			<TableCell>{shares_formatted}</TableCell>
+			<TableCell>{current_price} {props.asset.currencySymbol}</TableCell>
+			<TableCell>{avg_price_paid_formatted} {props.asset.currencySymbol}</TableCell>
+			<TableCell>{current_invest} {props.asset.currencySymbol}</TableCell>
+			<TableCell>{current_value} {props.asset.currencySymbol}</TableCell>
+			<TableCell additionalClassNames="text-right" bgColor={bgColor_ProfitLoss}>{current_profit_loss_formatted} {props.asset.currencySymbol} / {props.asset.current_profit_loss_percentage_formatted} %</TableCell>
+			<TableCell additionalClassNames="text-right">{dividends_formatted} {props.asset.currencySymbol}</TableCell>
+			<TableCell additionalClassNames="text-right" bgColor={bgColor_InOut}>{current_sum_in_out} €</TableCell>
     </tr>
   );
 }
