@@ -15,5 +15,6 @@ interface Asset {
   current_profit_loss_percentage_formatted: string,
   dividends: float,
   exDividendDate: number,
+  payDividendDate: number,
   next_estimated_dividend_per_share: float
 }

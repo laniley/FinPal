@@ -46,7 +46,7 @@ export default function RootRoute() {
 			setupTransactions().then(() => {
 				setupDividends().then(() => {
 					setupAssetsView().then(() => {
-						dispatch(assetsReducer.loadAssets())
+						dispatch(assetsReducer.loadAssetsFromDB())
 					})
 				})
 			})

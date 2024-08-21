@@ -18,7 +18,7 @@ export const setAssets = createAsyncThunk(
   }
 )
 
-export const loadAssets = createAsyncThunk(
+export const loadAssetsFromDB = createAsyncThunk(
   'assets/loadAssets',
   async (props, thunkAPI) => {
 		let sql = 'SELECT * FROM assets_v'
@@ -51,41 +51,63 @@ export const updateCurrentInvest = createAsyncThunk(
 export const loadPricesAndDividends = createAsyncThunk(
   'assets/loadPrices',
   async (props, thunkAPI) => {
+
 		let state = thunkAPI.getState() as State
 		let assets_with_prices:Asset[] = []
+
+		// conversion rates
 		const USD = await Convert().from("USD").fetch();
 		const DKK = await Convert().from("DKK").fetch();
 		const USD_conversion_rate = USD.rates.EUR
 		const DKK_conversion_rate = DKK.rates.EUR
+
 		for(const asset of state.assets.assets) {
+			
 			console.log(asset.symbol)
-			const result:any = await callFinanceAPI(asset.symbol)
-			console.log(result)
+
+			const resultYahooFinance:any = await callYahooFinanceAPI(asset.symbol)
+			console.log(resultYahooFinance)
 			let asset_params_from_finance_api = { 
-				price: result.price.regularMarketPrice, 
-				currencySymbol: result.price.currencySymbol,
-				dividendYield: result.summaryDetail.dividendYield, // dividend per share
-				exDividendDate: Date.parse(result.summaryDetail.exDividendDate)
+				price: resultYahooFinance.price.regularMarketPrice, 
+				currencySymbol: resultYahooFinance.price.currencySymbol,
+				dividendYield: resultYahooFinance.summaryDetail.dividendYield, // dividend per share
 			}
-			let asset_with_price = Object.assign({}, asset, asset_params_from_finance_api)
-			if(result.price.currency == 'USD') {
-				asset_with_price.price *= USD_conversion_rate
-				asset_with_price.currencySymbol = '€'
+			let asset_enriched = Object.assign({}, asset, asset_params_from_finance_api)
+			if(resultYahooFinance.price.currency == 'USD') {
+				asset_enriched.price *= USD_conversion_rate
+				asset_enriched.currencySymbol = '€'
 			}
-			else if(result.price.currency == 'DKK') {
-				asset_with_price.price *= DKK_conversion_rate
-				asset_with_price.currencySymbol = '€'
+			else if(resultYahooFinance.price.currency == 'DKK') {
+				asset_enriched.price *= DKK_conversion_rate
+				asset_enriched.currencySymbol = '€'
 			}
-			asset_with_price = Object.assign({}, asset_with_price, { next_estimated_dividend_per_share: asset_with_price.price * result.summaryDetail.dividendYield})
-			console.log(asset_with_price)
-			assets_with_prices.push(asset_with_price)
+			//asset_enriched = Object.assign({}, asset_enriched, { next_estimated_dividend_per_share: asset_enriched.price * resultYahooFinance.summaryDetail.dividendYield})
+			console.log(asset_enriched)
+
+			await fetch('https://api.divvydiary.com/symbols/' + asset.isin)
+				.then(result => result.json())
+				.then(result => {
+					if(result.error) {
+						throw(result.error);
+					}
+					console.log('divvydiary: ', result)
+					if(result && result.dividends[0]) {
+						asset_enriched = Object.assign({}, asset_enriched, { exDividendDate: result.dividends[0].exDate })
+						asset_enriched = Object.assign({}, asset_enriched, { payDividendDate: result.dividends[0].payDate })
+						asset_enriched = Object.assign({}, asset_enriched, { next_estimated_dividend_per_share: result.dividends[0].amount })
+					}
+					assets_with_prices.push(asset_enriched)
+				})
+				.catch(error => {
+					console.log(error)
+				})
 		}
 		console.log(assets_with_prices)
 		thunkAPI.dispatch(setAssets(assets_with_prices))
   }
 )
 
-async function callFinanceAPI(symbol:string) {
+async function callYahooFinanceAPI(symbol:string) {
 	var result = await window.API.sendToFinanceAPI({symbol:symbol})
 	return result
 }

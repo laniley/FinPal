@@ -38,7 +38,7 @@ export default function AnalysisRoute() {
 				<table>
 					<thead>
 						<tr>
-							<th><Button intent={Intent.PRIMARY} icon="refresh" onClick={(e) => dispatch(assetsReducer.loadAssets())} /></th>
+							<th><Button intent={Intent.PRIMARY} icon="refresh" onClick={(e) => dispatch(assetsReducer.loadAssetsFromDB())} /></th>
 							<th>Name</th>
 							<th>Symbol</th>
 							<th>ISIN</th>
