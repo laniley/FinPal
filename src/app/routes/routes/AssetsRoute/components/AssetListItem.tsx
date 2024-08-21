@@ -8,6 +8,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
   const dispatch = useAppDispatch();
   const [nameInput, setNameInput] = useState(props.asset.name || '');
 	const [symbolInput, setSymbolInput] = useState(props.asset.symbol || '');
+	const [isinInput, setISINInput] = useState(props.asset.isin || '');
 	const [kgvInput, setKGVInput] = useState(props.asset.kgv || '');
 
 	const shares_formatted = (Math.round(props.asset.current_shares * 1000) / 1000).toFixed(3)
@@ -21,11 +22,12 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 
   function validateAndSave() {
 		
-		if(nameInput && symbolInput) {
-			let sql  = 'INSERT OR REPLACE INTO assets (ID, name, symbol, KGV) '
+		if(nameInput && symbolInput && isinInput) {
+			let sql  = 'INSERT OR REPLACE INTO assets (ID, name, symbol, ISIN, KGV) '
 					sql += 'VALUES (\'' + props.asset.ID 
 					sql += '\',\'' + nameInput 
 					sql += '\',\'' + symbolInput 
+					sql += '\',\'' + isinInput 
 					sql += '\',\'' + kgvInput 
 					sql += '\')'
 					console.log(sql)
@@ -57,7 +59,8 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<TableCell>{props.i}</TableCell>
       <TableCell><input id={"nameInput_" + props.asset.ID} type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
 			<TableCell><input id={"symbolInput_" + props.asset.ID} type="text" value={symbolInput} onChange={(e) => setSymbolInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
-      {/* <TableCell><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell> */}
+      <TableCell><input id={"isinInput_" + props.asset.ID} type="text" value={isinInput} onChange={(e) => setISINInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+			{/* <TableCell><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell> */}
 			<TableCell>{shares_formatted}</TableCell>
 			<TableCell>{current_price} {props.asset.currencySymbol}</TableCell>
 			<TableCell>{avg_price_paid_formatted} {props.asset.currencySymbol}</TableCell>

@@ -72,6 +72,7 @@ export default function RootRoute() {
 				sql += 'ID INTEGER PRIMARY KEY, '
 				sql += 'name UNIQUE VARCHAR NOT NULL, '
 				sql += 'symbol UNIQUE VARCHAR NOT NULL, '
+				sql += 'isin UNIQUE VARCHAR NOT NULL, '
 				sql += 'kgv)'
 		console.log(sql)
 		await window.API.sendToDB(sql)
@@ -156,6 +157,7 @@ export default function RootRoute() {
 				sql += 			'assets.ID as ID, '
 				sql += 			'assets.name as name, '
 				sql += 			'assets.symbol as symbol, '
+				sql += 			'assets.isin as isin, '
 				sql += 			'kgv, '
 				sql +=			'AVG(transactions_v.price_per_share) AS avg_price_paid, '
 				sql += 			'SUM(CASE WHEN type = \'Buy\' THEN amount * price_per_share ELSE 0 END) AS invested, '

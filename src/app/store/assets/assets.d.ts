@@ -2,6 +2,7 @@ interface Asset {
   ID: number,
   name: string,
   symbol: string,
+  isin: string,
   kgv?: string,
   current_shares?: float,
   current_invest?: float,

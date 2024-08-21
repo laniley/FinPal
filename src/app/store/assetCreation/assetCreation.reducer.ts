@@ -7,6 +7,8 @@ export const initialState = {
 	nameInputGotTouched: false,
   symbolInput: '',
 	symbolInputGotTouched: false,
+  isinInput: '',
+	isinInputGotTouched: false,
   kgvInput: '',
   kgvInputGotTouched: false,
 } as AssetCreation
@@ -27,6 +29,14 @@ export const handleSymbolInputGotTouched = createAsyncThunk(
   }
 )
 
+export const handleISINInputGotTouched = createAsyncThunk(
+  'assetCreation/handleISINInputGotTouched',
+  async (props, thunkAPI) => {
+		thunkAPI.dispatch(setISINInputGotTouched(true))
+		thunkAPI.dispatch(validate())
+  }
+)
+
 export const handleKGVInputGotTouched = createAsyncThunk(
   'assetCreation/handleKGVInputGotTouched',
   async (props, thunkAPI) => {
@@ -41,12 +51,14 @@ export const validate = createAsyncThunk(
 		let state = thunkAPI.getState() as State
     if(state.assetCreation.nameInputGotTouched && 
        state.assetCreation.symbolInputGotTouched &&
+       state.assetCreation.isinInputGotTouched &&
        state.assetCreation.kgvInputGotTouched
    ) {
-    let sql  = 'INSERT OR REPLACE INTO assets (ID, name, symbol, kgv) '
+    let sql  = 'INSERT OR REPLACE INTO assets (ID, name, symbol, isin, kgv) '
         sql += 'VALUES (\'' + state.assetCreation.newID
         sql += '\',\'' + state.assetCreation.nameInput.replace('\'', '\'\'')
         sql += '\',\'' + state.assetCreation.symbolInput.replace('\'', '\'\'')
+        sql += '\',\'' + state.assetCreation.isinInput.replace('\'', '\'\'')
         sql += '\',\'' + state.assetCreation.kgvInput.replace('\'', '\'\'') + '\')'
     
     console.log(sql)
@@ -77,6 +89,8 @@ export const reset = createAsyncThunk(
 		thunkAPI.dispatch(setNameInput(''))
     thunkAPI.dispatch(setSymbolInputGotTouched(false))
 		thunkAPI.dispatch(setSymbolInput(''))
+    thunkAPI.dispatch(setISINInputGotTouched(false))
+		thunkAPI.dispatch(setISINInput(''))
     thunkAPI.dispatch(setKGVInputGotTouched(false))
 		thunkAPI.dispatch(setKGVInput(''))
 
@@ -104,6 +118,12 @@ const assetCreationSlice = createSlice({
 		setSymbolInputGotTouched(state, action) {
 			state.symbolInputGotTouched = action.payload
 		},
+    setISINInput(state, action) {
+			state.isinInput = action.payload
+		},
+		setISINInputGotTouched(state, action) {
+			state.isinInputGotTouched = action.payload
+		},
     setKGVInput(state, action) {
 			state.nameInput = action.payload
 		},
@@ -122,6 +142,8 @@ export const {
 	setNameInputGotTouched,
   setSymbolInput,
 	setSymbolInputGotTouched,
+  setISINInput,
+	setISINInputGotTouched,
   setKGVInput,
   setKGVInputGotTouched,
 } = actions

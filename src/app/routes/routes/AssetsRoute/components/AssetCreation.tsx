@@ -8,6 +8,7 @@ export default function AnalysisRoute(props: {sum_profit_loss:string, sum_divide
 	const dispatch = useAppDispatch();
 	const nameInput = useAppSelector(state => state.assetCreation.nameInput)
   const symbolInput = useAppSelector(state => state.assetCreation.symbolInput)
+  const isinInput = useAppSelector(state => state.assetCreation.isinInput)
 	const kgvInput = useAppSelector(state => state.assetCreation.kgvInput)
 
 	return (
@@ -15,6 +16,7 @@ export default function AnalysisRoute(props: {sum_profit_loss:string, sum_divide
       <TableCell>*</TableCell>
       <TableCell><input id="nameInput" type="text" value={nameInput} onChange={(e) => dispatch(assetCreationReducer.setNameInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleNameInputGotTouched()) }} /></TableCell>
       <TableCell><input id="symbolInput" type="text" value={symbolInput} onChange={(e) => dispatch(assetCreationReducer.setSymbolInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleSymbolInputGotTouched()) }} /></TableCell>
+      <TableCell><input id="isinInput" type="text" value={isinInput} onChange={(e) => dispatch(assetCreationReducer.setISINInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleISINInputGotTouched()) }} /></TableCell>
       {/* <TableCell><input id="kgvInput" type="text" value={kgvInput} onChange={(e) => dispatch(assetCreationReducer.setKGVInput(e.target.value))} onBlur={() => { dispatch(assetCreationReducer.handleKGVInputGotTouched()) }} /></TableCell> */}
       <TableCell></TableCell>
       <TableCell></TableCell>
