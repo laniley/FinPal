@@ -56,16 +56,16 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 
   return (
     <tr>
-			<TableCell>{props.i}</TableCell>
+			<TableCell additionalClassNames="text-right">{props.i}</TableCell>
       <TableCell><input id={"nameInput_" + props.asset.ID} type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
 			<TableCell><input id={"symbolInput_" + props.asset.ID} type="text" value={symbolInput} onChange={(e) => setSymbolInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
       <TableCell><input id={"isinInput_" + props.asset.ID} type="text" value={isinInput} onChange={(e) => setISINInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
 			{/* <TableCell><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell> */}
-			<TableCell>{shares_formatted}</TableCell>
-			<TableCell>{current_price} {props.asset.currencySymbol}</TableCell>
-			<TableCell>{avg_price_paid_formatted} {props.asset.currencySymbol}</TableCell>
-			<TableCell>{current_invest} {props.asset.currencySymbol}</TableCell>
-			<TableCell>{current_value} {props.asset.currencySymbol}</TableCell>
+			<TableCell additionalClassNames="text-right">{shares_formatted}</TableCell>
+			<TableCell additionalClassNames="text-right">{current_price} {props.asset.currencySymbol}</TableCell>
+			<TableCell additionalClassNames="text-right">{avg_price_paid_formatted} {props.asset.currencySymbol}</TableCell>
+			<TableCell additionalClassNames="text-right">{current_invest} {props.asset.currencySymbol}</TableCell>
+			<TableCell additionalClassNames="text-right">{current_value} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames="text-right" bgColor={bgColor_ProfitLoss}>{current_profit_loss_formatted} {props.asset.currencySymbol} / {props.asset.current_profit_loss_percentage_formatted} %</TableCell>
 			<TableCell additionalClassNames="text-right">{dividends_formatted} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames="text-right" bgColor={bgColor_InOut}>{current_sum_in_out} €</TableCell>
