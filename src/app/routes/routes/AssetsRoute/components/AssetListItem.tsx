@@ -1,7 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import * as assetsReducer from '../../../../store/assets/assets.reducer';
-import TableCell from '../../../../components/TableCell'
+import TableCell from '../../../../components/TableCell/TableCell'
 
 export default function AssetListItem(props: {i: number, asset:Asset}) {
 
@@ -59,7 +59,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<TableCell additionalClassNames="text-right">{props.i}</TableCell>
       <TableCell><input id={"nameInput_" + props.asset.ID} type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
 			<TableCell><input id={"symbolInput_" + props.asset.ID} type="text" value={symbolInput} onChange={(e) => setSymbolInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
-      <TableCell><input id={"isinInput_" + props.asset.ID} type="text" value={isinInput} onChange={(e) => setISINInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+      <TableCell><input id={"isinInput_" + props.asset.ID} type="text" className="text-center" minLength={12} maxLength={12} size={12} value={isinInput} onChange={(e) => setISINInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
 			{/* <TableCell><input id={"kgvInput" + props.asset.ID} type="text" value={kgvInput} onChange={(e) => setKGVInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell> */}
 			<TableCell additionalClassNames="text-right">{shares_formatted}</TableCell>
 			<TableCell additionalClassNames="text-right">{current_price} {props.asset.currencySymbol}</TableCell>

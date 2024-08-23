@@ -55,6 +55,14 @@ yarn install
 ```
 npm run start
 ```
+#### Test the app
+
+```
+npm run test # to run all tests
+npm run test -- -t 'name-of-the-file-without-.test.ts' # to run only a specific test
+npm run test:watch # Test the app with auto-reload
+npm run test:coverage # Check the code coverage
+```
 
 #### Build the app (automatic)
 
@@ -66,22 +74,6 @@ npm run package
 
 ```
 npm run build
-```
-
-#### Test the app
-```
-npm run test # to run all tests
-npm run test -- -t 'name-of-the-file-without-.test.ts' # to run only a specific test
-```
-
-#### Test the app with auto-reload
-```
-npm run test:watch
-```
-
-#### Check the code coverage
-```
-npm run test:coverage
 ```
 
 #### Run the app in prod (after `npm run build`)

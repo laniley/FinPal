@@ -63,21 +63,28 @@ export const validate = createAsyncThunk(
     
     console.log(sql)
      
-    window.API.sendToDB(sql).then((result:any) => {
-      console.log(result)
-      let sql  = 'SELECT MAX(ID) as ID FROM assets'
-			console.log(sql)
-			window.API.sendToDB(sql).then((result:any) => {
-				thunkAPI.dispatch(setNewID(result[0].ID + 1))
-				sql = 'SELECT * FROM assets_v'
-				console.log(sql)
-				window.API.sendToDB(sql).then((result:Asset[]) => {
-					console.log('result: ', result)
-					thunkAPI.dispatch(assetsReducer.setAssets(result))
-				});
-			});
-     });
+    window.API.sendToDB(sql)
+      .then((result:any) => {
+        console.log(result)
+        let sql  = 'SELECT MAX(ID) as ID FROM assets'
+        console.log(sql)
+        window.API.sendToDB(sql)
+          .then((result:any) => {
+            thunkAPI.dispatch(setNewID(result[0].ID + 1))
+            sql = 'SELECT * FROM assets_v'
+            console.log(sql)
+            window.API.sendToDB(sql)
+              .then((result:Asset[]) => {
+                console.log('result: ', result)
+                thunkAPI.dispatch(assetsReducer.setAssets(result))
+                return true;
+              });
+          });
+      });
      thunkAPI.dispatch(reset())
+   }
+   else {
+    return false;
    }
   }
 )
@@ -125,7 +132,7 @@ const assetCreationSlice = createSlice({
 			state.isinInputGotTouched = action.payload
 		},
     setKGVInput(state, action) {
-			state.nameInput = action.payload
+			state.kgvInput = action.payload
 		},
 		setKGVInputGotTouched(state, action) {
 			state.kgvInputGotTouched = action.payload

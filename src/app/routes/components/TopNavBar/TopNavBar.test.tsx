@@ -22,6 +22,7 @@ describe('TopNavBar component', () => {
       const appState = Object.assign({}, appStateReducer.initialState)
 
       const {getAllById} = render(<RootRoute />, { preloadedState: { appState: appState } })
+      
       act(() => {
         const tab = screen.getByTestId('transactionsTab')
         user.click(tab)

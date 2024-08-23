@@ -18,7 +18,7 @@ export const setAssets = createAsyncThunk(
   }
 )
 
-export const loadAssetsFromDB = createAsyncThunk(
+export const loadAssets = createAsyncThunk(
   'assets/loadAssets',
   async (props, thunkAPI) => {
 		let sql = 'SELECT * FROM assets_v'

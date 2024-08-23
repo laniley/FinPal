@@ -8,6 +8,7 @@ window.API = {
     saveTheme: jest.fn(),
     saveSelectedTab: jest.fn()
   },
-  send: jest.fn(),
+  sendToDB: jest.fn(),
+  sendToFinanceAPI: jest.fn(),
   quit: jest.fn()
 }

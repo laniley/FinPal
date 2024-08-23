@@ -24,6 +24,14 @@ describe('AppState reducer', () => {
 		)
 	})
 
+	it('should handle setDatabase', () => {
+		expect(reducer(appStateReducer.initialState, appStateReducer.setDatabase('test_db'))).toEqual(
+			Object.assign({}, appStateReducer.initialState, {
+				database: "test_db"
+			})
+		)
+	})
+
 	describe('AppState Thunks', () => {
 
 		it('should handle changeSelectedTab', async() => {

@@ -1,7 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import * as transactionsReducer from '../../../../store/transactions/transactions.reducer';
-import TableCell from '../../../../components/TableCell';
+import TableCell from '../../../../components/TableCell/TableCell';
 
 export default function TransactionListItem(props: {i: number, transaction:Transaction}) {
 

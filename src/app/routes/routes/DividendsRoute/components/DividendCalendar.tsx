@@ -1,4 +1,4 @@
-import TableCell from '../../../../components/TableCell';
+import TableCell from '../../../../components/TableCell/TableCell';
 import { useAppSelector, useAppDispatch } from './../../../../hooks'
 
 export default function DividendList() {

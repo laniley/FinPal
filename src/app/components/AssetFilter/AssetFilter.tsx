@@ -14,7 +14,7 @@ export default function AssetFilter(props: {filter:string[], reducer:any}) {
     const assets = useAppSelector(state => state.assets.assets)
 
     return (
-      <div>
+      <div id="AssetFilterPopupContent" data-testid="AssetFilterPopupContent">
         {assets.map((asset, i) => {
           return (
             <div key={"assetsFilter_" + asset.ID}>
@@ -29,7 +29,7 @@ export default function AssetFilter(props: {filter:string[], reducer:any}) {
 
   return(
     <Popover content={AssetFilterOptions()}>
-      <Button intent={Intent.PRIMARY} icon="filter" tabIndex={0} />
+      <Button id="AssetFilterButton" data-testid="AssetFilterButton" intent={Intent.PRIMARY} icon="filter" tabIndex={0} />
     </Popover>
   )
 }
