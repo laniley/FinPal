@@ -93,3 +93,7 @@ out/
 
 # Visual Studio Code
 Storyteller.code-workspace
+
+# Yarn
+.yarn
+yarn.lock

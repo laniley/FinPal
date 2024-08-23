@@ -45,6 +45,7 @@ git clone https://github.com/laniley/finpal.git
 
 ```
 npm install
+yarn install
 ```
 
 ### Usage

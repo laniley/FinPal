@@ -68,5 +68,6 @@
     "react-router-redux": "^4.0.8",
     "sqlite3": "^5.1.7",
     "yahoo-finance2": "2.11.3"
-  }
+  },
+  "packageManager": "yarn@4.4.0"
 }
