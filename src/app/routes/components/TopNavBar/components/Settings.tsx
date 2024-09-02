@@ -12,9 +12,10 @@ export default function Settings () {
 	const dispatch = useAppDispatch();
 
 	return (
-		<Menu className={useAppSelector(state => state.appState.theme)}>
+		<Menu data-testid="Settings" className={useAppSelector(state => state.appState.theme)}>
 			<MenuItem text="Theme" icon="style" className={useAppSelector(state => state.appState.theme)}>
 				<MenuItem 
+					data-testid="menuItem-lightMode"
 					text="Light Mode" 
 					active={useAppSelector(state => state.appState.theme) == 'bp5-body'}
 					onClick={() => { 

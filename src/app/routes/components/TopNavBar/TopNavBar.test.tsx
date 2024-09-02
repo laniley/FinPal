@@ -2,7 +2,7 @@ import { act, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { render } from '../../../../utils/test-utils'
 import TopNavBar from './TopNavBar';
-import * as appStateReducer from 'src/app/store/appState/appState.reducer';
+import * as appStateReducer from '../../../store/appState/appState.reducer';
 import RootRoute from '../../RootRoute';
 
 describe('TopNavBar component', () => {

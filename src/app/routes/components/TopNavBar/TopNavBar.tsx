@@ -29,12 +29,13 @@ export default function TopNavBar () {
 	return (
 		
 		<Navbar 
-			id="TopNavBar" 
+			id="TopNavBar"
+			data-testid="TopNavBar"
 			className={'sticky top-0 px-2 py-0 ' + theme + ' shadow[0_5px_5px_0_rgba(0, 0, 0, 0.13)]'}>
 			<NavbarGroup id="TopNavBarGroupLeft" align={Alignment.LEFT}>
 				{/* SETTINGS DROPDOWN */}
 				<Popover content={<Settings />} position={Position.BOTTOM_RIGHT}>
-					<Button id="TopNavBarSettings" minimal={true} icon="settings" />
+					<Button data-testid="TopNavBarSettings" minimal={true} icon="settings" />
 				</Popover>
 
 				<NavbarDivider />
