@@ -22,7 +22,8 @@ export default function Settings () {
 						dispatch(appState.setTheme('bp5-body')) 
 						window.API.appState.saveTheme('bp5-body')
 					}} />
-				<MenuItem 
+				<MenuItem
+					data-testid="menuItem-darkMode"
 					text="Dark Mode" 
 					active={useAppSelector(state => state.appState.theme) == 'bp5-dark'} 
 					onClick={() => {

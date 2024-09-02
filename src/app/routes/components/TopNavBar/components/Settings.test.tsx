@@ -33,6 +33,10 @@ describe('TableCell component', () => {
     await waitFor(() => {
       expect(screen.getByTestId('TopNavBar').className.indexOf("bp5-body") != -1).toBe(true);
 		})
+    fireEvent.click(screen.getByTestId('menuItem-darkMode'))
+    await waitFor(() => {
+      expect(screen.getByTestId('TopNavBar').className.indexOf("bp5-dark") != -1).toBe(true);
+		})
 	});
   
 })
