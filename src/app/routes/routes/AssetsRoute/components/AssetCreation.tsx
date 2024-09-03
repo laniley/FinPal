@@ -23,6 +23,7 @@ export default function AnalysisRoute(props: {sum_profit_loss:string, sum_divide
       <TableCell></TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
+      <TableCell></TableCell>
       <TableCell>{props.sum_profit_loss} €</TableCell>
       <TableCell>{props.sum_dividends} €</TableCell>
       <TableCell>{props.sum_in_out} €</TableCell>

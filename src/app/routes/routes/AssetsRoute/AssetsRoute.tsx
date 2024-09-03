@@ -46,6 +46,7 @@ export default function AnalysisRoute() {
 							{/* <TableHeaderCell>KGV</TableHeaderCell> */}
 							<TableHeaderCell>Shares</TableHeaderCell>
 							<TableHeaderCell>Current Price per Share</TableHeaderCell>
+							<TableHeaderCell></TableHeaderCell>
 							<TableHeaderCell>Avg Price Paid</TableHeaderCell>
 							<TableHeaderCell>Current Invest</TableHeaderCell>
 							<TableHeaderCell>Current Value</TableHeaderCell>
