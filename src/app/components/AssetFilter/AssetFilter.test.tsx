@@ -15,15 +15,27 @@ describe('AssetFilter component', () => {
 		})
 	});
 
-  it('Popup content renders after button click', async() => {
-    const user = userEvent.setup()
-    const appState = Object.assign({}, appStateReducer.initialState, { assets: { assets: [{id: 1, name: 'test1'}]}})
-    const filerForAssets: string[] = ['test1', 'test2']
+  it('Popup content renders, after button click', async() => {
 
-    render(<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />, { preloadedState: { appState: appState } })
+    const filerForAssets: string[] = ['test1', 'test2']
+    const assets = [
+      {ID: 1, name: 'test1', symbol: 'test_symbol_1', isin: 'test_isin_1'},
+      {ID: 2, name: 'test2', symbol: 'test_symbol_2', isin: 'test_isin_2'},
+      {ID: 3, name: 'test3', symbol: 'test_symbol_3', isin: 'test_isin_3'},
+    ]
+
+    render(<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />, { preloadedState: { assets: {assets: assets }} } )
+    
     fireEvent.click(screen.getByTestId('AssetFilterButton'));
-    const filterPopup = await screen.getByTestId('AssetFilterPopupContent')
-    expect(filterPopup.children.length).toEqual(2)
+
+    await waitFor(() => {
+      const input1 = screen.getByTestId('AssetFilterPopupContent').children[0].firstChild as HTMLInputElement
+			expect(input1.checked).toEqual(true);
+      const input2 = screen.getByTestId('AssetFilterPopupContent').children[1].firstChild as HTMLInputElement
+			expect(input2.checked).toEqual(true);
+      const input3 = screen.getByTestId('AssetFilterPopupContent').children[2].firstChild as HTMLInputElement
+			expect(input3.checked).toEqual(false);
+		})
 
 	});
 })
