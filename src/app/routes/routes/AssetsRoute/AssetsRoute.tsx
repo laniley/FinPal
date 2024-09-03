@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from './../../../hooks'
 import AssetCreation from './components/AssetCreation';
 import AssetListItem from './components/AssetListItem';
 import * as assetsReducer from './../../..//store/assets/assets.reducer';
+import TableHeaderCell from '../../../components/TableHeaderCell/TableHeaderCell';
 
 export default function AnalysisRoute() {
 
@@ -38,19 +39,19 @@ export default function AnalysisRoute() {
 				<table>
 					<thead>
 						<tr>
-							<th><Button intent={Intent.PRIMARY} icon="refresh" onClick={(e) => dispatch(assetsReducer.loadAssets())} /></th>
-							<th>Name</th>
-							<th>Symbol</th>
-							<th>ISIN</th>
-							{/* <th>KGV</th> */}
-							<th>Shares</th>
-							<th className="px-2">Current Price per Share</th>
-							<th className="px-2">Avg Price Paid</th>
-							<th className="px-2">Current Invest</th>
-							<th className="px-2">Current Value</th>
-							<th className="px-2">Current Profit/Loss</th>
-							<th className="px-2">Dividends</th>
-							<th className="px-2">In-/Outcome</th>
+							<TableHeaderCell><Button intent={Intent.PRIMARY} icon="refresh" onClick={(e) => dispatch(assetsReducer.loadAssets())} /></TableHeaderCell>
+							<TableHeaderCell>Name</TableHeaderCell>
+							<TableHeaderCell>Symbol</TableHeaderCell>
+							<TableHeaderCell>ISIN</TableHeaderCell>
+							{/* <TableHeaderCell>KGV</TableHeaderCell> */}
+							<TableHeaderCell>Shares</TableHeaderCell>
+							<TableHeaderCell>Current Price per Share</TableHeaderCell>
+							<TableHeaderCell>Avg Price Paid</TableHeaderCell>
+							<TableHeaderCell>Current Invest</TableHeaderCell>
+							<TableHeaderCell>Current Value</TableHeaderCell>
+							<TableHeaderCell>Current Profit/Loss</TableHeaderCell>
+							<TableHeaderCell>Dividends</TableHeaderCell>
+							<TableHeaderCell>In-/Outcome</TableHeaderCell>
 						</tr>
 					</thead>
 					<tbody>
