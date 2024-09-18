@@ -1,10 +1,18 @@
 import { TabId } from '@blueprintjs/core';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import AppState from './appState';
+
+export enum AssetOverlayType {
+  NEW = 'NEW',
+  EDIT = 'EDIT'
+}
 
 export const initialState = {
 	selectedTab: "transactionsTab",
 	theme: "bp5-dark",
-	database: ""
+	database: "",
+	assetOverlayType: AssetOverlayType.NEW,
+	showAssetOverlay: false
 } as AppState
 
 export const changeSelectedTab = createAsyncThunk(
@@ -32,6 +40,12 @@ const appStateSlice = createSlice({
 		setDatabase(state, action) {
 			state.database = action.payload
 		},
+		setAssetOverlayType(state, action) {
+			state.assetOverlayType = action.payload
+		},
+		setShowAssetOverlay(state, action) {
+			state.showAssetOverlay = action.payload
+		},
 	}
 })
 
@@ -42,31 +56,8 @@ export const {
 	setSelectedTab, 
 	setTheme,
 	setDatabase,
+	setAssetOverlayType,
+	setShowAssetOverlay,
 } = actions
 
 export default reducer
-
-
-/*
-	switch (action.type) {
-
-		case appStateActions.SET_OBJECT_TO_DELETE:
-			return Object.assign({}, state, {
-				object_to_delete: action.object_to_delete
-			});
-
-		case appStateActions.SHOW_MOVE_TO_TRASH_ALERT:
-			return Object.assign({}, state, {
-				showMoveToTrashAlert: true,
-			});
-
-		case appStateActions.HIDE_MOVE_TO_TRASH_ALERT:
-			return Object.assign({}, state, {
-				showMoveToTrashAlert: false,
-			});
-
-        default:
-            return state;
-						
-    }
-		*/

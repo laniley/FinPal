@@ -84,7 +84,7 @@ export default function RootRoute() {
 			newID = result[0].ID + 1
 		}
 		console.log('New ID (assets): ' + newID)
-		dispatch(assetCreationReducer.setNewID(newID))
+		dispatch(assetCreationReducer.setID(newID))
 	}
 
 	async function setupTransactions() {
