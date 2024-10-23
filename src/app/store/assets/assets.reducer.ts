@@ -41,7 +41,10 @@ export const updateCurrentInvest = createAsyncThunk(
 		assets.forEach((asset:Asset) => {
 			const filtered = state.transactions.transactions.filter((trans:Transaction) => trans.asset == asset.name)
 			const sorted = filtered.slice().sort((a:Transaction, b:Transaction) => sortTransactionsBy(a, b, 'date', 'desc'))
-			asset = Object.assign({}, asset, { current_invest: sorted[0].invest_cumulated })
+			if(sorted[0])
+				asset = Object.assign({}, asset, { current_invest: sorted[0].invest_cumulated })
+			else
+				asset = Object.assign({}, asset, { current_invest: 0 })
 			assets_new.push(asset)
 		})
 		thunkAPI.dispatch(setAssets(assets_new))
