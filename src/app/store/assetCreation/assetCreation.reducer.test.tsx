@@ -8,10 +8,10 @@ describe('AssetCreation reducer', () => {
 		expect(reducer(undefined, { type: 'unknown' })).toEqual(assetCreationReducer.initialState)
 	})
 
-	it('should handle setNewID', () => {
-		expect(reducer(assetCreationReducer.initialState, assetCreationReducer.setNewID('test_value'))).toEqual(
+	it('should handle setID', () => {
+		expect(reducer(assetCreationReducer.initialState, assetCreationReducer.setID('test_value'))).toEqual(
 			Object.assign({}, assetCreationReducer.initialState, {
-				newID: "test_value"
+				ID: "test_value"
 			})
 		)
 	})
@@ -76,9 +76,10 @@ describe('AssetCreation reducer', () => {
 		      kgvInput: 'test'
         })
 			)
-      store.dispatch(assetCreationReducer.reset())
+      await store.dispatch(assetCreationReducer.reset())
 			expect(store.getState().assetCreation).toEqual(
 				Object.assign({}, assetCreationReducer.initialState, {
+					ID: 2,
           nameInput: '',
           symbolInput: '',
 		      isinInput: '',

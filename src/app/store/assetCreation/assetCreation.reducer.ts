@@ -41,11 +41,11 @@ export const validate = createAsyncThunk(
               .then((result:Asset[]) => {
                 console.log('result: ', result)
                 thunkAPI.dispatch(assetsReducer.setAssets(result))
+                thunkAPI.dispatch(reset())
                 return true;
               });
           });
       });
-     thunkAPI.dispatch(reset())
    }
    else {
     return false;
@@ -61,14 +61,17 @@ export const reset = createAsyncThunk(
 
     console.log(sql)
 
-    window.API.sendToDB(sql)
-      .then((result:any) => {
-        thunkAPI.dispatch(setID(result[0].ID + 1))
-        thunkAPI.dispatch(setNameInput(''))
-        thunkAPI.dispatch(setSymbolInput(''))
-        thunkAPI.dispatch(setISINInput(''))
-        thunkAPI.dispatch(setKGVInput(''))
-      });
+    let result = await window.API.sendToDB(sql)
+    
+    console.log('Max. ID: ', result[0].ID)
+
+    thunkAPI.dispatch(setID(result[0].ID + 1))
+    thunkAPI.dispatch(setNameInput(''))
+    thunkAPI.dispatch(setSymbolInput(''))
+    thunkAPI.dispatch(setISINInput(''))
+    thunkAPI.dispatch(setKGVInput(''))
+    let state = thunkAPI.getState() as State
+    console.log(state.assetCreation)
   }
 )
 

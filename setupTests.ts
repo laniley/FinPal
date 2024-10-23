@@ -8,7 +8,7 @@ window.API = {
     saveTheme: jest.fn(),
     saveSelectedTab: jest.fn()
   },
-  sendToDB: jest.fn(),
+  sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
   sendToFinanceAPI: jest.fn(),
   quit: jest.fn()
 }
