@@ -52,12 +52,16 @@ describe('AssetCreation reducer', () => {
 
     it('should handle validate', async() => {
 			const store = setupStore();
-      store.dispatch(assetCreationReducer.setNameInput('test'))
+      store.dispatch(assetCreationReducer.setNameInput('testName'))
+			store.dispatch(assetCreationReducer.setSymbolInput('testSymbol'))
+			store.dispatch(assetCreationReducer.setISINInput('0123456789012'))
       let result1 = await store.dispatch(assetCreationReducer.validate())
       expect(result1.payload).toEqual(false)
       expect(store.getState().assetCreation).toEqual(
 				Object.assign({}, assetCreationReducer.initialState, {
-          nameInput: 'test'
+          nameInput: 'testName',
+					symbolInput: 'testSymbol',
+					isinInput: '0123456789012'
         })
 			)
     })

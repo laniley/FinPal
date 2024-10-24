@@ -22,7 +22,8 @@ export default function AnalysisRoute() {
 	var sum_in_out = 0
 
 	assets.forEach(asset => {
-		sum_profit_lost += asset.current_profit_loss
+		const current_profit_loss = (asset.current_shares * asset.price) + asset.current_invest
+		sum_profit_lost += current_profit_loss
 		sum_dividends += asset.dividends
 		sum_in_out += asset.current_sum_in_out
 	});

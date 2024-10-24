@@ -8,10 +8,6 @@ import * as appStateReducer from '../../../../store/appState/appState.reducer';
 export default function AssetListSumRow(props: {sum_profit_loss:string, sum_dividends:string, sum_in_out:string, }) {
 
 	const dispatch = useAppDispatch();
-	const nameInput = useAppSelector(state => state.assetCreation.nameInput)
-  const symbolInput = useAppSelector(state => state.assetCreation.symbolInput)
-  const isinInput = useAppSelector(state => state.assetCreation.isinInput)
-	const kgvInput = useAppSelector(state => state.assetCreation.kgvInput)
 
 	return (
     <tr>
