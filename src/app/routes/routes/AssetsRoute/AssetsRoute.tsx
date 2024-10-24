@@ -5,6 +5,7 @@ import AssetListSumRow from './components/AssetListSumRow';
 import AssetListItem from './components/AssetListItem';
 import TableHeaderCell from '../../../components/TableHeaderCell/TableHeaderCell';
 import * as assetsReducer from './../../..//store/assets/assets.reducer';
+import * as assetsSelector from './../../..//store/assets/assets.selector';
 import * as appStateReducer from '../../../store/appState/appState.reducer';
 import * as assetCreationReducer from '../../../store/assetCreation/assetCreation.reducer';
 
@@ -32,10 +33,7 @@ export default function AnalysisRoute() {
 	var sum_dividends_formatted = (Math.round(sum_dividends * 100) / 100).toFixed(2)
 	var sum_in_out_formatted = (Math.round(sum_in_out * 100) / 100).toFixed(2)
 
-	const active = assets.filter((asset:Asset) => asset.current_profit_loss_percentage != 0)
-	const inactive = assets.filter((asset:Asset) => asset.current_profit_loss_percentage == 0)
-	const sorted = active.slice().sort((a:Asset, b:Asset) => assetsReducer.sortBy(a, b, 'current_profit_loss_percentage', 'desc'))
-	const all = sorted.concat(inactive)
+	const sorted_Assets = assetsSelector.selectAssetsSortedByProfitLoss(assets)
 
 	const nameInput = useAppSelector(state => state.assetCreation.nameInput)
   const symbolInput = useAppSelector(state => state.assetCreation.symbolInput)
@@ -68,7 +66,7 @@ export default function AnalysisRoute() {
 					</thead>
 					<tbody>
 						<AssetListSumRow sum_profit_loss={sum_profit_loss_formatted} sum_dividends={sum_dividends_formatted} sum_in_out={sum_in_out_formatted} />
-						<AssetList assets={all}/>
+						<AssetList assets={sorted_Assets}/>
 					</tbody>
 				</table>
 			</div>

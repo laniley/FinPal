@@ -4,17 +4,6 @@ import { Convert } from "easy-currencies";
 
 export const initialState = { assets:[] as Asset[] }
 
-export const setAssets = createAsyncThunk(
-  'assets/setAssets',
-  async (assets:Asset[], thunkAPI) => {
-		const currently_invested = assets.filter(asset => { return asset.current_shares > 0})
-		const currently_not_invested = assets.filter(asset => { return asset.current_shares <= 0})
-		const currently_invested_sorted = currently_invested.slice().sort((a:Asset, b:Asset) => sortBy(a, b, 'name', 'asc'))
-		const currently_not_invested_sorted = currently_not_invested.slice().sort((a:Asset, b:Asset) => sortBy(a, b, 'name', 'asc'))
-		thunkAPI.dispatch(setAssetsInternal(currently_invested_sorted.concat(currently_not_invested_sorted)))
-  }
-)
-
 export const loadAssets = createAsyncThunk(
   'assets/loadAssets',
   async (props, thunkAPI) => {
@@ -139,7 +128,7 @@ const assetsSlice = createSlice({
 	name: 'assets',
 	initialState,
 	reducers: {
-		setAssetsInternal(state, action) {
+		setAssets(state, action) {
 			state.assets = action.payload
 		},
 		setCurrencySymbol(state, action) {
@@ -226,7 +215,7 @@ const assetsSlice = createSlice({
 const { actions, reducer } = assetsSlice
 // Extract and export each action creator by name
 export const {
-	setAssetsInternal,
+	setAssets,
 	setCurrencySymbol,
 	setCurrentInvest,
 	setDividendYield,

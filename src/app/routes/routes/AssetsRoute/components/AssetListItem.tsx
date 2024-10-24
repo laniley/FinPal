@@ -2,7 +2,7 @@ import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import TableCell from '../../../../components/TableCell/TableCell'
 import { Alignment, Button } from '@blueprintjs/core';
-import * as assetsReducer from '../../../../store/assets/assets.reducer';
+import * as assetsSelector from '../../../../store/assets/assets.selector';
 import * as appStateReducer from '../../../../store/appState/appState.reducer';
 import * as assetCreationReducer from '../../../../store/assetCreation/assetCreation.reducer';
 
@@ -16,15 +16,15 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const price_comparison = props.asset.price < props.asset.avg_price_paid ? "<" : props.asset.price > props.asset.avg_price_paid ? ">" : "="
 	const current_invest = (Math.round(props.asset.current_invest * 100) / 100).toFixed(2)
 	const current_value = (Math.round(props.asset.current_shares * props.asset.price * 100) / 100).toFixed(2)
-	const current_profit_loss = (props.asset.current_shares * props.asset.price) + props.asset.current_invest
+	const current_profit_loss = assetsSelector.get_current_profit_loss(props.asset)
 	const current_profit_loss_formatted = (Math.round(current_profit_loss * 100) / 100).toFixed(2)
-	const current_profit_loss_percentage = (props.asset.current_invest != 0 ? -1 * current_profit_loss/props.asset.current_invest * 100 : 0)
+	const current_profit_loss_percentage = assetsSelector.get_current_profit_loss_percentage(props.asset)
 	const current_profit_loss_percentage_formatted = (current_profit_loss_percentage).toFixed(2)
 	const dividends_formatted = (Math.round(props.asset.dividends * 100) / 100).toFixed(2)
 	const current_sum_in_out = (Math.round((props.asset.current_sum_in_out + props.asset.dividends) * 100) / 100).toFixed(2)
 
 	const bgColor_PriceComparison = price_comparison == "<" ? "bg-emerald-600" : (price_comparison == "=" ? "bg-slate-500" : "bg-custom-red")
-	const bgColor_ProfitLoss = current_profit_loss > 0 ? "bg-emerald-600" : (current_profit_loss == 0 ? "bg-slate-500" : "bg-custom-red")
+	const bgColor_ProfitLoss = current_profit_loss > 0 ? "bg-emerald-600" : (props.asset.current_profit_loss == 0 ? "bg-slate-500" : "bg-custom-red")
 	const bgColor_InOut = props.asset.current_sum_in_out > 0 ? "bg-emerald-600" : "bg-custom-red"
 
   return (
