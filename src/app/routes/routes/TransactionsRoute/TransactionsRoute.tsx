@@ -8,7 +8,6 @@ import * as transactionFilterReducer from './../../../store/transactionFilter/tr
 export default function TransactionsRoute() {
 
 	const theme = useAppSelector(state => state.appState.theme)
-	const assets = useAppSelector(state => state.assets.assets)
 	const filerForAssets = useAppSelector(state => state.transactionFilter.assets)
 	const transactions = useAppSelector(state => state.transactions.transactions)
 

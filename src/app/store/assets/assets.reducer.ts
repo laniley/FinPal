@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { sortBy as sortTransactionsBy } from './../transactions/transactions.reducer'
 import { Convert } from "easy-currencies";
-import { useMemo } from 'react';
 
 export const initialState = { assets:[] as Asset[] }
 

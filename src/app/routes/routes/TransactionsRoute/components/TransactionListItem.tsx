@@ -2,6 +2,7 @@ import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import * as transactionsReducer from '../../../../store/transactions/transactions.reducer';
 import TableCell from '../../../../components/TableCell/TableCell';
+import * as assetsReducer from '../../../../store/assets/assets.reducer';
 
 export default function TransactionListItem(props: {i: number, transaction:Transaction}) {
 
@@ -36,9 +37,10 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 					console.log(sql)
 				window.API.sendToDB(sql).then((result:any) => {
 				console.log(result)
-				window.API.sendToDB('SELECT * FROM transactions_v').then((result:Transaction[]) => {
+				window.API.sendToDB('SELECT * FROM transactions_v').then(async (result:Transaction[]) => {
 					console.log(result)
-					dispatch(transactionsReducer.setTransactions(result))
+					await dispatch(transactionsReducer.setTransactions(result))
+					await dispatch(assetsReducer.loadAssets())
 				});
 			});
 		}	
@@ -53,6 +55,8 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 			});
 		});
 	}
+
+	const shares_cumulated_formatted = (Math.round(props.transaction.shares_cumulated * 100) / 100).toFixed(2)
 
 	const bgColorType = props.transaction.type == "Buy" ? "bg-emerald-600" : "bg-pink-700"
 	const bgColorInOut = props.transaction.in_out > 0 ? "bg-emerald-600" : "bg-pink-700"
@@ -69,7 +73,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 			</TableCell>
       <TableCell><input id={"assetInput" + props.transaction.ID} type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
       <TableCell><input id={"amountInput" + props.transaction.ID} type="text" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
-      <TableCell>{props.transaction.shares_cumulated}</TableCell>
+      <TableCell additionalClassNames={"text-right"}>{shares_cumulated_formatted}</TableCell>
 			<TableCell><input className="text-right" id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
 			<TableCell><input className="text-right" id={"feeInput" + props.transaction.ID} type="text" value={feeInput} onChange={(e) => setFeeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
 			<TableCell><input className="text-right" id={"solidaritySurchargeInput" + props.transaction.ID} type="text" value={solidaritySurchargeInput} onChange={(e) => setSolidaritySurchargeInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
