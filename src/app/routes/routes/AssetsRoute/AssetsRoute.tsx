@@ -5,7 +5,7 @@ import AssetListSumRow from './components/AssetListSumRow';
 import AssetListItem from './components/AssetListItem';
 import TableHeaderCell from '../../../components/TableHeaderCell/TableHeaderCell';
 import * as assetsReducer from './../../..//store/assets/assets.reducer';
-import * as assetsSelector from './../../..//store/assets/assets.selector';
+import * as assetsSelector from '../../../store/assets/assets.selectors';
 import * as appStateReducer from '../../../store/appState/appState.reducer';
 import * as assetCreationReducer from '../../../store/assetCreation/assetCreation.reducer';
 

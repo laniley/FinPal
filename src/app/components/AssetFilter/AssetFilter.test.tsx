@@ -15,9 +15,10 @@ describe('AssetFilter component', () => {
 		})
 	});
 
-  it('Popup content renders, after button click', async() => {
+  it('renders the popup content, after button click', async() => {
 
     const filerForAssets: string[] = ['test1', 'test2']
+
     const assets = [
       {ID: 1, name: 'test1', symbol: 'test_symbol_1', isin: 'test_isin_1'},
       {ID: 2, name: 'test2', symbol: 'test_symbol_2', isin: 'test_isin_2'},
@@ -29,13 +30,13 @@ describe('AssetFilter component', () => {
     fireEvent.click(screen.getByTestId('AssetFilterButton'));
 
     await waitFor(() => {
-      const input1 = screen.getByTestId('AssetFilterPopupContent').children[0].firstChild as HTMLInputElement
+      const input1 = screen.getByTestId('assetsFilter_1') as HTMLInputElement
 			expect(input1.checked).toEqual(true);
-      const input2 = screen.getByTestId('AssetFilterPopupContent').children[1].firstChild as HTMLInputElement
+      const input2 = screen.getByTestId('assetsFilter_2') as HTMLInputElement
 			expect(input2.checked).toEqual(true);
-      const input3 = screen.getByTestId('AssetFilterPopupContent').children[2].firstChild as HTMLInputElement
+      const input3 = screen.getByTestId('assetsFilter_3') as HTMLInputElement
 			expect(input3.checked).toEqual(false);
 		})
-
 	});
+
 })

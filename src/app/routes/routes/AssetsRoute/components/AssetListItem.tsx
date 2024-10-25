@@ -2,7 +2,7 @@ import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import TableCell from '../../../../components/TableCell/TableCell'
 import { Alignment, Button } from '@blueprintjs/core';
-import * as assetsSelector from '../../../../store/assets/assets.selector';
+import * as assetsSelector from '../../../../store/assets/assets.selectors';
 import * as appStateReducer from '../../../../store/appState/appState.reducer';
 import * as assetCreationReducer from '../../../../store/assetCreation/assetCreation.reducer';
 
