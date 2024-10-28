@@ -92,7 +92,7 @@ typings/
 out/
 
 # Visual Studio Code
-Storyteller.code-workspace
+*.code-workspace
 
 # Yarn
 .yarn
