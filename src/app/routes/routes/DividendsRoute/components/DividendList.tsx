@@ -1,9 +1,5 @@
 import { useAppSelector, useAppDispatch } from './../../../../hooks'
 
-import {
-	Colors,
-} from '@blueprintjs/core';
-
 import * as dividendsFilterReducer from './../../../../store/dividendsFilter/dividendsFilter.reducer';
 
 import AssetFilter from './../../../../components/AssetFilter/AssetFilter'
@@ -12,14 +8,9 @@ import DividendListItem from './DividendListItem';
 
 export default function DividendList() {
 
+  const assets = useAppSelector(state => state.assets.assets)
 	const dividends = useAppSelector(state => state.dividends.dividends)
 	const filerForAssets = useAppSelector(state => state.dividendsFilter.assets)
-	const theme = useAppSelector(state => state.appState.theme)
-
-  const initialState = {
-  }
-
-	const border = `1px solid ${theme == 'bp3-dark' ? Colors.DARK_GRAY1 : Colors.LIGHT_GRAY1}`
 
 	return (
 		<div id="DividendList">
@@ -38,7 +29,7 @@ export default function DividendList() {
           <DividendCreation/>
           {dividends.filter((dividend) => {
             if(filerForAssets.length > 0) {
-              if(filerForAssets.includes(dividend.asset)) {
+              if(filerForAssets.includes(dividend.asset_ID)) {
                 return dividend
               }
             }

@@ -12,6 +12,9 @@ import TransactionsRoute from './routes/TransactionsRoute/TransactionsRoute';
 import DividendsRoute from './routes/DividendsRoute/DividendsRoute';
 import AssetsRoute from './routes/AssetsRoute/AssetsRoute';
 
+import dividends_sql from '../../sql/dividends_sql'
+import assets_v_sql from '../../sql/assets_v_sql'
+import transactions_v_sql from '../../sql/transactions_v_sql'
 
 export default function RootRoute() {
 
@@ -46,7 +49,9 @@ export default function RootRoute() {
 			setupTransactions().then(() => {
 				setupDividends().then(() => {
 					setupAssetsView().then(() => {
-						dispatch(assetsReducer.loadAssets())
+						dispatch(assetsReducer.loadAssets()).then(() => {
+							dispatch(transactionsReducer.loadTransactions())
+						})
 					})
 				})
 			})
@@ -92,7 +97,7 @@ export default function RootRoute() {
 				sql += 'ID INTEGER PRIMARY KEY, '
 				sql += 'date DATE, '
 				sql += 'type VARCHAR NOT NULL, '
-				sql += 'asset VARCHAR NOT NULL, '
+				sql += 'asset_ID INTEGER NOT NULL, '
 				sql += 'amount REAL, '
 				sql += 'price_per_share REAL, '
 				sql += 'fee REAL, '
@@ -109,36 +114,15 @@ export default function RootRoute() {
 		}
 		console.log('New ID (transactions): ' + newID)
 		dispatch(transactionCreationReducer.setNewID(newID))
-				sql  = 'CREATE VIEW IF NOT EXISTS transactions_v AS '
-				sql += 'WITH pre_calcs AS ('
-				sql +=		'SELECT ID, asset, '
-				sql += 			'RANK() OVER (PARTITION BY asset ORDER BY Date) as rank,'
-				sql +=			'SUM(CASE WHEN type = \'Buy\' THEN amount ELSE amount * -1 END) OVER (PARTITION BY asset ORDER BY date) AS shares_cumulated, '
-				sql +=			'((CASE WHEN type = \'Sell\' THEN 1 ELSE -1 END) * (amount*price_per_share))-fee-IFNULL(solidarity_surcharge,0) as in_out '
-				sql +=		'FROM transactions'
-				sql += ') '
-				sql += 'SELECT transactions.*, '
-				sql +=		'pre_calcs.rank,'
-				sql +=		'pre_calcs.shares_cumulated, '
-				sql += 		'pre_calcs.in_out '
-				sql += 'FROM transactions '
-				sql +=			'LEFT JOIN pre_calcs ON transactions.ID = pre_calcs.ID '
-				sql += 			'LEFT JOIN pre_calcs AS previous ON pre_calcs.asset = previous.asset AND previous.rank = pre_calcs.rank-1'
-		console.log(sql)
-		result = await window.API.sendToDB(sql)
+		console.log(transactions_v_sql)
+		result = await window.API.sendToDB(transactions_v_sql)
 		console.log('result: ', result)
-		await dispatch(transactionsReducer.loadTransactions())
 	}
 
 	async function setupDividends() {
-		let sql  = 'CREATE TABLE IF NOT EXISTS dividends ('
-				sql += 'ID INTEGER PRIMARY KEY, '
-				sql += 'date DATE, '
-				sql += 'asset VARCHAR NOT NULL, '
-				sql += 'income REAL)'
-		console.log(sql)
-		await window.API.sendToDB(sql)
-			 sql  = 'SELECT MAX(ID) as ID FROM dividends'
+		console.log(dividends_sql)
+		await window.API.sendToDB(dividends_sql)
+		let sql  = 'SELECT MAX(ID) as ID FROM dividends'
 		console.log(sql)
 		var result = await window.API.sendToDB(sql)
 		console.log(result)
@@ -152,25 +136,8 @@ export default function RootRoute() {
 	}
 
 	async function setupAssetsView() {
-		let sql  = 'CREATE VIEW IF NOT EXISTS assets_v AS '
-				sql += 		'SELECT '
-				sql += 			'assets.ID as ID, '
-				sql += 			'assets.name as name, '
-				sql += 			'assets.symbol as symbol, '
-				sql += 			'assets.isin as isin, '
-				sql += 			'kgv, '
-				sql +=			'AVG(transactions_v.price_per_share) AS avg_price_paid, '
-				sql += 			'SUM(CASE WHEN type = \'Buy\' THEN amount * price_per_share ELSE 0 END) AS invested, '
-				sql += 			'SUM(CASE WHEN type = \'Sell\' THEN amount * price_per_share ELSE 0 END) AS profit, '
-				sql +=			'SUM(fee) AS fees, '
-				sql +=			'SUM(CASE WHEN type = \'Buy\' THEN amount ELSE amount * -1 END) AS current_shares, '
-				sql += 			'SUM(in_out) AS current_sum_in_out, '
-				sql +=			'(SELECT SUM(income) FROM dividends WHERE dividends.asset = assets.name) AS dividends '
-				sql +=		'FROM assets '
-				sql +=			'LEFT JOIN transactions_v ON transactions_v.asset = assets.name '
-				sql +=		'GROUP BY assets.ID, asset, kgv'
-		console.log(sql)
-		let result = await window.API.sendToDB(sql)
+		console.log(assets_v_sql)
+		let result = await window.API.sendToDB(assets_v_sql)
 		console.log('result - assets_v: ', result)
 	}
 }

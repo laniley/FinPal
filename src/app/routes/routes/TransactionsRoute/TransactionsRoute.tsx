@@ -11,6 +11,8 @@ export default function TransactionsRoute() {
 	const filerForAssets = useAppSelector(state => state.transactionFilter.assets)
 	const transactions = useAppSelector(state => state.transactions.transactions)
 
+	const assets = useAppSelector(state => state.assets.assets)
+
 	return (
 		<div
 			id="TransactionsRoute"
@@ -39,7 +41,7 @@ export default function TransactionsRoute() {
 							<TransactionCreation/>
 							{transactions.filter((transaction) => {
 								if(filerForAssets.length > 0) {
-									if(filerForAssets.includes(transaction.asset)) {
+									if(filerForAssets.includes(transaction.asset_ID)) {
 										return transaction
 									}
 								}
@@ -47,7 +49,9 @@ export default function TransactionsRoute() {
 									return transaction
 								}
 							}).map((transaction, i) => {
-								return (<TransactionListItem key={"transaction-" + transaction.ID} i={i+1} transaction={transaction} />)
+								const asset = assets.filter(asset => { return asset.ID === transaction.asset_ID })[0]
+								console.log(asset)
+								return (<TransactionListItem key={"transaction-" + transaction.ID} i={i+1} transaction={transaction}/>)
 							})}
 						</tbody>
 					</table>

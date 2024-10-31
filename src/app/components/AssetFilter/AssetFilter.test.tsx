@@ -8,7 +8,7 @@ import * as appStateReducer from '../../store/appState/appState.reducer';
 describe('AssetFilter component', () => {
 
 	it('renders', async() => {
-    const filerForAssets: string[] = []
+    const filerForAssets: number[] = []
     render(<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />) 
 		await waitFor(() => {
 			expect(screen.getAllByTestId('AssetFilterButton').length).toEqual(1);
@@ -17,7 +17,7 @@ describe('AssetFilter component', () => {
 
   it('renders the popup content, after button click', async() => {
 
-    const filerForAssets: string[] = ['test1', 'test2']
+    const filerForAssets: number[] = [1, 2]
 
     const assets = [
       {ID: 1, name: 'test1', symbol: 'test_symbol_1', isin: 'test_isin_1'},

@@ -7,19 +7,20 @@ import {
 	Popover
 } from '@blueprintjs/core';
 
-export default function AssetFilter(props: {filter:string[], reducer:any}) {
+export default function AssetFilter(props: {filter:number[], reducer:any}) {
 
   function AssetFilterOptions() {
 
     const dispatch = useAppDispatch();
-    const assets = useAppSelector(state => state.assets.assets).slice().sort((a:Asset, b:Asset) => sortBy(a, b, 'name', 'asc'))
+    const assets = useAppSelector(state => state.assets.assets)
+    const sorted_assets = assets != undefined ? assets.slice().sort((a:Asset, b:Asset) => sortBy(a, b, 'name', 'asc')) : []
 
     return (
       <div id="AssetFilterPopupContent" data-testid="AssetFilterPopupContent">
-        {assets.map((asset, i) => {
+        {sorted_assets.map((asset, i) => {
           return (
             <div key={"assetsFilter_" + asset.ID}>
-              <input data-testid={"assetsFilter_" + asset.ID} type="checkbox" checked={props.filter.includes(asset.name)} onChange={(e) => dispatch(props.reducer.toggleAsset(asset.name))} />
+              <input data-testid={"assetsFilter_" + asset.ID} type="checkbox" checked={props.filter.includes(asset.ID)} onChange={(e) => dispatch(props.reducer.toggleAsset(asset.ID))} />
               <label htmlFor={"assetsFilter_" + asset.ID}>{asset.name}</label>
             </div>
           )

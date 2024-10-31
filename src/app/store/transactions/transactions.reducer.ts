@@ -16,7 +16,7 @@ export const loadTransactions = createAsyncThunk(
 				transaction.invest_cumulated = 0
 		});
 		result.forEach((transaction:Transaction) => {
-			var prev_trans = result.find((other_trans:Transaction) => other_trans.asset == transaction.asset && other_trans.rank == transaction.rank-1)
+			var prev_trans = result.find((other_trans:Transaction) => other_trans.asset_ID == transaction.asset_ID && other_trans.rank == transaction.rank-1)
 			if(transaction.rank > 1 && transaction.type == 'Buy')
 				transaction.invest_cumulated = transaction.in_out + prev_trans.invest_cumulated
 			else if(transaction.rank > 1 && transaction.type == 'Sell')
@@ -48,9 +48,9 @@ export function sortBy(a:Transaction, b:Transaction, property:string, direction:
 	}
 	else if(property == 'asset') {
 		if(direction == 'asc')
-			return a.asset.localeCompare(b.asset)
+			return a.asset_ID.toString().localeCompare(b.asset_ID.toString())
 		else
-			return b.asset.localeCompare(a.asset)
+			return b.asset_ID.toString().localeCompare(a.asset_ID.toString())
 	}
 }
 

@@ -12,10 +12,13 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 	const invest_cumulated = (Math.round(props.transaction.invest_cumulated * 100) / 100).toFixed(2)
 	const in_out = (Math.round(props.transaction.in_out * 100) / 100).toFixed(2)
 
+	const assets = useAppSelector(state => state.assets.assets)
+	const transaction_asset = assets.filter(asset => { return asset.ID === props.transaction.asset_ID })[0]
+
   const dispatch = useAppDispatch();
   const [dateInput, setDateInput] = useState(props.transaction.date || '');
 	const [typeInput, setTypeInput] = useState(props.transaction.type || '');
-	const [assetInput, setAssetInput] = useState(props.transaction.asset || '');
+	const [assetInput, setAssetInput] = useState(transaction_asset ? transaction_asset.ID.toString() : '');
 	const [amountInput, setAmountInput] = useState(props.transaction.amount || '');
 	const [priceInput, setPriceInput] = useState(price_per_share);
 	const [feeInput, setFeeInput] = useState(fee);
@@ -66,12 +69,25 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 			<TableCell>{props.i}</TableCell>
       <TableCell><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
       <TableCell>
-				<select className={bgColorType} id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} value={typeInput} onChange={(e) => setTypeInput(e.target.value)} onBlur={(e) => validateAndSave()}>
+				<select className={bgColorType} id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} value={typeInput} 
+				onChange={(e) => setTypeInput(e.target.value)} 
+				onBlur={(e) => validateAndSave()}>
 					<option value="Buy">Buy</option>
 					<option value="Sell">Sell</option>
 				</select>
 			</TableCell>
-      <TableCell><input id={"assetInput" + props.transaction.ID} type="text" value={assetInput} onChange={(e) => setAssetInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
+      <TableCell>
+				<select 
+					id={"assetInput_" + props.transaction.ID} 
+					name={"assetInput_" +  + props.transaction.ID} 
+					value={assetInput} 
+					onChange={(e) => setAssetInput(e.target.value)} 
+					onBlur={(e) => validateAndSave()}>
+          {assets.map((asset, i) => {
+							return (<option key={asset.ID} value={asset.ID}>{asset.name}</option>)
+					})}
+        </select>
+			</TableCell>
       <TableCell><input id={"amountInput" + props.transaction.ID} type="text" value={amountInput} onChange={(e) => setAmountInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
       <TableCell additionalClassNames={"text-right"}>{shares_cumulated_formatted}</TableCell>
 			<TableCell><input className="text-right" id={"priceInput" + props.transaction.ID} type="text" value={priceInput} onChange={(e) => setPriceInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>

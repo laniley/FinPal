@@ -2,7 +2,7 @@ interface Transaction {
 	ID: number,
 	date: string,
 	type: string,
-	asset: string,
+	asset_ID: number,
 	rank: number,
 	amount: float,
 	shares_cumulated: float,
