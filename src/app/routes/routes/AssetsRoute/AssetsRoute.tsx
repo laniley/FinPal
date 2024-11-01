@@ -33,7 +33,7 @@ export default function AnalysisRoute() {
 	var sum_dividends_formatted = (Math.round(sum_dividends * 100) / 100).toFixed(2)
 	var sum_in_out_formatted = (Math.round(sum_in_out * 100) / 100).toFixed(2)
 
-	const sorted_Assets = assetsSelector.selectAssetsSortedByProfitLoss(assets)
+	const sorted_Assets = assetsSelector.selectAssetsSortedByProfitLoss(assets, 'desc')
 
 	const nameInput = useAppSelector(state => state.assetCreation.nameInput)
   const symbolInput = useAppSelector(state => state.assetCreation.symbolInput)

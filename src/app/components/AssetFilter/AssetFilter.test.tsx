@@ -1,9 +1,10 @@
 import { act, screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { render } from '../../../utils/test-utils'
+import { setupStore } from './../../store';
 import AssetFilter from './AssetFilter';
 import * as transactionFilterReducer from './../../store/transactionFilter/transactionFilter.reducer';
-import * as appStateReducer from '../../store/appState/appState.reducer';
+import * as assetsReducer from '../../store/assets/assets.reducer';
 
 describe('AssetFilter component', () => {
 
@@ -38,5 +39,46 @@ describe('AssetFilter component', () => {
 			expect(input3.checked).toEqual(false);
 		})
 	});
+/*
+  it('checks / unchecks on click', async() => {
 
+    const store = setupStore();
+    const filerForAssets: number[] = [1]
+
+    const assets = [
+      {ID: 1, name: 'test1', symbol: 'test_symbol_1', isin: 'test_isin_1'},
+      {ID: 2, name: 'test2', symbol: 'test_symbol_2', isin: 'test_isin_2'},
+    ]
+
+    store.dispatch(assetsReducer.setAssets(assets))
+    store.dispatch(transactionFilterReducer.setAssets(filerForAssets))
+
+    render(<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />, { preloadedState: { assets: {assets: assets }} } )
+    
+    fireEvent.click(screen.getByTestId('AssetFilterButton'));
+    store.getState().
+
+    await waitFor(() => {
+      const input1 = screen.getByTestId('assetsFilter_1') as HTMLInputElement
+			expect(input1.checked).toEqual(true);
+      const input2 = screen.getByTestId('assetsFilter_2') as HTMLInputElement
+			expect(input2.checked).toEqual(false);
+		})
+
+    fireEvent.click(screen.getByTestId('assetsFilter_1') as HTMLInputElement);
+    
+  
+    await waitFor(() => {
+      const input1 = screen.getByTestId('assetsFilter_1') as HTMLInputElement
+			expect(input1.checked).toEqual(false);
+		})
+
+    fireEvent.click(screen.getByTestId('assetsFilter_2'));
+
+    await waitFor(() => {
+      const input2 = screen.getByTestId('assetsFilter_2') as HTMLInputElement
+			expect(input2.checked).toEqual(true);
+		})
+  });
+*/
 })

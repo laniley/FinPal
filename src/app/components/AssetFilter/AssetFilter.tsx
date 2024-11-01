@@ -1,4 +1,4 @@
-import { sortBy } from '../../store/assets/assets.selectors';
+import * as assetSelector from '../../store/assets/assets.selectors';
 import { useAppSelector, useAppDispatch } from './../../hooks'
 
 import {
@@ -13,14 +13,18 @@ export default function AssetFilter(props: {filter:number[], reducer:any}) {
 
     const dispatch = useAppDispatch();
     const assets = useAppSelector(state => state.assets.assets)
-    const sorted_assets = assets != undefined ? assets.slice().sort((a:Asset, b:Asset) => sortBy(a, b, 'name', 'asc')) : []
+    const sorted_assets = assetSelector.selectAssetsSortedByName(assets, 'asc')
 
     return (
       <div id="AssetFilterPopupContent" data-testid="AssetFilterPopupContent">
         {sorted_assets.map((asset, i) => {
           return (
             <div key={"assetsFilter_" + asset.ID}>
-              <input data-testid={"assetsFilter_" + asset.ID} type="checkbox" checked={props.filter.includes(asset.ID)} onChange={(e) => dispatch(props.reducer.toggleAsset(asset.ID))} />
+              <input 
+                data-testid={"assetsFilter_" + asset.ID} 
+                type="checkbox" 
+                checked={props.filter.includes(asset.ID)} 
+                onChange={(e) => dispatch(props.reducer.toggleAsset(asset.ID))} />
               <label htmlFor={"assetsFilter_" + asset.ID}>{asset.name}</label>
             </div>
           )

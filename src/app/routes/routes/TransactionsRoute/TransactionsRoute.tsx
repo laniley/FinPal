@@ -49,8 +49,6 @@ export default function TransactionsRoute() {
 									return transaction
 								}
 							}).map((transaction, i) => {
-								const asset = assets.filter(asset => { return asset.ID === transaction.asset_ID })[0]
-								console.log(asset)
 								return (<TransactionListItem key={"transaction-" + transaction.ID} i={i+1} transaction={transaction}/>)
 							})}
 						</tbody>

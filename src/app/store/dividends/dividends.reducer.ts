@@ -34,9 +34,9 @@ export function sortBy(a:Dividend, b:Dividend, property:string, direction:'asc'|
 	}
 	else if(property == 'asset') {
 		if(direction == 'asc')
-			return a.asset.localeCompare(b.asset)
+			return a.asset_ID.toString().localeCompare(b.asset_ID.toString())
 		else
-			return b.asset.localeCompare(a.asset)
+			return b.asset_ID.toString().localeCompare(a.asset_ID.toString())
 	}
 }
 
