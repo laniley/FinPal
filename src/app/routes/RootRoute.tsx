@@ -27,14 +27,7 @@ export default function RootRoute() {
 	console.log("appState loaded: ", result)
 
 	setTheme(result.theme)
-
-	if (result.selectedTab) {
-		console.log("selectedTab: " + result.selectedTab);
-		dispatch(appStateReducer.changeSelectedTab(result.selectedTab))
-	}
-	else {
-		console.log("selectedTab: not set");
-	}
+	setSelectedTab(result.selectedTab)
 
 	if (result.database) {
 		console.log("database: " + result.database);
@@ -146,6 +139,17 @@ export function setTheme(theme:string) {
 	}
 	else {
 		console.log("theme: not set");
+	}
+}
+
+export function setSelectedTab(selectedTab:string) {
+	const dispatch = useAppDispatch();
+	if (selectedTab) {
+		console.log("selectedTab: " + selectedTab);
+		dispatch(appStateReducer.changeSelectedTab(selectedTab))
+	}
+	else {
+		console.log("selectedTab: not set");
 	}
 }
 
