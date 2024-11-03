@@ -12,8 +12,9 @@ var _current_content = {
   database: ""
 }
 
-export function load() {
+export function load(filePath:string) {
   if(!fs.existsSync(filePath)) {
+    console.log('no config file found in ' + filePath)
     return _current_content
   }
   let result = fs.readFileSync( filePath, { encoding: 'utf8', flag: 'r' } )
@@ -31,13 +32,13 @@ export function load() {
 }
 
 export function saveTheme(theme:string) {
-  load()
+  load(filePath)
   Object.assign(_current_content, { theme: theme });
   fs.writeFileSync( filePath, JSON.stringify(_current_content))
 }
 
 export function saveSelectedTab(selectedTab:string) {
-  load()
+  load(filePath)
   Object.assign(_current_content, { selectedTab: selectedTab });
   fs.writeFileSync( filePath, JSON.stringify(_current_content))
 }

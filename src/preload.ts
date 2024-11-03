@@ -10,7 +10,7 @@ declare global {
       appState: {
         dataPath: string,
         filePath: string,
-        load():any,
+        load(filePath:string):any,
         saveTheme(theme:string):any,
         saveSelectedTab(selectedTab:string):any
       },

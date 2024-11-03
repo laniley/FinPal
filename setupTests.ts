@@ -1,10 +1,12 @@
 import * as appStateAPI from './src/api/appStateAPI'
 
+const filePath = 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test\\config.json'
+
 window.API = {
   appState:{
     dataPath: 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test',
-    filePath: 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test\\config.json',
-    load: () => appStateAPI.load(),
+    filePath: filePath,
+    load: () => appStateAPI.load(filePath),
     saveTheme: jest.fn(),
     saveSelectedTab: jest.fn()
   },

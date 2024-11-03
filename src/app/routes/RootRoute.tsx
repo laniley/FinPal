@@ -23,16 +23,10 @@ export default function RootRoute() {
 
 	const dispatch = useAppDispatch();
 
-	const result = window.API.appState.load()
+	const result = window.API.appState.load(window.API.appState.filePath)
 	console.log("appState loaded: ", result)
 
-	if (result.theme) {
-		console.log("theme: " + result.theme);
-		dispatch(appStateReducer.setTheme(result.theme))
-	}
-	else {
-		console.log("theme: not set");
-	}
+	setTheme(result.theme)
 
 	if (result.selectedTab) {
 		console.log("selectedTab: " + result.selectedTab);
@@ -71,6 +65,8 @@ export default function RootRoute() {
 			</div>
 		</div>
 	);
+
+
 
 	async function setupAssets() {
 		var sql  = 'CREATE TABLE IF NOT EXISTS assets ('
@@ -139,6 +135,17 @@ export default function RootRoute() {
 		console.log(assets_v_sql)
 		let result = await window.API.sendToDB(assets_v_sql)
 		console.log('result - assets_v: ', result)
+	}
+}
+
+export function setTheme(theme:string) {
+	const dispatch = useAppDispatch();
+	if (theme) {
+		console.log("theme: " + theme);
+		dispatch(appStateReducer.setTheme(theme))
+	}
+	else {
+		console.log("theme: not set");
 	}
 }
 
