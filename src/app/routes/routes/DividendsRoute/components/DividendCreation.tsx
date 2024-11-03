@@ -6,6 +6,7 @@ import TableCell from '../../../../components/TableCell/TableCell';
 export default function TransactionsRoute() {
 
 	const dispatch = useAppDispatch();
+  const assets = useAppSelector(state => state.assets.assets)
 	const dateInput = useAppSelector(state => state.dividendCreation.dateInput)
 	const assetInput = useAppSelector(state => state.dividendCreation.assetInput)
 	const incomeInput = useAppSelector(state => state.dividendCreation.incomeInput)
@@ -14,7 +15,13 @@ export default function TransactionsRoute() {
     <tr>
       <TableCell>*</TableCell>
       <TableCell><input id="dateInput" type="date" value={dateInput} onChange={(e) => dispatch(dividendCreationReducer.setDateInput(e.target.value))} onBlur={() => { dispatch(dividendCreationReducer.handleDateInputGotTouched()) }} /></TableCell>
-      <TableCell><input id="assetInput" type="text" value={assetInput} onChange={(e) => dispatch(dividendCreationReducer.setAssetInput(e.target.value))} onBlur={() => { dispatch(dividendCreationReducer.handleAssetInputGotTouched()) }} /></TableCell>
+      <TableCell>
+      <select id="assetInput" name="assetInput" value={assetInput} onChange={(e) => dispatch(dividendCreationReducer.setAssetInput(e.target.value))} onBlur={() => { dispatch(dividendCreationReducer.handleAssetInputGotTouched()) }}>
+          {assets.map((asset, i) => {
+							return (<option key={asset.ID} value={asset.ID}>{asset.name}</option>)
+					})}
+        </select>
+      </TableCell>
       <TableCell><input id="incomeInput" type="text" value={incomeInput} onChange={(e) => dispatch(dividendCreationReducer.setIncomeInput(e.target.value))} onBlur={() => { dispatch(dividendCreationReducer.handleIncomeInputGotTouched()) }} /></TableCell>
     </tr>
 	);

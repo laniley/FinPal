@@ -14,10 +14,7 @@ export const validate = createAsyncThunk(
   'assetCreation/validate',
   async (props, thunkAPI) => {
 		let state = thunkAPI.getState() as State
-    if(state.assetCreation.nameInput.length > 0 && 
-       state.assetCreation.symbolInput.length > 0 &&
-       state.assetCreation.isinInput.length == 12
-   ) {
+    if(isValid(state.assetCreation)) {
     let sql  = 'INSERT OR REPLACE INTO assets (ID, name, symbol, isin, kgv) '
         sql += 'VALUES (\'' + (state.assetCreation.ID)
         sql += '\',\'' + state.assetCreation.nameInput.replace('\'', '\'\'')
@@ -52,6 +49,10 @@ export const validate = createAsyncThunk(
    }
   }
 )
+
+export function isValid(assetCreation:AssetCreation) {
+  return assetCreation.nameInput.length > 0 && assetCreation.symbolInput.length > 0 && assetCreation.isinInput.length == 12
+}
 
 export const reset = createAsyncThunk(
   'assetCreation/reset',

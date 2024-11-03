@@ -5,6 +5,7 @@ import { setupStore } from './../../store';
 import AssetFilter from './AssetFilter';
 import * as transactionFilterReducer from './../../store/transactionFilter/transactionFilter.reducer';
 import * as assetsReducer from '../../store/assets/assets.reducer';
+import { Provider } from 'react-redux';
 
 describe('AssetFilter component', () => {
 
@@ -39,10 +40,11 @@ describe('AssetFilter component', () => {
 			expect(input3.checked).toEqual(false);
 		})
 	});
-/*
+
   it('checks / unchecks on click', async() => {
 
     const store = setupStore();
+    const user = userEvent.setup()
     const filerForAssets: number[] = [1]
 
     const assets = [
@@ -53,32 +55,36 @@ describe('AssetFilter component', () => {
     store.dispatch(assetsReducer.setAssets(assets))
     store.dispatch(transactionFilterReducer.setAssets(filerForAssets))
 
-    render(<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />, { preloadedState: { assets: {assets: assets }} } )
+    await act(async() => {
+      render(
+        <Provider store={store}>
+          <AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />
+        </Provider>
+      )
+    })
     
-    fireEvent.click(screen.getByTestId('AssetFilterButton'));
-    store.getState().
+    await act(async() => {               
+      const button = screen.getByTestId('AssetFilterButton')
+      user.click(button)
+    });
 
     await waitFor(() => {
       const input1 = screen.getByTestId('assetsFilter_1') as HTMLInputElement
 			expect(input1.checked).toEqual(true);
       const input2 = screen.getByTestId('assetsFilter_2') as HTMLInputElement
 			expect(input2.checked).toEqual(false);
+      expect(store.getState().transactionFilter.assets).toEqual([1]);
 		})
 
-    fireEvent.click(screen.getByTestId('assetsFilter_1') as HTMLInputElement);
-    
-  
-    await waitFor(() => {
+    await act(async() => {
       const input1 = screen.getByTestId('assetsFilter_1') as HTMLInputElement
-			expect(input1.checked).toEqual(false);
-		})
+      user.click(input1)
 
-    fireEvent.click(screen.getByTestId('assetsFilter_2'));
+      await waitFor(() => {
+        expect(store.getState().transactionFilter.assets).toEqual([]);
+      })
+    });
 
-    await waitFor(() => {
-      const input2 = screen.getByTestId('assetsFilter_2') as HTMLInputElement
-			expect(input2.checked).toEqual(true);
-		})
   });
-*/
+
 })
