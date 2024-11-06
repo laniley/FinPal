@@ -1,9 +1,11 @@
 import { act, waitFor } from '@testing-library/react'
 import { render } from '../../utils/test-utils'
-import RootRoute, {setSelectedTab} from './RootRoute';
+import RootRoute from './RootRoute';
 import { setupStore } from '../store';
 import { Provider } from 'react-redux';
 import * as appStateAPI from '../../api/appStateAPI'
+
+const path_to_test_configs = 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test\\'
 
 describe('RootRoute component', () => {
 
@@ -19,10 +21,10 @@ describe('RootRoute component', () => {
 		describe('assetsTab', () => {
 
 			beforeEach(() => {
-				const filePath = 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test\\config_assetsTab.json'
+				const filePath = path_to_test_configs + 'config_assetsTab.json'
 				window.API = {
 					appState:{
-						dataPath: 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test',
+						dataPath: path_to_test_configs,
 						filePath: filePath,
 						load: () => appStateAPI.load(filePath),
 						saveTheme: jest.fn(),
@@ -53,10 +55,10 @@ describe('RootRoute component', () => {
 		describe('dividendsTab', () => {
 
 			beforeEach(() => {
-				const filePath = 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test\\config_dividendsTab.json'
+				const filePath = path_to_test_configs + 'config_dividendsTab.json'
 				window.API = {
 					appState:{
-						dataPath: 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test',
+						dataPath: path_to_test_configs,
 						filePath: filePath,
 						load: () => appStateAPI.load(filePath),
 						saveTheme: jest.fn(),
@@ -89,10 +91,10 @@ describe('RootRoute component', () => {
 			describe('databaseTab - no database is set in the config file', () => {
 			
 				beforeEach(() => {
-					const filePath = 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test\\config_no_database.json'
+					const filePath = path_to_test_configs + 'config_no_database.json'
 					window.API = {
 						appState:{
-							dataPath: 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test',
+							dataPath: path_to_test_configs,
 							filePath: filePath,
 							load: () => appStateAPI.load(filePath),
 							saveTheme: jest.fn(),
@@ -123,10 +125,10 @@ describe('RootRoute component', () => {
 			describe('databaseTab - "selectedTab":"databaseTab" and database is set in the config file', () => {
 			
 				beforeEach(() => {
-					const filePath = 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test\\config_no_database.json'
+					const filePath = path_to_test_configs + 'config_no_database.json'
 					window.API = {
 						appState:{
-							dataPath: 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test',
+							dataPath: path_to_test_configs,
 							filePath: filePath,
 							load: () => appStateAPI.load(filePath),
 							saveTheme: jest.fn(),
@@ -161,10 +163,10 @@ describe('RootRoute component', () => {
 	describe('setTheme(theme:string)', () => {
 
 		beforeEach(() => {
-			const filePath = 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test\\config_no_theme.json'
+			const filePath = path_to_test_configs + 'config_no_theme.json'
 			window.API = {
 				appState:{
-					dataPath: 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test',
+					dataPath: path_to_test_configs,
 					filePath: filePath,
 					load: () => appStateAPI.load(filePath),
 					saveTheme: jest.fn(),
@@ -195,10 +197,10 @@ describe('RootRoute component', () => {
 	describe('setupTransactions()', () => {
 
 		beforeEach(() => {
-			const filePath = 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test\\config.json'
+			const filePath = path_to_test_configs + 'config.json'
 			window.API = {
 				appState:{
-					dataPath: 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test',
+					dataPath: path_to_test_configs,
 					filePath: filePath,
 					load: () => appStateAPI.load(filePath),
 					saveTheme: jest.fn(),
@@ -232,10 +234,10 @@ describe('RootRoute component', () => {
 	describe('setupDividends()', () => {
 
 		beforeEach(() => {
-			const filePath = 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test\\config.json'
+			const filePath = path_to_test_configs + 'config.json'
 			window.API = {
 				appState:{
-					dataPath: 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test',
+					dataPath: path_to_test_configs,
 					filePath: filePath,
 					load: () => appStateAPI.load(filePath),
 					saveTheme: jest.fn(),
