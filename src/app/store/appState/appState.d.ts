@@ -1,5 +1,5 @@
 export default interface AppState {
-  selectedTab: "analisysTab" | "assetsTab" | "transactionsTab" | "dividendsTab",
+  selectedTab: "databaseTab" | "assetsTab" | "transactionsTab" | "dividendsTab",
   theme: string,
   database: string,
   assetOverlayType: AssetOverlayType,

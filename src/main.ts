@@ -13,6 +13,7 @@ const filePath = path.join(dataPath, 'config.json');
 
 let result = fs.readFileSync( filePath, { encoding: 'utf8', flag: 'r' } )
 let json = { database: '' }
+
 if(result) {
   try {
     json = JSON.parse(result)

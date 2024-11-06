@@ -15,6 +15,7 @@ import AssetsRoute from './routes/AssetsRoute/AssetsRoute';
 import dividends_sql from '../../sql/dividends_sql'
 import assets_v_sql from '../../sql/assets_v_sql'
 import transactions_v_sql from '../../sql/transactions_v_sql'
+import DatabaseRoute from './routes/DatabaseRoute/DatabaseRoute';
 
 export default function RootRoute() {
 
@@ -27,10 +28,10 @@ export default function RootRoute() {
 	console.log("appState loaded: ", result)
 
 	setTheme(result.theme)
-	setSelectedTab(result.selectedTab)
-
+	
 	if (result.database) {
 		console.log("database: " + result.database);
+		setSelectedTab(result.selectedTab)
 		dispatch(appStateReducer.setDatabase(result.database))
 		setupAssets().then(() => {
 			setupTransactions().then(() => {
@@ -46,6 +47,7 @@ export default function RootRoute() {
 	}
 	else {
 		console.log("database: not set");
+		setSelectedTab("databaseTab")
 	}
 
 	return (
@@ -93,12 +95,12 @@ export default function RootRoute() {
 				sql += 'solidarity_surcharge REAL)'
 		console.log(sql)
 		await window.API.sendToDB(sql)
-			 sql  = 'SELECT MAX(ID) as ID FROM transactions'
+		sql  = 'SELECT MAX(ID) as ID FROM transactions'
 		console.log(sql)
 		var result = await window.API.sendToDB(sql)
 		console.log(result)
 		var newID = 0
-		if(result[0]) {
+		if(result) {
 			newID = result[0].ID + 1
 		}
 		console.log('New ID (transactions): ' + newID)
@@ -116,7 +118,7 @@ export default function RootRoute() {
 		var result = await window.API.sendToDB(sql)
 		console.log(result)
 		var newID = 0
-		if(result[0]) {
+		if(result) {
 			newID = result[0].ID + 1
 		}
 		console.log('New ID (dividends): ' + newID)
@@ -148,9 +150,6 @@ export function setSelectedTab(selectedTab:string) {
 		console.log("selectedTab: " + selectedTab);
 		dispatch(appStateReducer.changeSelectedTab(selectedTab))
 	}
-	else {
-		console.log("selectedTab: not set");
-	}
 }
 
 export function Content() {
@@ -161,4 +160,6 @@ export function Content() {
 		return(<DividendsRoute/>)
 	else if(selectedTab == 'assetsTab')
 		return(<AssetsRoute/>)
+	else if(selectedTab == 'databaseTab')
+		return(<DatabaseRoute/>)
 }
