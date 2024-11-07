@@ -1,6 +1,6 @@
 import { act, fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { render } from '../../../../utils/test-utils'
+import { render } from '../../../../testing/test-utils'
 import TopNavBar from './TopNavBar';
 import * as appStateReducer from '../../../store/appState/appState.reducer';
 import RootRoute from '../../RootRoute';

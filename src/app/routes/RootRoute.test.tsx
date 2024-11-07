@@ -1,5 +1,5 @@
 import { act, waitFor } from '@testing-library/react'
-import { render } from '../../utils/test-utils'
+import { render } from '../../testing/test-utils'
 import RootRoute from './RootRoute';
 import { setupStore } from '../store';
 import { Provider } from 'react-redux';

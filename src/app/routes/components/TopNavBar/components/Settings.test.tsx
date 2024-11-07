@@ -1,5 +1,5 @@
 import { act, screen, waitFor, fireEvent } from '@testing-library/react'
-import { render } from '../../../../../utils/test-utils'
+import { render } from '../../../../../testing/test-utils'
 import * as appStateReducer from '../../../../store/appState/appState.reducer';
 import Settings from './Settings';
 import { setupStore } from './../../../../store';

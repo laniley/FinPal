@@ -1,6 +1,6 @@
 import { act, screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { render } from '../../../utils/test-utils'
+import { render } from '../../../testing/test-utils'
 import { setupStore } from './../../store';
 import AssetFilter from './AssetFilter';
 import * as transactionFilterReducer from './../../store/transactionFilter/transactionFilter.reducer';
