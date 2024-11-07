@@ -5,7 +5,7 @@ import { setupStore } from '../store';
 import { Provider } from 'react-redux';
 import * as appStateAPI from '../../api/appStateAPI'
 
-const path_to_test_configs = 'C:\\Users\\melan\\AppData\\Roaming\\FinPal_Test\\'
+const path_to_test_configs = process.cwd() + '\\src\\utils\\testing\\test_configs\\'
 
 describe('RootRoute component', () => {
 

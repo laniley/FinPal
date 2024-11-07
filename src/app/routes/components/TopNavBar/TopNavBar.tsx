@@ -73,7 +73,7 @@ export default function TopNavBar () {
 
 				<Tooltip content="Quit FinPal" position={Position.BOTTOM}>
 					<Button
-						id="quit"
+						data-testid={"quit-button"} 
 						minimal={true}
 						icon="small-cross"
 						onClick={() => window.API.quit()}

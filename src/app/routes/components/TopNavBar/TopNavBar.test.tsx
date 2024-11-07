@@ -1,4 +1,4 @@
-import { act, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { render } from '../../../../utils/test-utils'
 import TopNavBar from './TopNavBar';
@@ -12,6 +12,13 @@ describe('TopNavBar component', () => {
 		await waitFor(() => {
 			expect(getAllById('TopNavBar').length).toEqual(1);
 		})
+	});
+
+  it('quits on button click', async() => {
+    render(<TopNavBar />)
+    const spy = jest.spyOn(window.API, 'quit')
+    fireEvent.click(screen.getByTestId('quit-button'));
+		expect(spy).toHaveBeenCalled();
 	});
 
   describe('handleTabChange', () => {
