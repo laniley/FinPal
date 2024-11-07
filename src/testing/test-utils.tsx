@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 import { render, queries, within, RenderOptions } from '@testing-library/react'
-import * as customQueries from '../utils/custom-queries'
+import * as customQueries from './custom-queries'
 import { Provider } from 'react-redux'
 
 import type { AppStore, RootState } from '../app/store'
