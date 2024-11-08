@@ -1,4 +1,4 @@
-import { useAppSelector, useAppDispatch } from './../../../hooks'
+import { useAppSelector } from './../../../hooks'
 
 import TransactionCreation from './components/TransactionCreation';
 import TransactionListItem from './components/TransactionListItem';
@@ -11,11 +11,10 @@ export default function TransactionsRoute() {
 	const filerForAssets = useAppSelector(state => state.transactionFilter.assets)
 	const transactions = useAppSelector(state => state.transactions.transactions)
 
-	const assets = useAppSelector(state => state.assets.assets)
-
 	return (
 		<div
 			id="TransactionsRoute"
+			data-testid="TransactionsRoute"
 			className={'absolute top-[0px] bottom-0 flex flex-col w-full ' + theme}>
 			<div id="Main" className="flex p-3 overflow-auto">
 				<div className="flex grow justify-center align-center">

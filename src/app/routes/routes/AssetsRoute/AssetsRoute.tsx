@@ -42,7 +42,7 @@ export default function AnalysisRoute() {
 
 	return (
 		<div
-			id="AssetsRoute"
+			data-testid="AssetsRoute"
 			className={'absolute top-[0px] bottom-0 flex flex-col w-full p-3 ' + theme}>
 			<div id="Table" className="flex justify-center p-3 overflow-auto">
 				<table>
