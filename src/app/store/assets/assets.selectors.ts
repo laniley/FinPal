@@ -2,8 +2,8 @@ export const get_current_profit_loss = (asset:Asset) => (asset.current_shares * 
 export const get_current_profit_loss_percentage = (asset:Asset) => (asset.current_invest != 0 ? -1 * get_current_profit_loss(asset)/asset.current_invest * 100 : 0)
 
 export function selectAssetsSortedByProfitLoss(state: Asset[], direction:'asc'|'desc') {
-  const active = state.filter((asset:Asset) => asset.current_shares != 0)
-	const inactive = state.filter((asset:Asset) => asset.current_shares == 0)
+  const active = state.filter((asset:Asset) => asset.current_shares != 0 && asset.current_shares != null)
+	const inactive = state.filter((asset:Asset) => asset.current_shares == 0 || asset.current_shares == null)
 	const sorted = active.slice().sort((a:Asset, b:Asset) => sortBy(a, b, 'current_profit_loss_percentage', direction))
 	const all = sorted.concat(inactive)
   return all
