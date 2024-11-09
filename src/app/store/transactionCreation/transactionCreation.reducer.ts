@@ -96,7 +96,7 @@ export const validateAndSave = createAsyncThunk(
   async (props, thunkAPI) => {
 		let state = thunkAPI.getState() as State
     if(isValid(state)) {
-      let sql  = 'INSERT OR REPLACE INTO transactions (ID, date, type, assetID, amount, price_per_share, fee, solidarity_surcharge) '
+      let sql  = 'INSERT OR REPLACE INTO transactions (ID, date, type, asset_ID, amount, price_per_share, fee, solidarity_surcharge) '
           sql += 'VALUES (\'' + state.transactionCreation.newID
           sql += '\',\'' + state.transactionCreation.dateInput
           sql += '\',\'' + state.transactionCreation.typeInput.replace('\'', '\'\'')
@@ -114,8 +114,9 @@ export const validateAndSave = createAsyncThunk(
         console.log(sql)
         window.API.sendToDB(sql).then((result:any) => {
           thunkAPI.dispatch(setNewID(result[0].ID + 1))
-          thunkAPI.dispatch(transactionsReducer.loadTransactions())
-          thunkAPI.dispatch(assetsReducer.loadAssets())
+          thunkAPI.dispatch(transactionsReducer.loadTransactions()).then(() => {
+            thunkAPI.dispatch(assetsReducer.loadAssets())
+          })
         });
       });
       thunkAPI.dispatch(reset())
@@ -126,6 +127,8 @@ export const validateAndSave = createAsyncThunk(
 export const reset = createAsyncThunk(
   'transactionCreation/reset',
   async (props, thunkAPI) => {
+    console.log("reseting transactionCreation")
+
 		thunkAPI.dispatch(setDateInputGotTouched(false))
 		thunkAPI.dispatch(setDateInput(''))
     thunkAPI.dispatch(setTypeInputGotTouched(false))
@@ -141,16 +144,6 @@ export const reset = createAsyncThunk(
     thunkAPI.dispatch(setSolidaritySurchargeInputGotTouched(false))
 		thunkAPI.dispatch(setSolidaritySurchargeInput(''))
 
-    let state = thunkAPI.getState() as State
-    console.log(
-      state.transactionCreation.dateInputGotTouched, 
-      state.transactionCreation.typeInputGotTouched,
-      state.transactionCreation.assetInputGotTouched,
-      state.transactionCreation.amountInputGotTouched,
-      state.transactionCreation.priceInputGotTouched,
-      state.transactionCreation.feeInputGotTouched,
-      state.transactionCreation.solidaritySurchargeInputGotTouched,
-    )
     document.getElementById("dateInput").focus();
   }
 )

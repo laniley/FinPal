@@ -14,7 +14,7 @@ export const loadAssets = createAsyncThunk(
 		for(const asset of assets) {
 			asset.currencySymbol = '€'
 		}
-		await thunkAPI.dispatch(setAssets(assets))
+		thunkAPI.dispatch(setAssets(assets))
 		thunkAPI.dispatch(updateCurrentInvest())
 		thunkAPI.dispatch(loadPricesAndDividends())
   }
