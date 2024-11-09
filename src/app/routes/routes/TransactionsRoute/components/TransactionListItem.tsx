@@ -3,6 +3,7 @@ import { useState } from 'react';
 import * as transactionsReducer from '../../../../store/transactions/transactions.reducer';
 import TableCell from '../../../../components/TableCell/TableCell';
 import * as assetsReducer from '../../../../store/assets/assets.reducer';
+import * as assetsSelector from './../../../../store/assets/assets.selectors';
 
 export default function TransactionListItem(props: {i: number, transaction:Transaction}) {
 
@@ -59,6 +60,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 		});
 	}
 
+	const sorted_Assets = assetsSelector.selectAssetsSortedByName(assets, 'asc')
 	const shares_cumulated_formatted = (Math.round(props.transaction.shares_cumulated * 100) / 100).toFixed(2)
 
 	const bgColorType = props.transaction.type == "Buy" ? "bg-emerald-600" : "bg-pink-700"
@@ -70,8 +72,8 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
       <TableCell><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
       <TableCell>
 				<select className={bgColorType} id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} value={typeInput} 
-				onChange={(e) => setTypeInput(e.target.value)} 
-				onBlur={(e) => validateAndSave()}>
+					onChange={(e) => setTypeInput(e.target.value)} 
+					onBlur={(e) => validateAndSave()}>
 					<option value="Buy">Buy</option>
 					<option value="Sell">Sell</option>
 				</select>
@@ -81,9 +83,9 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 					id={"assetInput_" + props.transaction.ID} 
 					name={"assetInput_" +  + props.transaction.ID} 
 					value={assetInput} 
-					onChange={(e) => setAssetInput(e.target.value)} 
+					onChange={(e) => setAssetInput(e.target.value)}
 					onBlur={(e) => validateAndSave()}>
-          {assets.map((asset, i) => {
+          {sorted_Assets.map((asset, i) => {
 							return (<option key={asset.ID} value={asset.ID}>{asset.name}</option>)
 					})}
         </select>

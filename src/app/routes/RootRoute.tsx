@@ -11,11 +11,13 @@ import TopNavBar from './components/TopNavBar/TopNavBar';
 import TransactionsRoute from './routes/TransactionsRoute/TransactionsRoute';
 import DividendsRoute from './routes/DividendsRoute/DividendsRoute';
 import AssetsRoute from './routes/AssetsRoute/AssetsRoute';
+import DatabaseRoute from './routes/DatabaseRoute/DatabaseRoute';
 
+import assets_sql from '../../sql/assets_sql'
 import dividends_sql from '../../sql/dividends_sql'
 import assets_v_sql from '../../sql/assets_v_sql'
 import transactions_v_sql from '../../sql/transactions_v_sql'
-import DatabaseRoute from './routes/DatabaseRoute/DatabaseRoute';
+
 
 export default function RootRoute() {
 
@@ -64,15 +66,9 @@ export default function RootRoute() {
 
 
 	async function setupAssets() {
-		var sql  = 'CREATE TABLE IF NOT EXISTS assets ('
-				sql += 'ID INTEGER PRIMARY KEY, '
-				sql += 'name UNIQUE VARCHAR NOT NULL, '
-				sql += 'symbol UNIQUE VARCHAR NOT NULL, '
-				sql += 'isin UNIQUE VARCHAR NOT NULL, '
-				sql += 'kgv)'
-		console.log(sql)
-		await window.API.sendToDB(sql)
-		sql  = 'SELECT MAX(ID) as ID FROM assets'
+		console.log(assets_sql)
+		await window.API.sendToDB(assets_sql)
+		let sql  = 'SELECT MAX(ID) as ID FROM assets'
 		console.log(sql)
 		var result = await window.API.sendToDB(sql)
 		var newID = 0

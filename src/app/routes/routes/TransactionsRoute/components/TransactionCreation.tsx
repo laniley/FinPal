@@ -2,6 +2,7 @@ import { useAppSelector, useAppDispatch } from './../../../../hooks'
 
 import * as transactionCreationReducer from './../../../../../../src/app/store/transactionCreation/transactionCreation.reducer';
 import TableCell from '../../../../components/TableCell/TableCell';
+import * as assetsSelector from './../../../../store/assets/assets.selectors';
 
 export default function TransactionsRoute() {
 
@@ -14,6 +15,8 @@ export default function TransactionsRoute() {
 	const priceInput = useAppSelector(state => state.transactionCreation.priceInput)
 	const feeInput = useAppSelector(state => state.transactionCreation.feeInput)
 	const solidaritySurchargeInput = useAppSelector(state => state.transactionCreation.solidaritySurchargeInput)
+
+  const sorted_Assets = assetsSelector.selectAssetsSortedByName(assets, 'asc')
 
   const bgColorType = typeInput == "Buy" ? "bg-emerald-600" : "bg-pink-700"
 
@@ -29,7 +32,7 @@ export default function TransactionsRoute() {
       </TableCell>
       <TableCell>
         <select id="assetInput" name="assetInput" value={assetInput} onChange={(e) => dispatch(transactionCreationReducer.setAssetInput(e.target.value))} onBlur={() => { dispatch(transactionCreationReducer.handleAssetInputGotTouched()) }}>
-          {assets.map((asset, i) => {
+          {sorted_Assets.map((asset, i) => {
 							return (<option key={asset.ID} value={asset.ID}>{asset.name}</option>)
 					})}
         </select>

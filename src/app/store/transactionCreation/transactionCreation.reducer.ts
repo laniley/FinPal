@@ -3,7 +3,6 @@ import * as transactionsReducer from '../transactions/transactions.reducer';
 import * as assetsReducer from '../assets/assets.reducer';
 
 export const initialState = {
-  newID: null,
   dateInput: '',
 	dateInputGotTouched: false,
   typeInput: 'Buy',
@@ -24,7 +23,7 @@ export const handleDateInputGotTouched = createAsyncThunk(
   'transactionCreation/handleDateInputGotTouched',
   async (props, thunkAPI) => {
 		thunkAPI.dispatch(setDateInputGotTouched(true))
-		thunkAPI.dispatch(validate())
+		thunkAPI.dispatch(validateAndSave())
   }
 )
 
@@ -32,7 +31,7 @@ export const handleTypeInputGotTouched = createAsyncThunk(
   'transactionCreation/handleTypeInputGotTouched',
   async (props, thunkAPI) => {
 		thunkAPI.dispatch(setTypeInputGotTouched(true))
-		thunkAPI.dispatch(validate())
+		thunkAPI.dispatch(validateAndSave())
   }
 )
 
@@ -40,7 +39,7 @@ export const handleAssetInputGotTouched = createAsyncThunk(
   'transactionCreation/handleAssetInputGotTouched',
   async (props, thunkAPI) => {
 		thunkAPI.dispatch(setAssetInputGotTouched(true))
-		thunkAPI.dispatch(validate())
+		thunkAPI.dispatch(validateAndSave())
   }
 )
 
@@ -48,7 +47,7 @@ export const handleAmountInputGotTouched = createAsyncThunk(
   'transactionCreation/handleAmountInputGotTouched',
   async (props, thunkAPI) => {
 		thunkAPI.dispatch(setAmountInputGotTouched(true))
-		thunkAPI.dispatch(validate())
+		thunkAPI.dispatch(validateAndSave())
   }
 )
 
@@ -56,7 +55,7 @@ export const handlePriceInputGotTouched = createAsyncThunk(
   'transactionCreation/handlePriceInputGotTouched',
   async (props, thunkAPI) => {
 		thunkAPI.dispatch(setPriceInputGotTouched(true))
-		thunkAPI.dispatch(validate())
+		thunkAPI.dispatch(validateAndSave())
   }
 )
 
@@ -64,7 +63,7 @@ export const handleFeeInputGotTouched = createAsyncThunk(
   'transactionCreation/handleFeeInputGotTouched',
   async (props, thunkAPI) => {
 		thunkAPI.dispatch(setFeeInputGotTouched(true))
-		thunkAPI.dispatch(validate())
+		thunkAPI.dispatch(validateAndSave())
   }
 )
 
@@ -72,55 +71,55 @@ export const handleSolidaritySurchargeInputGotTouched = createAsyncThunk(
   'transactionCreation/handleSolidaritySurchargeInputGotTouched',
   async (props, thunkAPI) => {
 		thunkAPI.dispatch(setSolidaritySurchargeInputGotTouched(true))
-		thunkAPI.dispatch(validate())
+		thunkAPI.dispatch(validateAndSave())
   }
 )
 
-export const validate = createAsyncThunk(
+export function isValid(state:State) {
+  if(state.transactionCreation.dateInputGotTouched && 
+    state.transactionCreation.typeInputGotTouched && 
+    state.transactionCreation.assetInputGotTouched && 
+    state.transactionCreation.amountInputGotTouched && 
+    state.transactionCreation.priceInputGotTouched && 
+    state.transactionCreation.feeInputGotTouched && 
+    state.transactionCreation.solidaritySurchargeInputGotTouched
+  ) {
+    return true
+  }
+  else {
+    return false
+  }
+}
+
+export const validateAndSave = createAsyncThunk(
   'transactionCreation/validate',
   async (props, thunkAPI) => {
 		let state = thunkAPI.getState() as State
-    console.log(
-      state.transactionCreation.dateInputGotTouched, 
-      state.transactionCreation.typeInputGotTouched,
-      state.transactionCreation.assetInputGotTouched,
-      state.transactionCreation.amountInputGotTouched,
-      state.transactionCreation.priceInputGotTouched,
-      state.transactionCreation.feeInputGotTouched,
-      state.transactionCreation.solidaritySurchargeInputGotTouched,
-    )
-    if(state.transactionCreation.dateInputGotTouched && 
-      state.transactionCreation.typeInputGotTouched && 
-      state.transactionCreation.assetInputGotTouched && 
-      state.transactionCreation.amountInputGotTouched && 
-      state.transactionCreation.priceInputGotTouched && 
-      state.transactionCreation.feeInputGotTouched && 
-      state.transactionCreation.solidaritySurchargeInputGotTouched
-   ) {
-    let sql  = 'INSERT OR REPLACE INTO transactions (ID, date, type, asset, amount, price_per_share, fee, solidarity_surcharge) '
-        sql += 'VALUES (\'' + state.transactionCreation.newID
-        sql += '\',\'' + state.transactionCreation.dateInput
-        sql += '\',\'' + state.transactionCreation.typeInput.replace('\'', '\'\'')
-        sql += '\',\'' + state.transactionCreation.assetInput.replace('\'', '\'\'')
-        sql += '\',\'' + state.transactionCreation.amountInput.replace(',', '.') 
-        sql += '\',\'' + state.transactionCreation.priceInput.replace(',', '.') 
-        sql += '\',\'' + state.transactionCreation.feeInput.replace(',', '.')
-        sql += '\',\'' + state.transactionCreation.solidaritySurchargeInput.replace(',', '.') + '\')'
+    if(isValid(state)) {
+      let sql  = 'INSERT OR REPLACE INTO transactions (ID, date, type, assetID, amount, price_per_share, fee, solidarity_surcharge) '
+          sql += 'VALUES (\'' + state.transactionCreation.newID
+          sql += '\',\'' + state.transactionCreation.dateInput
+          sql += '\',\'' + state.transactionCreation.typeInput.replace('\'', '\'\'')
+          sql += '\',\'' + state.transactionCreation.assetInput.replace('\'', '\'\'')
+          sql += '\',\'' + state.transactionCreation.amountInput.replace(',', '.') 
+          sql += '\',\'' + state.transactionCreation.priceInput.replace(',', '.') 
+          sql += '\',\'' + state.transactionCreation.feeInput.replace(',', '.')
+          sql += '\',\'' + state.transactionCreation.solidaritySurchargeInput.replace(',', '.') + '\')'
     
-    console.log(sql)
+      console.log(sql)
      
-    window.API.sendToDB(sql).then((result:any) => {
-      console.log(result)
-      let sql  = 'SELECT MAX(ID) as ID FROM transactions'
-			console.log(sql)
-			window.API.sendToDB(sql).then((result:any) => {
-				thunkAPI.dispatch(setNewID(result[0].ID + 1))
-				thunkAPI.dispatch(transactionsReducer.loadTransactions())
-        thunkAPI.dispatch(assetsReducer.loadAssets())
-			});
-     });
-     thunkAPI.dispatch(reset())
-   }
+      window.API.sendToDB(sql).then((result:any) => {
+        console.log(result)
+        let sql  = 'SELECT MAX(ID) as ID FROM transactions'
+        console.log(sql)
+        window.API.sendToDB(sql).then((result:any) => {
+          thunkAPI.dispatch(setNewID(result[0].ID + 1))
+          thunkAPI.dispatch(transactionsReducer.loadTransactions())
+          thunkAPI.dispatch(assetsReducer.loadAssets())
+        });
+      });
+      thunkAPI.dispatch(reset())
+    }
   }
 )
 

@@ -15,9 +15,8 @@ export const validate = createAsyncThunk(
   async (props, thunkAPI) => {
 		let state = thunkAPI.getState() as State
     if(isValid(state.assetCreation)) {
-    let sql  = 'INSERT OR REPLACE INTO assets (ID, name, symbol, isin, kgv) '
-        sql += 'VALUES (\'' + (state.assetCreation.ID)
-        sql += '\',\'' + state.assetCreation.nameInput.replace('\'', '\'\'')
+    let sql  = 'INSERT OR REPLACE INTO assets (name, symbol, isin, kgv) '
+        sql += 'VALUES (\'' + state.assetCreation.nameInput.replace('\'', '\'\'')
         sql += '\',\'' + state.assetCreation.symbolInput.replace('\'', '\'\'')
         sql += '\',\'' + state.assetCreation.isinInput.replace('\'', '\'\'')
         sql += '\',\'' + state.assetCreation.kgvInput.replace('\'', '\'\'') + '\')'

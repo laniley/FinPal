@@ -50,23 +50,30 @@ describe('Assets selectors', () => {
 			const assets = [
 				{
 					ID: 1,
-					name: 'B'
+					name: 'Coca-Cola'
 				},
 				{
 					ID: 2,
-					name: 'A'
+					name: '3M'
+				},
+				,
+				{
+					ID: 3,
+					name: 'Amazon'
 				}
 			] as Asset[]
 			expect(assetsSelector.selectAssetsSortedByName(assets, 'asc')).toEqual(
 				[
-					{"ID": 2, "name": 'A'}, 
-					{"ID": 1, "name":'B'}
+					{"ID": 2, "name": '3M'}, 
+					{"ID": 3, "name":'Amazon'},
+					{"ID": 1, "name":'Coca-Cola'}
 				]
 			)
 			expect(assetsSelector.selectAssetsSortedByName(assets, 'desc')).toEqual(
 				[
-					{"ID": 1, "name": 'B'}, 
-					{"ID": 2, "name":'A'}
+					{"ID": 1, "name":'Coca-Cola'},
+					{"ID": 3, "name":'Amazon'},
+					{"ID": 2, "name": '3M'}
 				]
 			)
 		})
