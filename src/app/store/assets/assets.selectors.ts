@@ -13,12 +13,22 @@ export function selectAssetsSortedByName(state: Asset[], direction:'asc'|'desc')
   return state != undefined ? state.slice().sort((a:Asset, b:Asset) => sortBy(a, b, 'name', direction)) : []
 }
 
+export function selectAssetsSortedByDividendPayDate(state: Asset[], direction:'asc'|'desc') {
+  return state != undefined ? state.slice().sort((a:Asset, b:Asset) => sortBy(a, b, 'dividendPayDate', direction)) : []
+}
+
 export function sortBy(a:Asset, b:Asset, property:string, direction:'asc'|'desc') {
 	if(property == 'name') {
 		if(direction == 'asc')
 			return a.name.localeCompare(b.name)
 		else
 			return b.name.localeCompare(a.name)
+	}
+	else if(property == 'dividendPayDate') {
+		if(direction == 'asc')
+			return a.payDividendDate.localeCompare(b.payDividendDate)
+		else
+			return b.payDividendDate.localeCompare(a.payDividendDate)
 	}
 	else if(property == 'current_profit_loss_percentage') {
 		if(direction == 'asc')

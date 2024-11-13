@@ -37,11 +37,12 @@ describe('Assets selectors', () => {
 
 	})
 
-	describe('selectAssetsSortedByName(state: Assets[])', () => {
+	describe('selectAssetsSortedByName(state: Assets[], direction:\'asc\'|\'desc\')', () => {
 
 		it('should return [] if state is undefined', () => {
 		
 			expect(assetsSelector.selectAssetsSortedByName(undefined, 'asc')).toEqual([])
+			expect(assetsSelector.selectAssetsSortedByName(undefined, 'desc')).toEqual([])
 		
 		})
 
@@ -74,6 +75,50 @@ describe('Assets selectors', () => {
 					{"ID": 1, "name":'Coca-Cola'},
 					{"ID": 3, "name":'Amazon'},
 					{"ID": 2, "name": '3M'}
+				]
+			)
+		})
+
+	})
+
+	describe('selectAssetsSortedByDividendPayDate(state: Assets[], direction:\'asc\'|\'desc\')', () => {
+
+		it('should return [] if state is undefined', () => {
+		
+			expect(assetsSelector.selectAssetsSortedByDividendPayDate(undefined, 'asc')).toEqual([])
+			expect(assetsSelector.selectAssetsSortedByDividendPayDate(undefined, 'desc')).toEqual([])
+		
+		})
+
+		it('should return assets sorted by dividendPayDate', () => {
+
+			const assets = [
+				{
+					ID: 1,
+					payDividendDate: '2024-10-01'
+				},
+				{
+					ID: 2,
+					payDividendDate: '2024-11-01'
+				},
+				,
+				{
+					ID: 3,
+					payDividendDate: '2024-12-01'
+				}
+			] as Asset[]
+			expect(assetsSelector.selectAssetsSortedByDividendPayDate(assets, 'asc')).toEqual(
+				[
+					{"ID": 1, "payDividendDate":'2024-10-01'}, 
+					{"ID": 2, "payDividendDate":'2024-11-01'},
+					{"ID": 3, "payDividendDate":'2024-12-01'}
+				]
+			)
+			expect(assetsSelector.selectAssetsSortedByDividendPayDate(assets, 'desc')).toEqual(
+				[
+					{"ID": 3, "payDividendDate":'2024-12-01'},
+					{"ID": 2, "payDividendDate":'2024-11-01'},
+					{"ID": 1, "payDividendDate":'2024-10-01'}
 				]
 			)
 		})
