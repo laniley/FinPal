@@ -49,7 +49,7 @@ export const validate = createAsyncThunk(
       state.dividendCreation.assetInputGotTouched && 
       state.dividendCreation.incomeInputGotTouched
    ) {
-    let sql  = 'INSERT OR REPLACE INTO dividends (ID, date, asset, income) '
+    let sql  = 'INSERT OR REPLACE INTO dividends (ID, date, asset_ID, income) '
         sql += 'VALUES (\'' + state.dividendCreation.newID
         sql += '\',\'' + state.dividendCreation.dateInput
         sql += '\',\'' + state.dividendCreation.assetInput.replace('\'', '\'\'')
