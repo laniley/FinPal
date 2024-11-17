@@ -128,6 +128,7 @@ describe('AssetCreation reducer', () => {
         })
 			)
     })
+  })
 /*
     it('should handle validateAndSave()', () => {
       const path_to_test_configs = process.cwd() + '\\src\\testing\\test_configs\\'

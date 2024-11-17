@@ -13,5 +13,6 @@
     "moduleResolution": "node",
     "resolveJsonModule": true
   },
-  "include": ["src", "setupTests.ts"]
+  "include": ["src", "setupTests.ts"],
+  "types": ["node", "jest", "@testing-library/jest-dom"]
 }

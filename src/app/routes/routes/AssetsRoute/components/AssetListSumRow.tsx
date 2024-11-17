@@ -22,7 +22,7 @@ export default function AssetListSumRow(props: {sum_profit_loss:string, sum_divi
       <TableCell></TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
-      <TableCell additionalClassNames="text-right">{props.sum_profit_loss} €</TableCell>
+      <TableCell dataTestID="SumProfitLoss" additionalClassNames="text-right">{props.sum_profit_loss} €</TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
       <TableCell additionalClassNames="text-right">{props.sum_dividends} €</TableCell>
