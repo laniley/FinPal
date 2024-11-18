@@ -1,22 +1,16 @@
-import { Button, Dialog, DialogBody, DialogFooter, Intent, Overlay2, OverlaysProvider } from '@blueprintjs/core';
-import { useAppSelector, useAppDispatch } from './../../../hooks'
+import { useAppSelector } from './../../../hooks'
 
 import AssetListSumRow from './components/AssetListSumRow';
 import AssetListItem from './components/AssetListItem';
 import TableHeaderCell from '../../../components/TableHeaderCell/TableHeaderCell';
-import * as assetsReducer from './../../..//store/assets/assets.reducer';
 import * as assetsSelector from '../../../store/assets/assets.selectors';
-import * as appStateReducer from '../../../store/appState/appState.reducer';
-import * as assetCreationReducer from '../../../store/assetCreation/assetCreation.reducer';
+import RefreshButton from './components/RefreshButton';
+import CreateAndEditAssetOverlay from './components/CreateAndEditAssetOverlay';
 
 export default function AnalysisRoute() {
 
-	const dispatch = useAppDispatch();
-	const appState = useAppSelector(state => state.appState)
 	const assets = useAppSelector(state => state.assets.assets)
 	const theme = useAppSelector(state => state.appState.theme)
-
-	const isOpen = useAppSelector(state => state.appState.showAssetOverlay)
 
 	var sum_profit_lost = 0
 	var sum_dividends = 0
@@ -35,11 +29,6 @@ export default function AnalysisRoute() {
 
 	const sorted_Assets = assetsSelector.selectAssetsSortedByProfitLoss(assets, 'desc')
 
-	const nameInput = useAppSelector(state => state.assetCreation.nameInput)
-  const symbolInput = useAppSelector(state => state.assetCreation.symbolInput)
-  const isinInput = useAppSelector(state => state.assetCreation.isinInput)
-	const kgvInput = useAppSelector(state => state.assetCreation.kgvInput)
-
 	return (
 		<div
 			id="AssetsRoute"
@@ -49,7 +38,7 @@ export default function AnalysisRoute() {
 				<table>
 					<thead>
 						<tr>
-							<TableHeaderCell><Button intent={Intent.PRIMARY} icon="refresh" onClick={(e) => dispatch(assetsReducer.loadAssets())} /></TableHeaderCell>
+							<TableHeaderCell><RefreshButton /></TableHeaderCell>
 							<TableHeaderCell>ID</TableHeaderCell>
 							<TableHeaderCell>Name</TableHeaderCell>
 							<TableHeaderCell>Shares</TableHeaderCell>
@@ -71,32 +60,7 @@ export default function AnalysisRoute() {
 					</tbody>
 				</table>
 			</div>
-			<OverlaysProvider>
-				<Dialog 
-					className={theme} 
-					isOpen={isOpen} 
-					title={ appState.assetOverlayType == appStateReducer.AssetOverlayType.NEW ? "New Asset" : "Edit Asset"}
-					icon={ appState.assetOverlayType == appStateReducer.AssetOverlayType.NEW ? "plus" : "edit"}
-					canOutsideClickClose={false}
-					onClose={(e) => dispatch(appStateReducer.setShowAssetOverlay(false))}>
-					<DialogBody>
-						<table>
-							<tbody>
-								<tr><td>ID</td><td>{useAppSelector(state => state.assetCreation.ID)}</td></tr>
-								<tr><td>Name</td><td><input id="nameInput" type="text" value={nameInput} onChange={(e) => dispatch(assetCreationReducer.setNameInput(e.target.value))} /> *</td></tr>
-								<tr><td>Symbol</td><td><input id="symbolInput" type="text" value={symbolInput} onChange={(e) => dispatch(assetCreationReducer.setSymbolInput(e.target.value))} /> *</td></tr>
-								<tr><td>ISIN</td><td><input id="isinInput" type="text" minLength={12} maxLength={12} value={isinInput} onChange={(e) => dispatch(assetCreationReducer.setISINInput(e.target.value))} /> *</td></tr> 
-								<tr><td>KGV</td><td><input id="kgvInput" type="text" value={kgvInput} onChange={(e) => dispatch(assetCreationReducer.setKGVInput(e.target.value))} /></td></tr>
-							</tbody>
-						</table>
-					</DialogBody>
-					<DialogFooter actions={
-						<div>
-							<Button intent="success" text="Save" onClick={(e) => dispatch(assetCreationReducer.validate())} />
-							<Button intent="primary" text="Close" onClick={(e) => dispatch(appStateReducer.setShowAssetOverlay(false))} />
-						</div>} />
-				</Dialog>
-			</OverlaysProvider>
+			<CreateAndEditAssetOverlay />
 		</div>
 	);
 }

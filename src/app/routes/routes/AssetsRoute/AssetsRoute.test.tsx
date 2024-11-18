@@ -1,10 +1,10 @@
-import { act, screen, waitFor, within } from '@testing-library/react'
+import { act, fireEvent, getByText, screen, waitFor, within } from '@testing-library/react'
 import { render } from '../../../../testing/test-utils'
 import AssetsRoute from './AssetsRoute';
-import { setupStore } from '../../../store';
+import { getById } from '../../../../testing/custom-queries';
 import { Provider } from 'react-redux';
-
-const path_to_test_configs = process.cwd() + '\\src\\testing\\test_configs\\'
+import { setupStore } from '../../../store';
+import userEvent from '@testing-library/user-event';
 
 describe('AssetsRoute component', () => {
 

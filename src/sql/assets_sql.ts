@@ -6,7 +6,9 @@ CREATE TABLE IF NOT EXISTS assets (
   isin UNIQUE VARCHAR NOT NULL,
   kgv,
   PRIMARY KEY("ID" AUTOINCREMENT)
-)
+);
+
+CREATE UNIQUE INDEX asset_name_unique_index ON assets(name);
 `
 
 export default sql

@@ -17,6 +17,7 @@ import assets_sql from '../../sql/assets_sql'
 import dividends_sql from '../../sql/dividends_sql'
 import assets_v_sql from '../../sql/assets_v_sql'
 import transactions_v_sql from '../../sql/transactions_v_sql'
+import appState_sql from '../../sql/appState_sql';
 
 
 export default function RootRoute() {
@@ -35,12 +36,14 @@ export default function RootRoute() {
 		console.log("database: " + result.database);
 		setSelectedTab(result.selectedTab)
 		dispatch(appStateReducer.setDatabase(result.database))
-		setupAssets().then(() => {
-			setupTransactions().then(() => {
-				setupDividends().then(() => {
-					setupAssetsView().then(() => {
-						dispatch(assetsReducer.loadAssets()).then(() => {
-							dispatch(transactionsReducer.loadTransactions())
+		setupAppState().then(() => {
+			setupAssets().then(() => {
+				setupTransactions().then(() => {
+					setupDividends().then(() => {
+						setupAssetsView().then(() => {
+							dispatch(assetsReducer.loadAssets()).then(() => {
+								dispatch(transactionsReducer.loadTransactions())
+							})
 						})
 					})
 				})
@@ -63,7 +66,13 @@ export default function RootRoute() {
 		</div>
 	);
 
-
+	async function setupAppState() {
+		console.log(appState_sql)
+		var result:string = await window.API.sendToDB(appState_sql)
+		if(result && !Array.isArray(result) && result.includes('SQLITE_ERROR')) {
+			console.error('result: ' + result)
+		}
+	}
 
 	async function setupAssets() {
 		console.log(assets_sql)
