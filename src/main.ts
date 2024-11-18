@@ -27,17 +27,21 @@ else {
 
 console.log(json)
 
-const sqlite3 = require('sqlite3');
 const dbPath = json.database;
-const database = new sqlite3.Database(dbPath, (err:any) => {
-  if (err) console.error('Database opening error: ', err);
-});
+const sqlite3 = require('sqlite3');
 
 ipcMain.on('async-db-message', (event, arg) => {
   const sql = arg;
-  database.all(sql, (err:any, rows:any) => {
-      event.reply('async-db-reply', (err && err.message) || rows);
+  const database = new sqlite3.Database(dbPath, (err:any) => {
+    if (err) console.error('Database opening error: ', err);
   });
+  database.all(sql, (err:any, rows:any) => {
+    if(err && err.message) {
+			console.error(err.message)
+		}
+    event.reply('async-db-reply', (err && err.message) || rows);
+  });
+  database.close()
 });
 
 import yahooFinance from 'yahoo-finance2';
@@ -59,6 +63,7 @@ else {
 }
 
 import { initialize, enable as enableRemote } from "@electron/remote/main";
+
 initialize();
 
 const createWindow = () => {

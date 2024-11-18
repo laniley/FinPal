@@ -24,12 +24,13 @@ declare global {
 contextBridge.exposeInMainWorld('API', {
   appState: appState,
   quit: () => remote.app.quit(),
-  sendToDB(message:any) {
+  sendToDB(sql:any) {
+    console.log(sql)
     return new Promise((resolve) => {
-        ipcRenderer.once('async-db-reply', (_, arg) => {
-            resolve(arg);
-        });
-        ipcRenderer.send('async-db-message', message);
+      ipcRenderer.send('async-db-message', sql);
+      ipcRenderer.once('async-db-reply', (_, arg) => {
+          resolve(arg);
+      });
     });
   },
   sendToFinanceAPI(args: { symbol:string}) {

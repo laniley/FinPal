@@ -1,9 +1,10 @@
 import { act, waitFor } from '@testing-library/react'
 import { render } from '../../testing/test-utils'
-import RootRoute from './RootRoute';
+import RootRoute, { sendToDB } from './RootRoute';
 import { setupStore } from '../store';
 import { Provider } from 'react-redux';
 import * as appStateAPI from '../../api/appStateAPI'
+import appState_sql from '../../sql/appState_sql';
 
 const path_to_test_configs = process.cwd() + '\\src\\testing\\test_configs\\'
 
@@ -189,6 +190,36 @@ describe('RootRoute component', () => {
 			})
 			await waitFor(() => {
         expect(store.getState().appState.theme).toEqual('bp5-dark');
+      })
+		});
+	
+	})
+
+	describe('sendToDB(sql:string)', () => {
+
+		beforeEach(() => {
+			const filePath = path_to_test_configs + 'config.json'
+			window.API = {
+				appState:{
+					dataPath: path_to_test_configs,
+					filePath: filePath,
+					load: () => appStateAPI.load(filePath),
+					saveTheme: jest.fn(),
+					saveSelectedTab: jest.fn()
+				},
+				sendToDB: jest.fn((param) => { 
+					return 'SQLITE_ERROR: TEST'
+				}),
+				sendToFinanceAPI: jest.fn(),
+				quit: jest.fn()
+			}
+		});
+
+		it('logs error if  sendToDB(sql) fails', async() => {
+			const spyOn = jest.spyOn(console, 'error')
+			await sendToDB('sql')
+			await waitFor(() => {
+        expect(spyOn).toHaveBeenCalledWith('SQLITE_ERROR: TEST');
       })
 		});
 	

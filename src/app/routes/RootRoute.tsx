@@ -36,7 +36,7 @@ export default function RootRoute() {
 		console.log("database: " + result.database);
 		setSelectedTab(result.selectedTab)
 		dispatch(appStateReducer.setDatabase(result.database))
-		setupAppState().then(() => {
+		sendToDB(appState_sql).then(() => {
 			setupAssets().then(() => {
 				setupTransactions().then(() => {
 					setupDividends().then(() => {
@@ -66,25 +66,14 @@ export default function RootRoute() {
 		</div>
 	);
 
-	async function setupAppState() {
-		console.log(appState_sql)
-		var result:string = await window.API.sendToDB(appState_sql)
-		if(result && !Array.isArray(result) && result.includes('SQLITE_ERROR')) {
-			console.error('result: ' + result)
-		}
-	}
-
 	async function setupAssets() {
-		console.log(assets_sql)
-		await window.API.sendToDB(assets_sql)
+		await sendToDB(assets_sql)
 		let sql  = 'SELECT MAX(ID) as ID FROM assets'
-		console.log(sql)
-		var result = await window.API.sendToDB(sql)
+		var result = await sendToDB(sql)
 		var newID = 0
 		if(result[0]) {
 			newID = result[0].ID + 1
 		}
-		console.log('New ID (assets): ' + newID)
 		dispatch(assetCreationReducer.setID(newID))
 	}
 
@@ -98,30 +87,22 @@ export default function RootRoute() {
 				sql += 'price_per_share REAL, '
 				sql += 'fee REAL, '
 				sql += 'solidarity_surcharge REAL)'
-		console.log(sql)
-		await window.API.sendToDB(sql)
+		await sendToDB(sql)
 		sql  = 'SELECT MAX(ID) as ID FROM transactions'
-		console.log(sql)
-		var result = await window.API.sendToDB(sql)
-		console.log(result)
+		var result = await sendToDB(sql)
 		var newID = 0
 		if(result) {
 			newID = result[0].ID + 1
 		}
 		console.log('New ID (transactions): ' + newID)
 		dispatch(transactionCreationReducer.setNewID(newID))
-		console.log(transactions_v_sql)
-		result = await window.API.sendToDB(transactions_v_sql)
-		console.log('result: ', result)
+		result = await sendToDB(transactions_v_sql)
 	}
 
 	async function setupDividends() {
-		console.log(dividends_sql)
-		await window.API.sendToDB(dividends_sql)
+		await sendToDB(dividends_sql)
 		let sql  = 'SELECT MAX(ID) as ID FROM dividends'
-		console.log(sql)
-		var result = await window.API.sendToDB(sql)
-		console.log(result)
+		var result = await sendToDB(sql)
 		var newID = 0
 		if(result) {
 			newID = result[0].ID + 1
@@ -132,9 +113,19 @@ export default function RootRoute() {
 	}
 
 	async function setupAssetsView() {
-		console.log(assets_v_sql)
 		let result = await window.API.sendToDB(assets_v_sql)
 		console.log('result - assets_v: ', result)
+	}
+}
+
+export async function sendToDB(sql:string) {
+	var result:any = await window.API.sendToDB(sql)
+	if(result && !Array.isArray(result) && result.includes('SQLITE_ERROR')) {
+		console.error(result)
+	}
+	else {
+		console.log('result', result)
+		return result
 	}
 }
 
