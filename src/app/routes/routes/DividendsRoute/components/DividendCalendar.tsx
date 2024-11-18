@@ -79,8 +79,10 @@ export function DividendsInYear(props:{year:number, dividends:Dividend[]}) {
   return(
     <table>
       <thead>
-        <TableHeaderCell>{props.year}</TableHeaderCell>
-        <TableHeaderCell>{sum} €</TableHeaderCell>
+        <tr>
+          <TableHeaderCell>{props.year}</TableHeaderCell>
+          <TableHeaderCell>{sum} €</TableHeaderCell>
+        </tr>
       </thead>
       <tbody>
         {months.map((month, i) => {

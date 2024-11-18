@@ -6,7 +6,7 @@ type Props = {
   bgColor?: string
 }
 
-export default function TableCell({ children, ...props }:Props) {
+export default function TableHeaderCell({ children, ...props }:Props) {
 
   const className = "border-2 border-slate-600 px-2 " + props.additionalClassNames + " " + props.bgColor
 
