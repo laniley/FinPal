@@ -37,6 +37,55 @@ describe('Assets selectors', () => {
 
 	})
 
+	describe('get_current_profit_loss_bgColor(asset:Asset)', () => {
+
+		it('should return "bg-teal-600" if asset.current_profit_loss > 0', () => {
+			const asset = {
+        current_shares: 1,
+        price: 100,
+        current_invest: -50
+      } as Asset
+			expect(assetsSelector.get_current_profit_loss_bgColor(asset)).toEqual("bg-teal-600")
+		})
+
+		it('should return "bg-slate-500" if asset.current_profit_loss == 0', () => {
+			const asset = {
+        current_shares: 1,
+        price: 50,
+        current_invest: -50
+      } as Asset
+			expect(assetsSelector.get_current_profit_loss_bgColor(asset)).toEqual("bg-slate-500")
+		})
+
+		it('should return "bg-custom-red" if asset.current_profit_loss < 0', () => {
+			const asset = {
+        current_shares: 1,
+        price: 50,
+        current_invest: -100
+      } as Asset
+			expect(assetsSelector.get_current_profit_loss_bgColor(asset)).toEqual("bg-custom-red")
+		})
+
+	})
+
+	describe('get_current_sum_in_out_bgColor(asset:Asset)', () => {
+
+		it('should return "bg-teal-600" if asset.current_sum_in_out > 0', () => {
+			const asset = {
+        current_sum_in_out: 100
+      } as Asset
+			expect(assetsSelector.get_current_sum_in_out_bgColor(asset)).toEqual("bg-teal-600")
+		})
+
+		it('should return "bg-custom-red" if asset.current_profit_loss < 0', () => {
+			const asset = {
+        current_sum_in_out: -100
+      } as Asset
+			expect(assetsSelector.get_current_sum_in_out_bgColor(asset)).toEqual("bg-custom-red")
+		})
+
+	})
+
 	describe('selectAssetsSortedByName(state: Assets[], direction:\'asc\'|\'desc\')', () => {
 
 		it('should return [] if state is undefined', () => {

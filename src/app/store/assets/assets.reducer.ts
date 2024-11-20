@@ -7,8 +7,8 @@ export const initialState = { assets:[] as Asset[] }
 export const loadAssets = createAsyncThunk(
   'assets/loadAssets',
   async (props, thunkAPI) => {
+		console.log('loading assets from DB...')
 		let sql = 'SELECT * FROM assets_v'
-		console.log(sql)
 		let assets = await window.API.sendToDB(sql)
 		console.log('assets: ', assets)
 		for(const asset of assets) {
