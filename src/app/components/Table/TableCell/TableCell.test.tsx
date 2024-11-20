@@ -1,5 +1,5 @@
 import { act, screen, waitFor } from '@testing-library/react'
-import { render } from '../../../testing/test-utils'
+import { render } from '../../../../testing/test-utils'
 import TableCell from './TableCell';
 
 describe('TableCell component', () => {
