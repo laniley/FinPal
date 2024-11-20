@@ -1,5 +1,5 @@
-import TableCell from '../../../../components/TableCell/TableCell';
-import TableHeaderCell from '../../../../components/TableHeaderCell/TableHeaderCell';
+import TableCell from '../../../../components/Table/TableCell/TableCell';
+import TableHeaderCell from '../../../../components/Table/TableHeaderCell/TableHeaderCell';
 import { selectAssetsSortedByDividendPayDate } from '../../../../store/assets/assets.selectors';
 import { useAppSelector, useAppDispatch } from './../../../../hooks'
 

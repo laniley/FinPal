@@ -1,7 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks'
 
 import * as assetCreationReducer from '../../../../store/assetCreation/assetCreation.reducer';
-import TableCell from '../../../../components/TableCell/TableCell';
+import TableCell from '../../../../components/Table/TableCell/TableCell';
 import { Button, Intent } from '@blueprintjs/core';
 import * as appStateReducer from '../../../../store/appState/appState.reducer';
 
@@ -12,7 +12,6 @@ export default function AssetListSumRow(props: {sum_profit_loss:string, sum_divi
 	return (
     <tr>
       <TableCell additionalClassNames="text-right">*</TableCell>
-      <TableCell></TableCell>
       <TableCell additionalClassNames="text-center">
         <div><Button intent={Intent.PRIMARY} icon="plus" text="New Asset" fill onClick={(e) => openAssetOverlay()} /></div>
       </TableCell>

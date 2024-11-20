@@ -1,7 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import * as dividendsReducer from '../../../../store/dividends/dividends.reducer';
-import TableCell from '../../../../components/TableCell/TableCell';
+import TableCell from '../../../../components/Table/TableCell/TableCell';
 
 export default function DividendListItem(props: {i: number, dividend:Dividend}) {
 

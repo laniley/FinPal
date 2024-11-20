@@ -1,6 +1,6 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import * as selectors from './../../../../selectors';
-import TableCell from '../../../../components/TableCell/TableCell'
+import TableCell from '../../../../components/Table/TableCell/TableCell'
 import { Alignment, Button, Colors } from '@blueprintjs/core';
 import * as assetsSelector from '../../../../store/assets/assets.selectors';
 import * as appStateReducer from '../../../../store/appState/appState.reducer';
@@ -33,7 +33,6 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
   return (
     <tr>
 			<TableCell additionalClassNames="text-right">{props.i}</TableCell>
-			<TableCell>{props.asset.ID}</TableCell>
       <TableCell>
 				<Button text={props.asset.name} minimal style={{ color: button_text_color }} fill alignText={Alignment.LEFT} onClick={(e) => openAssetOverlay()} />
 			</TableCell>

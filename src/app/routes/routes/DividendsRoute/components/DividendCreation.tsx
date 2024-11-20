@@ -1,7 +1,7 @@
 import { useAppSelector, useAppDispatch } from './../../../../hooks'
 
 import * as dividendCreationReducer from './../../../../../../src/app/store/dividendCreation/dividendCreation.reducer';
-import TableCell from '../../../../components/TableCell/TableCell';
+import TableCell from '../../../../components/Table/TableCell/TableCell';
 
 export default function TransactionsRoute() {
 

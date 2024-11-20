@@ -2,7 +2,8 @@ import { useAppSelector } from './../../../hooks'
 
 import AssetListSumRow from './components/AssetListSumRow';
 import AssetListItem from './components/AssetListItem';
-import TableHeaderCell from '../../../components/TableHeaderCell/TableHeaderCell';
+import Table from '../../../components/Table/Table';
+import TableHeaderCell from '../../../components/Table/TableHeaderCell/TableHeaderCell';
 import * as assetsSelector from '../../../store/assets/assets.selectors';
 import RefreshButton from './components/RefreshButton';
 import CreateAndEditAssetOverlay from './components/CreateAndEditAssetOverlay';
@@ -35,11 +36,10 @@ export default function AnalysisRoute() {
 			data-testid="AssetsRoute"
 			className={'absolute top-[0px] bottom-0 flex flex-col w-full p-3 ' + theme}>
 			<div id="Table" className="flex justify-center p-3 overflow-auto">
-				<table>
+				<Table>
 					<thead>
 						<tr>
 							<TableHeaderCell><RefreshButton /></TableHeaderCell>
-							<TableHeaderCell>ID</TableHeaderCell>
 							<TableHeaderCell>Name</TableHeaderCell>
 							<TableHeaderCell>Shares</TableHeaderCell>
 							<TableHeaderCell>Current Price per Share</TableHeaderCell>
@@ -58,7 +58,7 @@ export default function AnalysisRoute() {
 						<AssetListSumRow sum_profit_loss={sum_profit_loss_formatted} sum_dividends={sum_dividends_formatted} sum_in_out={sum_in_out_formatted} />
 						<AssetList assets={sorted_Assets}/>
 					</tbody>
-				</table>
+				</Table>
 			</div>
 			<CreateAndEditAssetOverlay />
 		</div>

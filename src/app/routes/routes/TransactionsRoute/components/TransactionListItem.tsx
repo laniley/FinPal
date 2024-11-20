@@ -1,7 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import * as transactionsReducer from '../../../../store/transactions/transactions.reducer';
-import TableCell from '../../../../components/TableCell/TableCell';
+import TableCell from '../../../../components/Table/TableCell/TableCell';
 import * as assetsReducer from '../../../../store/assets/assets.reducer';
 import * as assetsSelector from './../../../../store/assets/assets.selectors';
 

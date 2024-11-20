@@ -1,7 +1,7 @@
 import { useAppSelector, useAppDispatch } from './../../../../hooks'
 
 import * as transactionCreationReducer from './../../../../../../src/app/store/transactionCreation/transactionCreation.reducer';
-import TableCell from '../../../../components/TableCell/TableCell';
+import TableCell from '../../../../components/Table/TableCell/TableCell';
 import * as assetsSelector from './../../../../store/assets/assets.selectors';
 
 export default function TransactionsRoute() {
