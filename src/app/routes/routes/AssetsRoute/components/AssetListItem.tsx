@@ -24,17 +24,17 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const current_sum_in_out = (Math.round((props.asset.current_sum_in_out + props.asset.dividends) * 100) / 100).toFixed(2)
 
 	const bgColor_PriceComparison = price_comparison == "<" ? "bg-teal-600" : (price_comparison == "=" ? "bg-slate-500" : "bg-custom-red")
-	const bgColor_ProfitLoss = current_profit_loss > 0 ? "bg-teal-600" : (props.asset.current_profit_loss == 0 ? "bg-slate-500" : "bg-custom-red")
-	const bgColor_InOut = props.asset.current_sum_in_out > 0 ? "bg-teal-600" : "bg-custom-red"
+	const bgColor_ProfitLoss = assetsSelector.get_current_profit_loss_bgColor(props.asset)
+	const bgColor_InOut = assetsSelector.get_current_sum_in_out_bgColor(props.asset)
 	
 	const theme = useAppSelector(state => state.appState.theme)
 	const button_text_color = selectors.get_button_text_color(theme)
 
   return (
-    <tr>
+    <tr id={"AssetListItem_" + props.i}>
 			<TableCell additionalClassNames="text-right">{props.i}</TableCell>
       <TableCell>
-				<Button text={props.asset.name} minimal style={{ color: button_text_color }} fill alignText={Alignment.LEFT} onClick={(e) => openAssetOverlay()} />
+				<Button data-testid={"openOverlayButton_" + props.i} text={props.asset.name} minimal style={{ color: button_text_color }} fill alignText={Alignment.LEFT} onClick={(e) => openAssetOverlay()} />
 			</TableCell>
 			<TableCell additionalClassNames="text-right">{shares_formatted}</TableCell>
 			<TableCell additionalClassNames="text-right">{current_price} {props.asset.currencySymbol}</TableCell>

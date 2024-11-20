@@ -20,6 +20,7 @@ export default function AnalysisRoute() {
 	return (
     <OverlaysProvider>
       <Dialog 
+        
         className={theme} 
         isOpen={isOpen} 
         title={appState.assetOverlayType == appStateReducer.AssetOverlayType.NEW ? "New Asset" : "Edit Asset"}
@@ -27,7 +28,7 @@ export default function AnalysisRoute() {
         canOutsideClickClose={false}
         onClose={(e) => dispatch(appStateReducer.setShowAssetOverlay(false))}>
         <DialogBody>
-          <table>
+          <table data-testid="AssetOverlay">
             <tbody>
               <tr><td>ID</td><td>{useAppSelector(state => state.assetCreation.ID)}</td></tr>
               <tr><td>Name</td><td><input id="nameInput" type="text" value={nameInput} onChange={(e) => dispatch(assetCreationReducer.setNameInput(e.target.value))} /> *</td></tr>

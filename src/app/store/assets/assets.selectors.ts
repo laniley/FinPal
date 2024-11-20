@@ -1,5 +1,7 @@
 export const get_current_profit_loss = (asset:Asset) => (asset.current_shares * asset.price) + asset.current_invest
 export const get_current_profit_loss_percentage = (asset:Asset) => (asset.current_invest != 0 ? -1 * get_current_profit_loss(asset)/asset.current_invest * 100 : 0)
+export const get_current_profit_loss_bgColor = (asset:Asset) => (asset.current_profit_loss > 0 ? "bg-teal-600" : (asset.current_profit_loss == 0 ? "bg-slate-500" : "bg-custom-red"))
+export const get_current_sum_in_out_bgColor = (asset:Asset) => (asset.current_sum_in_out > 0 ? "bg-teal-600" : "bg-custom-red")
 
 export function selectAssetsSortedByProfitLoss(state: Asset[], direction:'asc'|'desc') {
   const active = state.filter((asset:Asset) => asset.current_shares != 0 && asset.current_shares != null)
