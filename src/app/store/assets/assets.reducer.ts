@@ -27,7 +27,7 @@ export const updateCurrentInvest = createAsyncThunk(
 		const assets = state.assets
 
 		assets.forEach((asset:Asset) => {
-			const filtered = state.transactions.transactions.filter((trans:Transaction) => trans.asset_ID == asset.ID)
+			const filtered = state.transactions.filter((trans:Transaction) => trans.asset_ID == asset.ID)
 			const sorted = filtered.slice().sort((a:Transaction, b:Transaction) => sortTransactionsBy(a, b, 'date', 'desc'))
 
 			let current_invest = 0
