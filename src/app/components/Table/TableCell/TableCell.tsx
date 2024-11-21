@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 
 type Props = {
+  id?: string,
   children?: ReactNode
   additionalClassNames?: string,
   bgColor?: string,
@@ -13,7 +14,7 @@ export default function TableCell({ children, ...props }:Props) {
   const dataTestID = "TableCell" + (props.dataTestID || '')
 
   return(
-    <td data-testid={dataTestID} className={className}>{children}</td>
+    <td id={props.id || ''} data-testid={dataTestID} className={className}>{children}</td>
   )
 }
 

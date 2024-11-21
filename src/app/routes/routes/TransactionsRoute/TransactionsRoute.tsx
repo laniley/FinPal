@@ -4,6 +4,7 @@ import TransactionCreation from './components/TransactionCreation';
 import TransactionListItem from './components/TransactionListItem';
 import AssetFilter from './../../../components/AssetFilter/AssetFilter'
 import * as transactionFilterReducer from './../../../store/transactionFilter/transactionFilter.reducer';
+import Table from '../../../components/Table/Table';
 
 export default function TransactionsRoute() {
 
@@ -18,7 +19,7 @@ export default function TransactionsRoute() {
 			className={'absolute top-[0px] bottom-0 flex flex-col w-full ' + theme}>
 			<div id="Main" className="flex p-3 overflow-auto">
 				<div className="flex grow justify-center align-center">
-					<table>
+					<Table>
 						<thead>
 							<tr>
 								<th>#</th>
@@ -51,7 +52,7 @@ export default function TransactionsRoute() {
 								return (<TransactionListItem key={"transaction-" + transaction.ID} i={i+1} transaction={transaction}/>)
 							})}
 						</tbody>
-					</table>
+					</Table>
 				</div>
 			</div>
 		</div>

@@ -48,13 +48,13 @@ describe('Assets selectors', () => {
 			expect(assetsSelector.get_current_profit_loss_bgColor(asset)).toEqual("bg-teal-600")
 		})
 
-		it('should return "bg-slate-500" if asset.current_profit_loss == 0', () => {
+		it('should return "transparent" if asset.current_profit_loss == 0', () => {
 			const asset = {
         current_shares: 1,
         price: 50,
         current_invest: -50
       } as Asset
-			expect(assetsSelector.get_current_profit_loss_bgColor(asset)).toEqual("bg-slate-500")
+			expect(assetsSelector.get_current_profit_loss_bgColor(asset)).toEqual("transparent")
 		})
 
 		it('should return "bg-custom-red" if asset.current_profit_loss < 0', () => {

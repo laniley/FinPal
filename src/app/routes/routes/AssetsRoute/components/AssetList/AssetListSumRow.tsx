@@ -1,9 +1,9 @@
-import { useAppSelector, useAppDispatch } from '../../../../hooks'
+import { useAppSelector, useAppDispatch } from '../../../../../hooks'
 
-import * as assetCreationReducer from '../../../../store/assetCreation/assetCreation.reducer';
-import TableCell from '../../../../components/Table/TableCell/TableCell';
+import * as assetCreationReducer from '../../../../../store/assetCreation/assetCreation.reducer';
+import TableCell from '../../../../../components/Table/TableCell/TableCell';
 import { Button, Intent } from '@blueprintjs/core';
-import * as appStateReducer from '../../../../store/appState/appState.reducer';
+import * as appStateReducer from '../../../../../store/appState/appState.reducer';
 
 export default function AssetListSumRow(props: {sum_profit_loss:string, sum_dividends:string, sum_in_out:string, }) {
 

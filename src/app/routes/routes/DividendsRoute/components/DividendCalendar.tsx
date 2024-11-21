@@ -1,3 +1,4 @@
+import Table from '../../../../components/Table/Table';
 import TableCell from '../../../../components/Table/TableCell/TableCell';
 import TableHeaderCell from '../../../../components/Table/TableHeaderCell/TableHeaderCell';
 import { selectAssetsSortedByDividendPayDate } from '../../../../store/assets/assets.selectors';
@@ -17,6 +18,8 @@ export default function DividendCalendar() {
   const dividends = useAppSelector(state => state.dividends.dividends)
   const years = [...new Set(dividends.map(dividend => new Date(dividend.date).getFullYear()))]
 
+  const options = { day: '2-digit', month: '2-digit', year: 'numeric' } as Intl.DateTimeFormatOptions;
+
 	return (
 		<div id="DividendCalendar">
       <div>
@@ -29,7 +32,7 @@ export default function DividendCalendar() {
         </div>
       </div>
       <h1>Upcoming</h1>
-      <table>
+      <Table>
         <thead>
           <tr>
             <TableHeaderCell>#</TableHeaderCell>
@@ -44,15 +47,15 @@ export default function DividendCalendar() {
             return(
               <tr key={i}>
                 <TableCell>{i+1}</TableCell>
-                <TableCell>{new Date(asset.payDividendDate).toLocaleDateString()}</TableCell>
-                <TableCell>{new Date(asset.exDividendDate).toLocaleDateString()}</TableCell>
+                <TableCell>{new Date(asset.payDividendDate).toLocaleDateString("de-DE", options)}</TableCell>
+                <TableCell>{new Date(asset.exDividendDate).toLocaleDateString("de-DE", options)}</TableCell>
                 <TableCell>{asset.name}</TableCell>
                 <TableCell>{asset.next_estimated_dividend_per_share ? asset.next_estimated_dividend_per_share * asset.current_shares : 0}</TableCell>
               </tr>
             )
           })} 
         </tbody>
-      </table>
+      </Table>
     </div>
 	);
 }
@@ -77,7 +80,7 @@ export function DividendsInYear(props:{year:number, dividends:Dividend[]}) {
   }
 
   return(
-    <table>
+    <Table>
       <thead>
         <tr>
           <TableHeaderCell>{props.year}</TableHeaderCell>
@@ -94,6 +97,6 @@ export function DividendsInYear(props:{year:number, dividends:Dividend[]}) {
           )
         })}
       </tbody>
-    </table>
+    </Table>
   )
 }

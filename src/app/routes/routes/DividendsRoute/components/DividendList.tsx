@@ -5,24 +5,25 @@ import * as dividendsFilterReducer from './../../../../store/dividendsFilter/div
 import AssetFilter from './../../../../components/AssetFilter/AssetFilter'
 import DividendCreation from './DividendCreation';
 import DividendListItem from './DividendListItem';
+import Table from '../../../../components/Table/Table';
+import TableCell from '../../../../components/Table/TableCell/TableCell';
 
 export default function DividendList() {
 
-  const assets = useAppSelector(state => state.assets.assets)
 	const dividends = useAppSelector(state => state.dividends.dividends)
 	const filerForAssets = useAppSelector(state => state.dividendsFilter.assets)
 
 	return (
 		<div id="DividendList">
-      <table>
+      <Table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Date</th>
-            <th>Asset 
+            <TableCell>#</TableCell>
+            <TableCell>Date</TableCell>
+            <TableCell>Asset 
               <AssetFilter filter={filerForAssets} reducer={dividendsFilterReducer} />
-            </th>
-            <th>Income</th>
+            </TableCell>
+            <TableCell>Income</TableCell>
           </tr>
         </thead>
         <tbody>
@@ -40,7 +41,7 @@ export default function DividendList() {
             return (<DividendListItem key={"dividend-" + dividend.ID} i={i+1} dividend={dividend} />)
           })}
         </tbody>
-      </table>
+      </Table>
     </div>
 	);
 }
