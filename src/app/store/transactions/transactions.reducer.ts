@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { updateCurrentInvest } from './../assets/assets.reducer'
 
-export const initialState = { transactions:[] as Transaction[] }
+export const initialState = [] as Transaction[]
 
 export const loadTransactions = createAsyncThunk(
   'transactions/loadTransactions',
@@ -59,7 +59,7 @@ const transactionsSlice = createSlice({
 	initialState,
 	reducers: {
 		setTransactionsInternal(state, action) {
-			state.transactions = action.payload
+			return action.payload
 		},
 	}
 })

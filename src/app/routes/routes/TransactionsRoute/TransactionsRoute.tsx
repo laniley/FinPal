@@ -10,7 +10,7 @@ export default function TransactionsRoute() {
 
 	const theme = useAppSelector(state => state.appState.theme)
 	const filerForAssets = useAppSelector(state => state.transactionFilter.assets)
-	const transactions = useAppSelector(state => state.transactions.transactions)
+	const transactions = useAppSelector(state => state.transactions)
 
 	return (
 		<div
