@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { sortBy as sortTransactionsBy } from './../transactions/transactions.reducer'
 import { Convert } from "easy-currencies";
 
-export const initialState = { assets:[] as Asset[] }
+export const initialState = [] as Asset[]
 
 export const loadAssets = createAsyncThunk(
   'assets/loadAssets',
@@ -24,7 +24,7 @@ export const updateCurrentInvest = createAsyncThunk(
   'assets/updateCurrentInvest',
   async (props, thunkAPI) => {
 		let state = thunkAPI.getState() as State
-		const assets = state.assets.assets
+		const assets = state.assets
 
 		assets.forEach((asset:Asset) => {
 			const filtered = state.transactions.transactions.filter((trans:Transaction) => trans.asset_ID == asset.ID)
@@ -52,7 +52,7 @@ export const loadPricesAndDividends = createAsyncThunk(
 		const USD_conversion_rate = USD.rates.EUR
 		const DKK_conversion_rate = DKK.rates.EUR
 
-		for(const asset of state.assets.assets) {
+		for(const asset of state.assets) {
 			
 			console.log(asset.name, '-', asset.symbol)
 
@@ -129,10 +129,10 @@ const assetsSlice = createSlice({
 	initialState,
 	reducers: {
 		setAssets(state, action) {
-			state.assets = action.payload
+			return action.payload
 		},
 		setCurrencySymbol(state, action) {
-			let mapped = state.assets.map((item:Asset, index:number) => { 
+			let mapped = state.map((item:Asset, index:number) => { 
 				if(item.ID === action.payload.asset.ID) {
 					return Object.assign({}, item, { currencySymbol: action.payload.currencySymbol })
 				}
@@ -140,10 +140,10 @@ const assetsSlice = createSlice({
 					return item
 				}
 			})
-			state.assets = mapped
+			return mapped
 		},
 		setCurrentInvest(state, action) {
-			let mapped = state.assets.map((item:Asset, index:number) => { 
+			let mapped = state.map((item:Asset, index:number) => { 
 				if(item.ID === action.payload.asset.ID) {
 					return Object.assign({}, item, { current_invest: action.payload.current_invest })
 				}
@@ -151,10 +151,10 @@ const assetsSlice = createSlice({
 					return item
 				}
 			})
-			state.assets = mapped
+			return mapped
 		},
 		setExDividendDate(state, action) {
-			let mapped = state.assets.map((item:Asset, index:number) => { 
+			let mapped = state.map((item:Asset, index:number) => { 
 				if(item.ID === action.payload.asset.ID) {
 					return Object.assign({}, item, { exDividendDate: action.payload.exDividendDate })
 				}
@@ -162,10 +162,10 @@ const assetsSlice = createSlice({
 					return item
 				}
 			})
-			state.assets = mapped
+			return mapped
 		},
 		setNextEstimatedDividendPerShare(state, action) {
-			let mapped = state.assets.map((item:Asset, index:number) => { 
+			let mapped = state.map((item:Asset, index:number) => { 
 				if(item.ID === action.payload.asset.ID) {
 					return Object.assign({}, item, { next_estimated_dividend_per_share: action.payload.next_estimated_dividend_per_share })
 				}
@@ -173,10 +173,10 @@ const assetsSlice = createSlice({
 					return item
 				}
 			})
-			state.assets = mapped
+			return mapped
 		},
 		setPayDividendDate(state, action) {
-			let mapped = state.assets.map((item:Asset, index:number) => { 
+			let mapped = state.map((item:Asset, index:number) => { 
 				if(item.ID === action.payload.asset.ID) {
 					return Object.assign({}, item, { payDividendDate: action.payload.payDividendDate })
 				}
@@ -184,10 +184,10 @@ const assetsSlice = createSlice({
 					return item
 				}
 			})
-			state.assets = mapped
+			return mapped
 		},
 		setPrice(state, action) {
-			let mapped = state.assets.map((item:Asset, index:number) => { 
+			let mapped = state.map((item:Asset, index:number) => { 
 				if(item.ID === action.payload.asset.ID) {
 					return Object.assign({}, item, { price: action.payload.price })
 				}
@@ -195,10 +195,10 @@ const assetsSlice = createSlice({
 					return item
 				}
 			})
-			state.assets = mapped
+			return mapped
 		},
 		setDividendYield(state, action) {
-			let mapped = state.assets.map((item:Asset, index:number) => { 
+			let mapped = state.map((item:Asset, index:number) => { 
 				if(item.ID === action.payload.asset.ID) {
 					return Object.assign({}, item, { dividendYield: action.payload.dividendYield })
 				}
@@ -206,7 +206,7 @@ const assetsSlice = createSlice({
 					return item
 				}
 			})
-			state.assets = mapped
+			return mapped
 		}
 	}
 })

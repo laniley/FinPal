@@ -5,7 +5,7 @@ import TableCell from '../../../../components/Table/TableCell/TableCell';
 
 export default function DividendListItem(props: {i: number, dividend:Dividend}) {
 
-	const assets = useAppSelector(state => state.assets.assets)
+	const assets = useAppSelector(state => state.assets)
 
   const dispatch = useAppDispatch();
   const [dateInput, setDateInput] = useState(props.dividend.date || '');

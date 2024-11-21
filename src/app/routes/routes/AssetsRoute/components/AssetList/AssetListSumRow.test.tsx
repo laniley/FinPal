@@ -18,7 +18,7 @@ describe('AssetListSumRow component', () => {
 
     const assets: Asset[] = []
 
-    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: {assets: assets }} } )
+    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: assets } })
     
     fireEvent.click(getAllById('newAssetButton')[0]);
 

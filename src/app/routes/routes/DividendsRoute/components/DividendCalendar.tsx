@@ -11,7 +11,7 @@ interface Year {
 
 export default function DividendCalendar() {
 
-	const assets = useAppSelector(state => state.assets.assets)
+	const assets = useAppSelector(state => state.assets)
   const filtered_assets = assets.filter((asset) => asset.current_shares > 0 && asset.next_estimated_dividend_per_share > 0 && new Date(asset.payDividendDate) >= new Date())
   const sorted_assets = selectAssetsSortedByDividendPayDate(filtered_assets, 'asc')
 

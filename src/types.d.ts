@@ -9,7 +9,7 @@ interface State {
   transactions?: Transactions,
   transactionCreation?: TransactionCreation,
   transactionFilter?: TransactionFilter,
-  assets?: asserts,
+  assets?: Asset[],
   assetCreation?: AssetCreation,
   dividends?: Dividends,
   dividendCreation?: DividendCreation,

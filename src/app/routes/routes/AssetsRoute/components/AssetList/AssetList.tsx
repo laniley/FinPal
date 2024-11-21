@@ -9,7 +9,7 @@ import RefreshButton from './../../components/RefreshButton';
 
 export default function AnalysisRoute() {
 
-	const assets = useAppSelector(state => state.assets.assets)
+	const assets = useAppSelector(state => state.assets)
 
 	var sum_profit_lost = 0
 	var sum_dividends = 0

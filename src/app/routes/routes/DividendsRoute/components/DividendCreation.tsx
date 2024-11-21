@@ -6,7 +6,7 @@ import TableCell from '../../../../components/Table/TableCell/TableCell';
 export default function TransactionsRoute() {
 
 	const dispatch = useAppDispatch();
-  const assets = useAppSelector(state => state.assets.assets)
+  const assets = useAppSelector(state => state.assets)
 	const dateInput = useAppSelector(state => state.dividendCreation.dateInput)
 	const assetInput = useAppSelector(state => state.dividendCreation.assetInput)
 	const incomeInput = useAppSelector(state => state.dividendCreation.incomeInput)

@@ -25,7 +25,7 @@ describe('AssetsListItem component', () => {
       {ID: 4, name: 'test4', symbol: 'test_symbol_4', isin: 'test_isin_4', current_shares: 1, price: 50, current_invest: -150, avg_price_paid: 100}, // current_profit_loss = -100
     ]
 
-    render(<AssetsRoute />, { preloadedState: { assets: {assets: assets }} } )
+    render(<AssetsRoute />, { preloadedState: { assets: assets } } )
     
     fireEvent.click(screen.getByTestId('openOverlayButton_1'));
 
@@ -40,7 +40,7 @@ describe('AssetsListItem component', () => {
       {ID: 1, name: 'test1', symbol: 'test_symbol_1', isin: 'test_isin_1', current_shares: 1, price: 50, current_invest: -50, avg_price_paid: 20, exDividendDate: "2024-11-15"}
     ]
 
-    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: {assets: assets }} } )
+    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: assets } } )
 
     await waitFor(() => {
 			expect(getAllById('AssetListItem_1_exDividendDate')[0].innerHTML).toEqual('15.11.2024');
@@ -53,7 +53,7 @@ describe('AssetsListItem component', () => {
       {ID: 1, name: 'test1', symbol: 'test_symbol_1', isin: 'test_isin_1', current_shares: 1, price: 50, current_invest: -50, avg_price_paid: 20}
     ]
 
-    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: {assets: assets }} } )
+    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: assets} })
 
     await waitFor(() => {
 			expect(getAllById('AssetListItem_1_exDividendDate')[0].innerHTML).toEqual('');
@@ -66,7 +66,7 @@ describe('AssetsListItem component', () => {
       {ID: 1, name: 'test1', symbol: 'test_symbol_1', isin: 'test_isin_1', current_shares: 1, price: 50, current_invest: -50, avg_price_paid: 20, payDividendDate: "2024-11-15"}
     ]
 
-    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: {assets: assets }} } )
+    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: assets } })
 
     await waitFor(() => {
 			expect(getAllById('AssetListItem_1_payDividendDate')[0].innerHTML).toEqual('15.11.2024');
@@ -79,7 +79,7 @@ describe('AssetsListItem component', () => {
       {ID: 1, name: 'test1', symbol: 'test_symbol_1', isin: 'test_isin_1', current_shares: 1, price: 50, current_invest: -50, avg_price_paid: 20}
     ]
 
-    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: {assets: assets }} } )
+    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: assets } })
 
     await waitFor(() => {
 			expect(getAllById('AssetListItem_1_payDividendDate')[0].innerHTML).toEqual('');

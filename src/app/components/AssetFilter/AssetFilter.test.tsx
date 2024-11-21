@@ -27,7 +27,7 @@ describe('AssetFilter component', () => {
       {ID: 3, name: 'test3', symbol: 'test_symbol_3', isin: 'test_isin_3'},
     ]
 
-    render(<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />, { preloadedState: { assets: {assets: assets }} } )
+    render(<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />, { preloadedState: { assets: assets } })
     
     fireEvent.click(screen.getByTestId('AssetFilterButton'));
 

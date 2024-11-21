@@ -13,7 +13,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 	const invest_cumulated = (Math.round(props.transaction.invest_cumulated * 100) / 100).toFixed(2)
 	const in_out = (Math.round(props.transaction.in_out * 100) / 100).toFixed(2)
 
-	const assets = useAppSelector(state => state.assets.assets)
+	const assets = useAppSelector(state => state.assets)
 	const transaction_asset = assets.filter(asset => { return asset.ID === props.transaction.asset_ID })[0]
 
   const dispatch = useAppDispatch();
@@ -67,7 +67,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 	const bgColorInOut = props.transaction.in_out > 0 ? "bg-emerald-600" : "bg-pink-700"
 
   return (
-    <tr>
+    <tr id="TransactionListItem">
 			<TableCell>{props.i}</TableCell>
       <TableCell><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
       <TableCell>

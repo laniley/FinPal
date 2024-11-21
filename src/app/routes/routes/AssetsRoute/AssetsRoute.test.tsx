@@ -1,10 +1,6 @@
-import { act, fireEvent, getByText, screen, waitFor, within } from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import { render } from '../../../../testing/test-utils'
 import AssetsRoute from './AssetsRoute';
-import { getById } from '../../../../testing/custom-queries';
-import { Provider } from 'react-redux';
-import { setupStore } from '../../../store';
-import userEvent from '@testing-library/user-event';
 
 describe('AssetsRoute component', () => {
 
@@ -23,7 +19,7 @@ describe('AssetsRoute component', () => {
       {ID: 3, name: 'test3', symbol: 'test_symbol_3', isin: 'test_isin_3', current_shares: 3, price: 100, current_invest: -50},
     ]
 
-    render(<AssetsRoute />, { preloadedState: { assets: {assets: assets }} } )
+    render(<AssetsRoute />, { preloadedState: { assets: assets } })
 
     await waitFor(() => {
       const { getByText } = within(screen.getByTestId('TableCellSumProfitLoss'))

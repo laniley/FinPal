@@ -12,7 +12,7 @@ export default function AssetFilter(props: {filter:number[], reducer:any}) {
   function AssetFilterOptions() {
 
     const dispatch = useAppDispatch();
-    const assets = useAppSelector(state => state.assets.assets)
+    const assets = useAppSelector(state => state.assets)
     const sorted_assets = assetSelector.selectAssetsSortedByName(assets, 'asc')
 
     return (

@@ -7,7 +7,7 @@ import * as assetsSelector from './../../../../store/assets/assets.selectors';
 export default function TransactionsRoute() {
 
 	const dispatch = useAppDispatch();
-  const assets = useAppSelector(state => state.assets.assets)
+  const assets = useAppSelector(state => state.assets)
 	const dateInput = useAppSelector(state => state.transactionCreation.dateInput)
 	const typeInput = useAppSelector(state => state.transactionCreation.typeInput)
 	const assetInput = useAppSelector(state => state.transactionCreation.assetInput)
