@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { updateCurrentInvest } from '../assets/assets.reducer'
 
-export const initialState = { dividends:[] as Dividend[] }
+export const initialState = [] as Dividend[]
 
 export const loadDividends = createAsyncThunk(
   'dividends/loadDividends',
@@ -12,8 +11,6 @@ export const loadDividends = createAsyncThunk(
 		console.log('result - load dividends: ', result)
 
 		thunkAPI.dispatch(setDividends(result))
-
-		//thunkAPI.dispatch(updateCurrentInvest())
   }
 )
 
@@ -45,7 +42,7 @@ const dividendsSlice = createSlice({
 	initialState,
 	reducers: {
 		setDividendsInternal(state, action) {
-			state.dividends = action.payload
+			return action.payload
 		},
 	}
 })

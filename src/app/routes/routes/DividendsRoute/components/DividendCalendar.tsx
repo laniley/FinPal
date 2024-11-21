@@ -15,7 +15,7 @@ export default function DividendCalendar() {
   const filtered_assets = assets.filter((asset) => asset.current_shares > 0 && asset.next_estimated_dividend_per_share > 0 && new Date(asset.payDividendDate) >= new Date())
   const sorted_assets = selectAssetsSortedByDividendPayDate(filtered_assets, 'asc')
 
-  const dividends = useAppSelector(state => state.dividends.dividends)
+  const dividends = useAppSelector(state => state.dividends)
   const years = [...new Set(dividends.map(dividend => new Date(dividend.date).getFullYear()))]
 
   const options = { day: '2-digit', month: '2-digit', year: 'numeric' } as Intl.DateTimeFormatOptions;

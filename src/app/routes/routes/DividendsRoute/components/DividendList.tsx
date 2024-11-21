@@ -10,7 +10,7 @@ import TableCell from '../../../../components/Table/TableCell/TableCell';
 
 export default function DividendList() {
 
-	const dividends = useAppSelector(state => state.dividends.dividends)
+	const dividends = useAppSelector(state => state.dividends)
 	const filerForAssets = useAppSelector(state => state.dividendsFilter.assets)
 
 	return (
