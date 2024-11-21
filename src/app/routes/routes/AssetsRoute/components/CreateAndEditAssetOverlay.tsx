@@ -20,7 +20,6 @@ export default function AnalysisRoute() {
 	return (
     <OverlaysProvider>
       <Dialog 
-        
         className={theme} 
         isOpen={isOpen} 
         title={appState.assetOverlayType == appStateReducer.AssetOverlayType.NEW ? "New Asset" : "Edit Asset"}

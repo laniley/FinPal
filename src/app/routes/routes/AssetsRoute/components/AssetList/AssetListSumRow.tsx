@@ -10,10 +10,10 @@ export default function AssetListSumRow(props: {sum_profit_loss:string, sum_divi
 	const dispatch = useAppDispatch();
 
 	return (
-    <tr>
+    <tr id="AssetListSumRow">
       <TableCell additionalClassNames="text-right">*</TableCell>
       <TableCell additionalClassNames="text-center">
-        <div><Button intent={Intent.PRIMARY} icon="plus" text="New Asset" fill onClick={(e) => openAssetOverlay()} /></div>
+        <div><Button id="newAssetButton" intent={Intent.PRIMARY} icon="plus" text="New Asset" fill onClick={(e) => openAssetOverlay()} /></div>
       </TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
