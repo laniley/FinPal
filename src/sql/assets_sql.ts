@@ -1,6 +1,6 @@
 const sql = `
 CREATE TABLE IF NOT EXISTS assets (
-  "ID" INTEGER PRIMARY KEY,
+  "ID" INTEGER,
   "name" TEXT NOT NULL,
   "symbol" TEXT NOT NULL,
   "isin" TEXT NOT NULL,

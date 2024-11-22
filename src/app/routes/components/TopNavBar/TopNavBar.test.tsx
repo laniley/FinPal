@@ -9,6 +9,21 @@ import { Provider } from 'react-redux';
 
 const path_to_test_configs = process.cwd() + '\\src\\testing\\test_configs\\'
 
+var API = {
+  appState:{
+    dataPath: path_to_test_configs,
+    filePath: '',
+    load: () => appStateAPI.load(''),
+    saveTheme: jest.fn(),
+    saveSelectedTab: jest.fn(),
+    saveDatabase: jest.fn()
+  },
+  selectFolder: jest.fn(),
+  sendToDB: jest.fn(),
+  sendToFinanceAPI: jest.fn(),
+  quit: jest.fn()
+}
+
 describe('TopNavBar component', () => {
 
 	it('renders', async() => {
@@ -29,18 +44,14 @@ describe('TopNavBar component', () => {
 
     beforeEach(() => {
       const filePath = path_to_test_configs + 'config_assetsTab.json'
-      window.API = {
+      window.API = Object.assign({}, API, {
         appState:{
           dataPath: path_to_test_configs,
           filePath: filePath,
           load: () => appStateAPI.load(filePath),
-          saveTheme: jest.fn(),
-          saveSelectedTab: jest.fn()
         },
         sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
-        sendToFinanceAPI: jest.fn(),
-        quit: jest.fn()
-      }
+      })
     });
 
     it('changes the current root route to "transactionsTab" if the tab got clicked and if appState.route != "transactionsTab" ', async() => {

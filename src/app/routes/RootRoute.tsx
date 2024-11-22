@@ -32,10 +32,19 @@ export default function RootRoute() {
 
 	setTheme(result.theme)
 	
-	if (result.database) {
+	if (result.database && result.database != "") {
 		console.log("database: " + result.database);
 		setSelectedTab(result.selectedTab)
-		dispatch(appStateReducer.setDatabase(result.database))
+		setDatabase(result.database)
+	}
+	else {
+		console.log("database: not set");
+		setSelectedTab("databaseTab")
+	}
+
+	const database = useAppSelector(state => state.appState.database)
+
+	if(database && database != "") {
 		sendToDB(appState_sql).then(() => {
 			setupAssets().then(() => {
 				setupTransactions().then(() => {
@@ -50,19 +59,12 @@ export default function RootRoute() {
 			})
 		})
 	}
-	else {
-		console.log("database: not set");
-		setSelectedTab("databaseTab")
-	}
 
 	return (
 		<div id="RootRoute" className="h-screen">
  			<TopNavBar />
 			<div id="Title" className={`flex items-center p-2 bg-gradient-to-l from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%`}></div>
-			
-			<div id="rootContent" className="absolute flex flex-col w-full top-[65px] bottom-0">
-				<Content />
-			</div>
+			<Content />
 		</div>
 	);
 
@@ -148,14 +150,30 @@ export function setSelectedTab(selectedTab:string) {
 	}
 }
 
+export function setDatabase(database:string) {
+	const dispatch = useAppDispatch();
+	if (database) {
+		console.log("database: " + database);
+		dispatch(appStateReducer.setDatabase(database))
+	}
+}
+
 export function Content() {
 	const selectedTab = useAppSelector(state => state.appState.selectedTab)
+	const theme = useAppSelector(state => state.appState.theme)
+
+	let mainContent = <DatabaseRoute/>
 	if(selectedTab == 'transactionsTab')
-		return(<TransactionsRoute/>)
+		mainContent = <TransactionsRoute/>
 	else if(selectedTab == 'dividendsTab')
-		return(<DividendsRoute/>)
+		mainContent = <DividendsRoute/>
 	else if(selectedTab == 'assetsTab')
-		return(<AssetsRoute/>)
-	else if(selectedTab == 'databaseTab')
-		return(<DatabaseRoute/>)
+		mainContent = <AssetsRoute/>
+
+	return(
+		<div id="rootContent" className={"absolute flex flex-col items-center w-full top-[66px] bottom-0 p-[15px] overflow-auto "  + theme}>
+			{mainContent}
+		</div>
+	)
+	
 }

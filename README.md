@@ -44,7 +44,6 @@ git clone https://github.com/laniley/finpal.git
 #### Install dependencies
 
 ```
-install node v21.5.0
 npm install
 yarn install
 ```

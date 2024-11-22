@@ -42,3 +42,9 @@ export function saveSelectedTab(selectedTab:string) {
   Object.assign(_current_content, { selectedTab: selectedTab });
   fs.writeFileSync( filePath, JSON.stringify(_current_content))
 }
+
+export function saveDatabase(database:string) {
+  load(filePath)
+  Object.assign(_current_content, { database: database });
+  fs.writeFileSync( filePath, JSON.stringify(_current_content))
+}

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import path from 'path';
 import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 
@@ -11,21 +11,28 @@ const fs = require('fs');
 const dataPath = app.getPath('userData');
 const filePath = path.join(dataPath, 'config.json');
 
-let result = fs.readFileSync( filePath, { encoding: 'utf8', flag: 'r' } )
 let json = { database: '' }
 
-if(result) {
-  try {
-    json = JSON.parse(result)
-  } catch (e) {
-    console.log("JSON.parse of " + filePath + " failed.")
+if(fs.existsSync(filePath)) {
+
+  let result = fs.readFileSync( filePath, { encoding: 'utf8', flag: 'r' } )
+
+  if(result) {
+    try {
+      console.log("Parsing file " + filePath + " ...")
+      json = JSON.parse(result)
+      console.log(json)
+    } catch (e) {
+      console.log("JSON.parse of " + filePath + " failed.")
+    }
+  }
+  else {
+    console.log('Config file ' + filePath + ' is empty.')
   }
 }
 else {
-  console.log('Config file ' + filePath + ' is empty.')
+  console.log('Config file ' + filePath + ' does not exist.')
 }
-
-console.log(json)
 
 const dbPath = json.database;
 const sqlite3 = require('sqlite3');
@@ -50,7 +57,7 @@ ipcMain.on('finance-api-message', (event, args) => {
   yahooFinance.quoteSummary(args.symbol).then((result) => {
     event.reply('finance-api-reply', result);
   }).catch((reason) => console.log('ERROR: finance-api-message: ', reason));
-}); 
+});
 
 // Keep a reference for dev mode
 let dev = false
@@ -81,6 +88,18 @@ const createWindow = () => {
       webSecurity: false // to allow copying of local files
     },
   });
+
+  ipcMain.handle('dialog:openDirectory', async () => {
+    const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
+      properties: ['openFile'],
+      filters: [sqlite3]
+    })
+    if (canceled) {
+      return
+    } else {
+      return filePaths[0]
+    }
+  })
 
   enableRemote(mainWindow.webContents);
 

@@ -8,6 +8,21 @@ import appState_sql from '../../sql/appState_sql';
 
 const path_to_test_configs = process.cwd() + '\\src\\testing\\test_configs\\'
 
+var API = {
+	appState:{
+		dataPath: path_to_test_configs,
+		filePath: '',
+		load: () => appStateAPI.load(''),
+		saveTheme: jest.fn(),
+		saveSelectedTab: jest.fn(),
+		saveDatabase: jest.fn()
+	},
+	selectFolder: jest.fn(),
+	sendToDB: jest.fn(),
+	sendToFinanceAPI: jest.fn(),
+	quit: jest.fn()
+}
+
 describe('RootRoute component', () => {
 
 	it('renders', async() => {
@@ -23,18 +38,14 @@ describe('RootRoute component', () => {
 
 			beforeEach(() => {
 				const filePath = path_to_test_configs + 'config_assetsTab.json'
-				window.API = {
+				window.API = Object.assign({}, API, {
 					appState:{
 						dataPath: path_to_test_configs,
 						filePath: filePath,
 						load: () => appStateAPI.load(filePath),
-						saveTheme: jest.fn(),
-						saveSelectedTab: jest.fn()
 					},
 					sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
-					sendToFinanceAPI: jest.fn(),
-					quit: jest.fn()
-				}
+				})
 			});
 
 			it('sets selectedTab to "assetsTab" if "selectedTab":"assetsTab" and a database is set in the config file', async() => {
@@ -57,18 +68,14 @@ describe('RootRoute component', () => {
 
 			beforeEach(() => {
 				const filePath = path_to_test_configs + 'config_dividendsTab.json'
-				window.API = {
+				window.API = Object.assign({}, API, {
 					appState:{
 						dataPath: path_to_test_configs,
 						filePath: filePath,
 						load: () => appStateAPI.load(filePath),
-						saveTheme: jest.fn(),
-						saveSelectedTab: jest.fn()
 					},
 					sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
-					sendToFinanceAPI: jest.fn(),
-					quit: jest.fn()
-				}
+				})
 			});
 
 			it('sets selectedTab to "dividendsTab" if "selectedTab":"dividendsTab" and a database is set in the config file', async() => {
@@ -93,18 +100,14 @@ describe('RootRoute component', () => {
 			
 				beforeEach(() => {
 					const filePath = path_to_test_configs + 'config_no_database.json'
-					window.API = {
+					window.API = Object.assign({}, API, {
 						appState:{
 							dataPath: path_to_test_configs,
 							filePath: filePath,
 							load: () => appStateAPI.load(filePath),
-							saveTheme: jest.fn(),
-							saveSelectedTab: jest.fn()
 						},
 						sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
-						sendToFinanceAPI: jest.fn(),
-						quit: jest.fn()
-					}
+					})
 				});
 
 				it('sets selectedTab to "databaseTab" if no database is set in the config file', async() => {
@@ -127,18 +130,14 @@ describe('RootRoute component', () => {
 			
 				beforeEach(() => {
 					const filePath = path_to_test_configs + 'config_no_database.json'
-					window.API = {
+					window.API = Object.assign({}, API, {
 						appState:{
 							dataPath: path_to_test_configs,
 							filePath: filePath,
 							load: () => appStateAPI.load(filePath),
-							saveTheme: jest.fn(),
-							saveSelectedTab: jest.fn()
 						},
 						sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
-						sendToFinanceAPI: jest.fn(),
-						quit: jest.fn()
-					}
+					})
 				});
 
 				it('sets selectedTab to "databaseTab" if "selectedTab":"databaseTab" and database is set in the config file', async() => {
@@ -165,18 +164,14 @@ describe('RootRoute component', () => {
 
 		beforeEach(() => {
 			const filePath = path_to_test_configs + 'config_no_theme.json'
-			window.API = {
+			window.API = Object.assign({}, API, {
 				appState:{
 					dataPath: path_to_test_configs,
 					filePath: filePath,
 					load: () => appStateAPI.load(filePath),
-					saveTheme: jest.fn(),
-					saveSelectedTab: jest.fn()
 				},
 				sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
-				sendToFinanceAPI: jest.fn(),
-				quit: jest.fn()
-			}
+			})
 		});
 
 		it('sets theme to default "bp5-dark" if it is not set in the config file', async() => {
@@ -199,20 +194,14 @@ describe('RootRoute component', () => {
 
 		beforeEach(() => {
 			const filePath = path_to_test_configs + 'config.json'
-			window.API = {
-				appState:{
-					dataPath: path_to_test_configs,
-					filePath: filePath,
-					load: () => appStateAPI.load(filePath),
-					saveTheme: jest.fn(),
-					saveSelectedTab: jest.fn()
-				},
-				sendToDB: jest.fn((param) => { 
-					return 'SQLITE_ERROR: TEST'
-				}),
-				sendToFinanceAPI: jest.fn(),
-				quit: jest.fn()
-			}
+			window.API = Object.assign({}, API, {
+					appState:{
+						dataPath: path_to_test_configs,
+						filePath: filePath,
+						load: () => appStateAPI.load(filePath),
+					},
+					sendToDB: jest.fn((param) => { return 'SQLITE_ERROR: TEST' }),
+				})
 		});
 
 		it('logs error if  sendToDB(sql) fails', async() => {
@@ -229,21 +218,17 @@ describe('RootRoute component', () => {
 
 		beforeEach(() => {
 			const filePath = path_to_test_configs + 'config.json'
-			window.API = {
+			window.API = Object.assign({}, API, {
 				appState:{
 					dataPath: path_to_test_configs,
 					filePath: filePath,
 					load: () => appStateAPI.load(filePath),
-					saveTheme: jest.fn(),
-					saveSelectedTab: jest.fn()
 				},
 				sendToDB: jest.fn((param) => { 
 					if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}]
 					else if(param == 'SELECT MAX(ID) as ID FROM transactions') return [{ID: 1}] 
 				}),
-				sendToFinanceAPI: jest.fn(),
-				quit: jest.fn()
-			}
+			})
 		});
 
 		it('sets newID = result[0].ID + 1', async() => {
@@ -266,22 +251,18 @@ describe('RootRoute component', () => {
 
 		beforeEach(() => {
 			const filePath = path_to_test_configs + 'config.json'
-			window.API = {
+			window.API = Object.assign({}, API, {
 				appState:{
 					dataPath: path_to_test_configs,
 					filePath: filePath,
 					load: () => appStateAPI.load(filePath),
-					saveTheme: jest.fn(),
-					saveSelectedTab: jest.fn()
 				},
 				sendToDB: jest.fn((param) => { 
 					if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}]
 					else if(param == 'SELECT MAX(ID) as ID FROM transactions') return [{ID: 1}]
 					else if(param == 'SELECT MAX(ID) as ID FROM dividends') return [{ID: 1}] 
 				}),
-				sendToFinanceAPI: jest.fn(),
-				quit: jest.fn()
-			}
+			})
 		});
 
 		it('sets newID = result[0].ID + 1', async() => {

@@ -8,15 +8,13 @@ import Table from '../../../components/Table/Table';
 
 export default function TransactionsRoute() {
 
-	const theme = useAppSelector(state => state.appState.theme)
 	const filerForAssets = useAppSelector(state => state.transactionFilter.assets)
 	const transactions = useAppSelector(state => state.transactions)
 
 	return (
 		<div
 			id="TransactionsRoute"
-			data-testid="TransactionsRoute"
-			className={'absolute top-[0px] bottom-0 flex flex-col w-full ' + theme}>
+			data-testid="TransactionsRoute">
 			<div id="Main" className="flex p-3 overflow-auto">
 				<div className="flex grow justify-center align-center">
 					<Table>

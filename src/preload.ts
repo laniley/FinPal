@@ -12,8 +12,10 @@ declare global {
         filePath: string,
         load(filePath:string):any,
         saveTheme(theme:string):any,
-        saveSelectedTab(selectedTab:string):any
+        saveSelectedTab(selectedTab:string):any,
+        saveDatabase(database:string):any
       },
+      selectFolder():any,
       sendToDB(sql:string):any,
       sendToFinanceAPI(args:{symbol:string}):any,
       quit():any
@@ -24,6 +26,7 @@ declare global {
 contextBridge.exposeInMainWorld('API', {
   appState: appState,
   quit: () => remote.app.quit(),
+  selectFolder: () => ipcRenderer.invoke('dialog:openDirectory'),
   sendToDB(sql:any) {
     console.log(sql)
     return new Promise((resolve) => {

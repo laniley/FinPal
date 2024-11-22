@@ -9,8 +9,10 @@ window.API = {
     filePath: filePath,
     load: () => appStateAPI.load(filePath),
     saveTheme: jest.fn(),
-    saveSelectedTab: jest.fn()
+    saveSelectedTab: jest.fn(),
+    saveDatabase: jest.fn()
   },
+  selectFolder: jest.fn(),
   sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
   sendToFinanceAPI: jest.fn(),
   quit: jest.fn()

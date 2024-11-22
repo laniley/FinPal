@@ -10,6 +10,7 @@ const store = setupStore()
 import RootRoute from './routes/RootRoute';
 
 function App() {
+	
 	return (
 		<Provider store={store}>
 			<RootRoute />
