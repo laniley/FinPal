@@ -10,34 +10,32 @@ export const initialState = {
   kgvInput: '',
 } as AssetCreation
 
-export const validate = createAsyncThunk(
-  'assetCreation/validate',
+export const validateAndSave = createAsyncThunk(
+  'assetCreation/validateAndSave',
   async (props, thunkAPI) => {
 		let state = thunkAPI.getState() as State
     if(isValid(state.assetCreation)) {
-    let sql  = 'INSERT OR REPLACE INTO assets (ID, name, symbol, isin, kgv) '
-        sql += 'VALUES ('
-        sql += state.assetCreation.ID
-        sql += ',\'' + state.assetCreation.nameInput.replace('\'', '\'\'')
-        sql += '\',\'' + state.assetCreation.symbolInput.replace('\'', '\'\'')
-        sql += '\',\'' + state.assetCreation.isinInput.replace('\'', '\'\'')
-        sql += '\',\'' + state.assetCreation.kgvInput.replace('\'', '\'\'') 
-        sql += '\')'
+    let sql  = `
+      INSERT OR REPLACE INTO assets (ID, name, symbol, isin, kgv) 
+        VALUES (
+           ${state.assetCreation.ID},
+          '${state.assetCreation.nameInput.replace('\'', '\'\'')}',
+          '${state.assetCreation.symbolInput.replace('\'', '\'\'')}',
+          '${state.assetCreation.isinInput.replace('\'', '\'\'')}',
+          '${state.assetCreation.kgvInput.replace('\'', '\'\'')}'
+        )`
      
     window.API.sendToDB(sql)
       .then((result:any) => {
         console.log(result)
         let sql  = 'SELECT MAX(ID) as ID FROM assets'
-        console.log(sql)
         window.API.sendToDB(sql)
           .then((result:any) => {
             thunkAPI.dispatch(setID(result[0].ID + 1))
-            sql = 'SELECT * FROM assets_v'
-            console.log(sql)
             window.API.sendToDB(sql)
               .then((result:Asset[]) => {
                 console.log('result: ', result)
-                thunkAPI.dispatch(assetsReducer.setAssets(result))
+                thunkAPI.dispatch(assetsReducer.loadAssets())
                 thunkAPI.dispatch(reset())
                 return true;
               });

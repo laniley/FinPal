@@ -50,12 +50,12 @@ describe('AssetCreation reducer', () => {
 
 	describe('AppState Thunks', () => {
 
-    it('should handle validate', async() => {
+    it('should handle validateAndSave', async() => {
 			const store = setupStore();
       store.dispatch(assetCreationReducer.setNameInput('testName'))
 			store.dispatch(assetCreationReducer.setSymbolInput('testSymbol'))
 			store.dispatch(assetCreationReducer.setISINInput('0123456789012'))
-      let result1 = await store.dispatch(assetCreationReducer.validate())
+      let result1 = await store.dispatch(assetCreationReducer.validateAndSave())
       expect(result1.payload).toEqual(false)
       expect(store.getState().assetCreation).toEqual(
 				Object.assign({}, assetCreationReducer.initialState, {

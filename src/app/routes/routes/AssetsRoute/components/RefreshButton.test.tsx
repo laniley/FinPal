@@ -12,7 +12,7 @@ describe('AssetsRoute component', () => {
 			expect(getAllById('RefreshButton').length).toEqual(1);
 		})
 	});
-/*
+
   it('dispatches assetsReducer.loadAssets() on button click', async() => {
     
     const store = setupStore();
@@ -29,9 +29,8 @@ describe('AssetsRoute component', () => {
     fireEvent.click(getAllById('RefreshButton')[0]);
 
     await waitFor(() => {
-      expect(store.getState()).toHaveBeenCalledWith('loadAssets')
-      expect(spy).toHaveBeenCalledWith('loadAssets')
+      expect(spy).toHaveBeenCalledTimes(1)
 		})
 	});
-*/
+
 })

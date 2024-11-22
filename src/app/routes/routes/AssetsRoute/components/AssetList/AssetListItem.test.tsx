@@ -25,12 +25,12 @@ describe('AssetsListItem component', () => {
       {ID: 4, name: 'test4', symbol: 'test_symbol_4', isin: 'test_isin_4', current_shares: 1, price: 50, current_invest: -150, avg_price_paid: 100}, // current_profit_loss = -100
     ]
 
-    render(<AssetsRoute />, { preloadedState: { assets: assets } } )
+    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: assets } } )
     
     fireEvent.click(screen.getByTestId('openOverlayButton_1'));
 
     await waitFor(() => {
-      expect(screen.getAllByTestId('AssetOverlay').length).toEqual(1);
+      expect(getAllById('AssetOverlay').length).toEqual(1);
 		})
 	});
 

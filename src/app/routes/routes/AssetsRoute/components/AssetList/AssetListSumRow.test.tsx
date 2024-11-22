@@ -23,7 +23,7 @@ describe('AssetListSumRow component', () => {
     fireEvent.click(getAllById('newAssetButton')[0]);
 
     await waitFor(() => {
-      expect(screen.getAllByTestId('AssetOverlay').length).toEqual(1);
+      expect(getAllById('AssetOverlay').length).toEqual(1);
 		})
 	});
 

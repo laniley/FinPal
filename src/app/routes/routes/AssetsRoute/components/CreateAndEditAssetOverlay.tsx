@@ -27,7 +27,7 @@ export default function AnalysisRoute() {
         canOutsideClickClose={false}
         onClose={(e) => dispatch(appStateReducer.setShowAssetOverlay(false))}>
         <DialogBody>
-          <table data-testid="AssetOverlay">
+          <table id="AssetOverlay">
             <tbody>
               <tr><td>ID</td><td>{useAppSelector(state => state.assetCreation.ID)}</td></tr>
               <tr><td>Name</td><td><input id="nameInput" type="text" value={nameInput} onChange={(e) => dispatch(assetCreationReducer.setNameInput(e.target.value))} /> *</td></tr>
@@ -39,8 +39,8 @@ export default function AnalysisRoute() {
         </DialogBody>
         <DialogFooter actions={
           <div>
-            <Button intent="success" text="Save" onClick={(e) => dispatch(assetCreationReducer.validate())} />
-            <Button intent="primary" text="Close" onClick={(e) => dispatch(appStateReducer.setShowAssetOverlay(false))} />
+            <Button intent="success" text="Save" onClick={(e) => dispatch(assetCreationReducer.validateAndSave())} />
+            <Button id="CloseButton" intent="primary" text="Close" onClick={(e) => dispatch(appStateReducer.setShowAssetOverlay(false))} />
           </div>} />
       </Dialog>
     </OverlaysProvider>
