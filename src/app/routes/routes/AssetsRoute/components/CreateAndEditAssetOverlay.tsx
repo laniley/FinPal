@@ -17,6 +17,10 @@ export default function AnalysisRoute() {
   const isinInput = useAppSelector(state => state.assetCreation.isinInput)
 	const kgvInput = useAppSelector(state => state.assetCreation.kgvInput)
 
+  function handleOnClose() {
+    dispatch(appStateReducer.setShowAssetOverlay(false))
+  }
+
 	return (
     <OverlaysProvider>
       <Dialog 
@@ -25,7 +29,7 @@ export default function AnalysisRoute() {
         title={appState.assetOverlayType == appStateReducer.AssetOverlayType.NEW ? "New Asset" : "Edit Asset"}
         icon={appState.assetOverlayType == appStateReducer.AssetOverlayType.NEW ? "plus" : "edit"}
         canOutsideClickClose={false}
-        onClose={(e) => dispatch(appStateReducer.setShowAssetOverlay(false))}>
+        onClose={(e) => handleOnClose()}>
         <DialogBody>
           <table id="AssetOverlay">
             <tbody>
@@ -39,7 +43,7 @@ export default function AnalysisRoute() {
         </DialogBody>
         <DialogFooter actions={
           <div>
-            <Button intent="success" text="Save" onClick={(e) => dispatch(assetCreationReducer.validateAndSave())} />
+            <Button id="SaveButton" intent="success" text="Save" onClick={(e) => dispatch(assetCreationReducer.validateAndSave())} />
             <Button id="CloseButton" intent="primary" text="Close" onClick={(e) => dispatch(appStateReducer.setShowAssetOverlay(false))} />
           </div>} />
       </Dialog>
