@@ -16,7 +16,7 @@ export const handleDateInputGotTouched = createAsyncThunk(
   'dividendCreation/handleDateInputGotTouched',
   async (props, thunkAPI) => {
 		thunkAPI.dispatch(setDateInputGotTouched(true))
-		thunkAPI.dispatch(validate())
+		thunkAPI.dispatch(validateAndSave())
   }
 )
 
@@ -24,7 +24,7 @@ export const handleAssetInputGotTouched = createAsyncThunk(
   'dividendCreation/handleAssetInputGotTouched',
   async (props, thunkAPI) => {
 		thunkAPI.dispatch(setAssetInputGotTouched(true))
-		thunkAPI.dispatch(validate())
+		thunkAPI.dispatch(validateAndSave())
   }
 )
 
@@ -32,30 +32,30 @@ export const handleIncomeInputGotTouched = createAsyncThunk(
   'dividendCreation/handleAmountInputGotTouched',
   async (props, thunkAPI) => {
 		thunkAPI.dispatch(setIncomeInputGotTouched(true))
-		thunkAPI.dispatch(validate())
+		thunkAPI.dispatch(validateAndSave())
   }
 )
 
-export const validate = createAsyncThunk(
-  'dividendCreation/validate',
+export const validateAndSave = createAsyncThunk(
+  'dividendCreation/validateAndSave',
   async (props, thunkAPI) => {
+
 		let state = thunkAPI.getState() as State
-    console.log(
-      state.dividendCreation.dateInputGotTouched, 
-      state.dividendCreation.assetInputGotTouched,
-      state.dividendCreation.incomeInputGotTouched,
-    )
     if(state.dividendCreation.dateInputGotTouched && 
       state.dividendCreation.assetInputGotTouched && 
-      state.dividendCreation.incomeInputGotTouched
+      state.dividendCreation.incomeInputGotTouched &&
+      state.dividendCreation.dateInput != "" &&
+      state.dividendCreation.assetInput != "" &&
+      state.dividendCreation.incomeInput != ""
    ) {
-    let sql  = 'INSERT OR REPLACE INTO dividends (ID, date, asset_ID, income) '
-        sql += 'VALUES (\'' + state.dividendCreation.newID
-        sql += '\',\'' + state.dividendCreation.dateInput
-        sql += '\',\'' + state.dividendCreation.assetInput.replace('\'', '\'\'')
-        sql += '\',\'' + state.dividendCreation.incomeInput.replace(',', '.') + '\')'
-    
-    console.log(sql)
+    let sql  = `
+      INSERT OR REPLACE INTO dividends (ID, date, asset_ID, income) 
+        VALUES (
+          '${state.dividendCreation.newID}',
+          '${state.dividendCreation.dateInput}',
+          '${state.dividendCreation.assetInput.replace('\'', '\'\'')}',
+          '${state.dividendCreation.incomeInput.replace(',', '.')}'
+        )`
      
     await window.API.sendToDB(sql).then(async (result:any) => {
       console.log(result)

@@ -2,12 +2,7 @@ import Table from '../../../../components/Table/Table';
 import TableCell from '../../../../components/Table/TableCell/TableCell';
 import TableHeaderCell from '../../../../components/Table/TableHeaderCell/TableHeaderCell';
 import { selectAssetsSortedByDividendPayDate } from '../../../../store/assets/assets.selectors';
-import { useAppSelector, useAppDispatch } from './../../../../hooks'
-
-interface Year {
-  year: number,
-  sum: number
-}
+import { useAppSelector } from './../../../../hooks'
 
 export default function DividendCalendar() {
 
@@ -44,13 +39,14 @@ export default function DividendCalendar() {
         </thead>
         <tbody>
           {sorted_assets.map((asset, i) => {
+            const next_estimated_dividend_per_share = asset.next_estimated_dividend_per_share ? asset.next_estimated_dividend_per_share * asset.current_shares : 0
             return(
               <tr key={i}>
                 <TableCell>{i+1}</TableCell>
                 <TableCell>{new Date(asset.payDividendDate).toLocaleDateString("de-DE", options)}</TableCell>
                 <TableCell>{new Date(asset.exDividendDate).toLocaleDateString("de-DE", options)}</TableCell>
                 <TableCell>{asset.name}</TableCell>
-                <TableCell>{asset.next_estimated_dividend_per_share ? asset.next_estimated_dividend_per_share * asset.current_shares : 0}</TableCell>
+                <TableCell>{(Math.round((next_estimated_dividend_per_share) * 1000) / 1000).toFixed(3)} €</TableCell>
               </tr>
             )
           })} 

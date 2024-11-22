@@ -1,8 +1,4 @@
-import { useAppSelector, useAppDispatch } from './../../../hooks'
-
-import {
-	Colors,
-} from '@blueprintjs/core';
+import { useAppSelector } from './../../../hooks'
 
 import DividendList from './components/DividendList';
 import DividendCalendar from './components/DividendCalendar';
