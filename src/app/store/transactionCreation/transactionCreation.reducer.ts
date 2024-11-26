@@ -77,7 +77,6 @@ export const handleSolidaritySurchargeInputGotTouched = createAsyncThunk(
 
 export function isValid(state:State) {
   if(state.transactionCreation.dateInputGotTouched && 
-    state.transactionCreation.typeInputGotTouched && 
     state.transactionCreation.assetInputGotTouched && 
     state.transactionCreation.amountInputGotTouched && 
     state.transactionCreation.priceInputGotTouched && 

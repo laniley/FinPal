@@ -82,6 +82,7 @@ export const loadPricesAndDividends = createAsyncThunk(
 				console.log(asset.name, '- divvydiary: ', json)
 
 				if(json.dividends[0]) {
+					thunkAPI.dispatch(setDividends({ asset, dividends: json.dividends }))
 					thunkAPI.dispatch(setExDividendDate({ asset, exDividendDate: json.dividends[0].exDate }))
 					thunkAPI.dispatch(setPayDividendDate({ asset, payDividendDate: json.dividends[0].payDate }))
 					thunkAPI.dispatch(setNextEstimatedDividendPerShare({ asset, next_estimated_dividend_per_share: json.dividends[0].amount }))
@@ -146,6 +147,17 @@ const assetsSlice = createSlice({
 			let mapped = state.map((item:Asset, index:number) => { 
 				if(item.ID === action.payload.asset.ID) {
 					return Object.assign({}, item, { current_invest: action.payload.current_invest })
+				}
+				else {
+					return item
+				}
+			})
+			return mapped
+		},
+		setDividends(state, action) {
+			let mapped = state.map((item:Asset, index:number) => { 
+				if(item.ID === action.payload.asset.ID) {
+					return Object.assign({}, item, { dividends: action.payload.dividends })
 				}
 				else {
 					return item
@@ -218,6 +230,7 @@ export const {
 	setAssets,
 	setCurrencySymbol,
 	setCurrentInvest,
+	setDividends,
 	setDividendYield,
 	setExDividendDate,
 	setNextEstimatedDividendPerShare,

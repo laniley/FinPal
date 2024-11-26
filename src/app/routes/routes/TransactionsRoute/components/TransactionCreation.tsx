@@ -26,7 +26,7 @@ export default function TransactionsRoute() {
       <TableCell><input id="dateInput" type="date" value={dateInput} onChange={(e) => dispatch(transactionCreationReducer.setDateInput(e.target.value))} onBlur={() => { dispatch(transactionCreationReducer.handleDateInputGotTouched()) }} /></TableCell>
       <TableCell>
         <select className={bgColorType} id="typeInput" name="typeInput" value={typeInput} onChange={(e) => dispatch(transactionCreationReducer.setTypeInput(e.target.value))} onBlur={() => { dispatch(transactionCreationReducer.handleTypeInputGotTouched()) }}>
-          <option value="Buy">Buy</option>
+          <option selected value="Buy">Buy</option>
           <option value="Sell">Sell</option>
         </select>
       </TableCell>

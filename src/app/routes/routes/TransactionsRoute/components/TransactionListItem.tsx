@@ -28,7 +28,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
   function validateAndSave() {
 		
 		if(dateInput && typeInput && assetInput && amountInput && priceInput) {
-			let sql  = 'INSERT OR REPLACE INTO transactions (ID, date, type, asset, amount, price_per_share, fee, solidarity_surcharge) '
+			let sql  = 'INSERT OR REPLACE INTO transactions (ID, date, type, asset_ID, amount, price_per_share, fee, solidarity_surcharge) '
 					sql += 'VALUES (\'' + props.transaction.ID 
 					sql += '\',\'' + dateInput 
 					sql += '\',\'' + typeInput 

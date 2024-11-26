@@ -6,6 +6,7 @@ import Table from '../../../../../components/Table/Table';
 import TableHeaderCell from '../../../../../components/Table/TableHeaderCell/TableHeaderCell';
 import * as assetsSelector from '../../../../../store/assets/assets.selectors';
 import RefreshButton from './../../components/RefreshButton';
+import AssetListHeaderRow from './AssetListHeaderRow';
 
 export default function AnalysisRoute() {
 
@@ -30,23 +31,7 @@ export default function AnalysisRoute() {
 
 	return (
     <Table>
-      <thead>
-        <tr>
-          <TableHeaderCell><RefreshButton /></TableHeaderCell>
-          <TableHeaderCell>Name</TableHeaderCell>
-          <TableHeaderCell>Shares</TableHeaderCell>
-          <TableHeaderCell>Current Price per Share</TableHeaderCell>
-          <TableHeaderCell></TableHeaderCell>
-          <TableHeaderCell>Avg Price Paid</TableHeaderCell>
-          <TableHeaderCell>Current Invest</TableHeaderCell>
-          <TableHeaderCell>Current Value</TableHeaderCell>
-          <TableHeaderCell>Current Profit/Loss</TableHeaderCell>
-          <TableHeaderCell>Ex Date</TableHeaderCell>
-          <TableHeaderCell>Pay Date</TableHeaderCell>
-          <TableHeaderCell>Dividends</TableHeaderCell>
-          <TableHeaderCell>In-/Outcome</TableHeaderCell>
-        </tr>
-      </thead>
+      <AssetListHeaderRow/>
       <tbody>
         <AssetListSumRow sum_profit_loss={sum_profit_loss_formatted} sum_dividends={sum_dividends_formatted} sum_in_out={sum_in_out_formatted} />
         <AssetListRows assets={sorted_Assets}/>
