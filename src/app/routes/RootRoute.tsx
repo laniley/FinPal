@@ -32,10 +32,13 @@ export default function RootRoute() {
 
 	setTheme(result.theme)
 	
-	if (result.database && result.database != "") {
+	if (result.database && result.database != "" && window.API.dbFileExists()) {
 		console.log("database: " + result.database);
-		setSelectedTab(result.selectedTab)
 		setDatabase(result.database)
+		if(result.selectedTab != "databaseTab")
+			setSelectedTab(result.selectedTab)
+		else
+			setSelectedTab("assetsTab")
 	}
 	else {
 		console.log("database: not set");

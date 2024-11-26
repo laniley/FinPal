@@ -16,12 +16,13 @@ let json = { database: '' }
 if(fs.existsSync(filePath)) {
 
   let result = fs.readFileSync( filePath, { encoding: 'utf8', flag: 'r' } )
-
+  console.log(result)
   if(result) {
     try {
-      console.log("Parsing file " + filePath + " ...")
+      console.log("Parsing file " + filePath + " ...\n")
       json = JSON.parse(result)
       console.log(json)
+      console.log("\n")
     } catch (e) {
       console.log("JSON.parse of " + filePath + " failed.")
     }
@@ -34,12 +35,21 @@ else {
   console.log('Config file ' + filePath + ' does not exist.')
 }
 
-const dbPath = json.database;
 const sqlite3 = require('sqlite3');
+
+ipcMain.on('check-if-db-file-exists', (event, arg) => {
+  if(fs.existsSync(json.database)) {
+    event.reply('check-if-db-file-exists', true);
+  }
+  else {
+    event.reply('check-if-db-file-exists', false);
+  }
+
+});
 
 ipcMain.on('async-db-message', (event, arg) => {
   const sql = arg;
-  const database = new sqlite3.Database(dbPath, (err:any) => {
+  const database = new sqlite3.Database(json.database, (err:any) => {
     if (err) console.error('Database opening error: ', err);
   });
   database.all(sql, (err:any, rows:any) => {

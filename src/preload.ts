@@ -16,6 +16,7 @@ declare global {
         saveDatabase(database:string):any
       },
       selectFolder():any,
+      dbFileExists():boolean,
       sendToDB(sql:string):any,
       sendToFinanceAPI(args:{symbol:string}):any,
       quit():any
@@ -27,6 +28,14 @@ contextBridge.exposeInMainWorld('API', {
   appState: appState,
   quit: () => remote.app.quit(),
   selectFolder: () => ipcRenderer.invoke('dialog:openDirectory'),
+  dbFileExists() {
+    return new Promise((resolve) => {
+      ipcRenderer.send('check-if-db-file-exists');
+      ipcRenderer.once('check-if-db-file-exists', (_, arg) => {
+          resolve(arg);
+      });
+    });
+  },
   sendToDB(sql:any) {
     console.log(sql)
     return new Promise((resolve) => {
@@ -38,10 +47,10 @@ contextBridge.exposeInMainWorld('API', {
   },
   sendToFinanceAPI(args: { symbol:string}) {
     return new Promise((resolve) => {
-        ipcRenderer.once('finance-api-reply', (_, arg) => {
-            resolve(arg);
-        });
-        ipcRenderer.send('finance-api-message', args);
+      ipcRenderer.send('finance-api-message', args);
+      ipcRenderer.once('finance-api-reply', (_, arg) => {
+          resolve(arg);
+      });
     });
   },
 })
