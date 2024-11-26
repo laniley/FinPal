@@ -128,7 +128,7 @@ const assetsSlice = createSlice({
 	name: 'assets',
 	initialState,
 	reducers: {
-		setAssets(state, action) {
+		setAssets(state, action:{payload:Asset[]}) {
 			return action.payload
 		},
 		setCurrencySymbol(state, action) {

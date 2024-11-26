@@ -12,7 +12,7 @@ CREATE VIEW IF NOT EXISTS assets_v AS
     SUM(fee) AS fees,
     SUM(CASE WHEN type = 'Buy' THEN amount ELSE amount * -1 END) AS current_shares,
     SUM(in_out) AS current_sum_in_out,
-    (SELECT SUM(income) FROM dividends WHERE dividends.asset_ID = assets.ID) AS dividends
+    (SELECT SUM(income) FROM dividends WHERE dividends.asset_ID = assets.ID) AS dividends_earned
 FROM assets
   LEFT JOIN transactions_v as transactions ON transactions.asset_ID = assets.ID
 GROUP BY assets.ID, kgv

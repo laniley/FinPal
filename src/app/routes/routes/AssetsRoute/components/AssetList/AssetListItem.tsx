@@ -20,8 +20,8 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const current_profit_loss_formatted = (Math.round(current_profit_loss * 100) / 100).toFixed(2)
 	const current_profit_loss_percentage = assetsSelector.get_current_profit_loss_percentage(props.asset)
 	const current_profit_loss_percentage_formatted = (current_profit_loss_percentage).toFixed(2)
-	const dividends_formatted = (Math.round(props.asset.dividends * 100) / 100).toFixed(2)
-	const current_sum_in_out = (Math.round((props.asset.current_sum_in_out + props.asset.dividends) * 100) / 100).toFixed(2)
+	const dividends_formatted = (Math.round(props.asset.dividends_earned * 100) / 100).toFixed(2)
+	const current_sum_in_out = (Math.round((props.asset.current_sum_in_out + props.asset.dividends_earned) * 100) / 100).toFixed(2)
 
 	const options = { day: '2-digit', month: '2-digit', year: 'numeric' } as Intl.DateTimeFormatOptions;
 
