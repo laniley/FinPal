@@ -15,11 +15,11 @@ declare global {
         saveSelectedTab(selectedTab:string):any,
         saveDatabase(database:string):any
       },
-      selectFolder():any,
-      dbFileExists():boolean,
-      sendToDB(sql:string):any,
-      sendToFinanceAPI(args:{symbol:string}):any,
-      quit():any
+      selectFolder?():any,
+      dbFileExists?():boolean,
+      sendToDB?(sql:string):any,
+      sendToFinanceAPI?(args:{symbol:string}):any,
+      quit?():any
     }
   }
 }

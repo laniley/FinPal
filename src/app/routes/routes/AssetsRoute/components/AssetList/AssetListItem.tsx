@@ -53,7 +53,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<TableCell additionalClassNames={"text-right " + assetsSelector.get_current_profit_loss_textColor(props.asset)} bgColor={bgColor_ProfitLoss}>{current_profit_loss_formatted} {props.asset.currencySymbol} / {current_profit_loss_percentage_formatted} %</TableCell>
 			<TableCell id={"AssetListItem_" + props.i + "_exDividendDate"} additionalClassNames={"text-right " + assetsSelector.get_ex_dividend_date_textColor(props.asset)}>{exDividendDateFormatted}</TableCell>
 			<TableCell id={"AssetListItem_" + props.i + "_payDividendDate"} additionalClassNames={"text-right " + assetsSelector.get_pay_dividend_date_textColor(props.asset)}>{payDividendDateFormatted}</TableCell>
-			<TableCell additionalClassNames="text-right">{dividends_formatted} {props.asset.currencySymbol}</TableCell>
+			<TableCell additionalClassNames={"text-right " + assetsSelector.get_dividends_textColor(props.asset)}>{dividends_formatted} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames="text-right" bgColor={bgColor_InOut}>{current_sum_in_out} €</TableCell>
     </tr>
   );

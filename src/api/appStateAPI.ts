@@ -6,7 +6,7 @@ const path = require('path');
 export const dataPath = app.getPath('userData');
 export const filePath = path.join(dataPath, 'config.json');
 
-var _current_content = {
+export var _current_content = {
   selectedTab: "",
   theme: "",
   database: ""

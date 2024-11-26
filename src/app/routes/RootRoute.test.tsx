@@ -18,6 +18,7 @@ var API = {
 		saveDatabase: jest.fn()
 	},
 	selectFolder: jest.fn(),
+	dbFileExists: jest.fn(() => { return true }),
 	sendToDB: jest.fn(),
 	sendToFinanceAPI: jest.fn(),
 	quit: jest.fn()
@@ -36,7 +37,8 @@ describe('RootRoute component', () => {
 
 		describe('assetsTab', () => {
 
-			beforeEach(() => {
+			it('sets selectedTab to "assetsTab" if "selectedTab":"assetsTab" and a database is set in the config file', async() => {
+
 				const filePath = path_to_test_configs + 'config_assetsTab.json'
 				window.API = Object.assign({}, API, {
 					appState:{
@@ -46,9 +48,32 @@ describe('RootRoute component', () => {
 					},
 					sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
 				})
+
+				const store = setupStore();
+				await act(async() => {
+					render(
+						<Provider store={store}>
+							<RootRoute />
+						</Provider>
+					)
+				})
+				await waitFor(() => {
+					expect(store.getState().appState.selectedTab).toEqual('assetsTab');
+				})
 			});
 
-			it('sets selectedTab to "assetsTab" if "selectedTab":"assetsTab" and a database is set in the config file', async() => {
+			it('sets selectedTab to "assetsTab" if "selectedTab":"databaseTab" and a database is set in the config file', async() => {
+
+				const filePath = path_to_test_configs + 'config_databaseTab.json'
+				window.API = Object.assign({}, API, {
+					appState:{
+						dataPath: path_to_test_configs,
+						filePath: filePath,
+						load: () => appStateAPI.load(filePath),
+					},
+					sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
+				})
+
 				const store = setupStore();
 				await act(async() => {
 					render(

@@ -12,8 +12,8 @@ export default function AnalysisRoute() {
 		<div id="DatabaseRoute">
         <div>Database</div>
         <div>{db}</div>
-        <Button id="selectDatabase" intent={Intent.PRIMARY} text="Select an existing database" fill onClick={() => selectDatabase()} />
-        <div>or <Button id="createNewDatabase" intent={Intent.PRIMARY} icon="plus" text="Create a new database" fill onClick={() => createNewDatabase()} /></div>
+        <Button id="selectDatabaseButton" intent={Intent.PRIMARY} text="Select an existing database" fill onClick={() => selectDatabase()} />
+        <div>or <Button id="createNewDatabaseButton" intent={Intent.PRIMARY} icon="plus" text="Create a new database" fill onClick={() => createNewDatabase()} /></div>
     </div>
   )
 
@@ -27,6 +27,6 @@ export default function AnalysisRoute() {
   }
 
   function createNewDatabase() {
-    
+    console.log('createNewDatabaseButton clicked')
   }
 }

@@ -17,11 +17,7 @@ var API = {
     saveTheme: jest.fn(),
     saveSelectedTab: jest.fn(),
     saveDatabase: jest.fn()
-  },
-  selectFolder: jest.fn(),
-  sendToDB: jest.fn(),
-  sendToFinanceAPI: jest.fn(),
-  quit: jest.fn()
+  }
 }
 
 describe('TopNavBar component', () => {
@@ -50,6 +46,7 @@ describe('TopNavBar component', () => {
           filePath: filePath,
           load: () => appStateAPI.load(filePath),
         },
+        dbFileExists: jest.fn(() => { return true }),
         sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
       })
     });

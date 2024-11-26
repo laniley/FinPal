@@ -5,6 +5,7 @@ export const get_current_profit_loss_textColor = (asset:Asset) => (get_current_p
 export const get_current_sum_in_out_bgColor = (asset:Asset) => (asset.current_sum_in_out > 0 ? "bg-teal-600" : (asset.current_sum_in_out < 0 ? "bg-custom-red" : "inherit"))
 export const get_ex_dividend_date_textColor = (asset:Asset) => (new Date(asset.exDividendDate) < new Date() ? "text-slate-500" : "inherit")
 export const get_pay_dividend_date_textColor = (asset:Asset) => (new Date(asset.payDividendDate) < new Date() ? "text-slate-500" : "inherit")
+export const get_dividends_textColor = (asset:Asset) => (asset.dividends <= 0 ? "text-slate-500" : "inherit")
 
 export function selectAssetsSortedByProfitLoss(state: Asset[], direction:'asc'|'desc') {
   const active = state.filter((asset:Asset) => asset.current_shares != 0 && asset.current_shares != null)
