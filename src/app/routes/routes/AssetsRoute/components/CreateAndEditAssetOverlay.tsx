@@ -16,6 +16,7 @@ export default function AnalysisRoute() {
   const symbolInput = useAppSelector(state => state.assetCreation.symbolInput)
   const isinInput = useAppSelector(state => state.assetCreation.isinInput)
 	const kgvInput = useAppSelector(state => state.assetCreation.kgvInput)
+  const link = "https://finance.yahoo.com/quote/" + symbolInput + "/"
 
   function handleOnClose() {
     dispatch(appStateReducer.setShowAssetOverlay(false))
@@ -30,16 +31,23 @@ export default function AnalysisRoute() {
         icon={appState.assetOverlayType == appStateReducer.AssetOverlayType.NEW ? "plus" : "edit"}
         canOutsideClickClose={false}
         onClose={(e) => handleOnClose()}>
-        <DialogBody>
-          <table id="AssetOverlay">
-            <tbody>
-              <tr><td>ID</td><td>{useAppSelector(state => state.assetCreation.ID)}</td></tr>
-              <tr><td>Name</td><td><input id="nameInput" type="text" value={nameInput} onChange={(e) => dispatch(assetCreationReducer.setNameInput(e.target.value))} /> *</td></tr>
-              <tr><td>Symbol</td><td><input id="symbolInput" type="text" value={symbolInput} onChange={(e) => dispatch(assetCreationReducer.setSymbolInput(e.target.value))} /> *</td></tr>
-              <tr><td>ISIN</td><td><input id="isinInput" type="text" minLength={12} maxLength={12} value={isinInput} onChange={(e) => dispatch(assetCreationReducer.setISINInput(e.target.value))} /> *</td></tr> 
-              <tr><td>KGV</td><td><input id="kgvInput" type="text" value={kgvInput} onChange={(e) => dispatch(assetCreationReducer.setKGVInput(e.target.value))} /></td></tr>
-            </tbody>
-          </table>
+        <DialogBody className="flex flex-row">
+          <div>
+            <table id="AssetOverlay">
+              <tbody>
+                <tr><td>ID</td><td>{useAppSelector(state => state.assetCreation.ID)}</td></tr>
+                <tr><td>Name</td><td className="min-w-[215px]"><input id="nameInput" type="text" value={nameInput} onChange={(e) => dispatch(assetCreationReducer.setNameInput(e.target.value))} /> *</td></tr>
+                <tr><td>Symbol</td><td><input id="symbolInput" type="text" value={symbolInput} onChange={(e) => dispatch(assetCreationReducer.setSymbolInput(e.target.value))} /> *</td></tr>
+                <tr><td>ISIN</td><td><input id="isinInput" type="text" minLength={12} maxLength={12} value={isinInput} onChange={(e) => dispatch(assetCreationReducer.setISINInput(e.target.value))} /> *</td></tr> 
+                <tr><td>KGV</td><td><input id="kgvInput" type="text" value={kgvInput} onChange={(e) => dispatch(assetCreationReducer.setKGVInput(e.target.value))} /></td></tr>
+              </tbody>
+            </table>
+          </div>
+          {
+            appState.assetOverlayType == appStateReducer.AssetOverlayType.EDIT ?
+              <div className="grow pl-5"><a target="_blank" href={link}>Link to {symbolInput} on Yahoo Finance</a></div> 
+            : ''
+          }
         </DialogBody>
         <DialogFooter actions={
           <div>
