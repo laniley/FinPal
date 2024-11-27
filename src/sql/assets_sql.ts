@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS assets (
   "symbol" TEXT NOT NULL,
   "isin" TEXT NOT NULL,
   "kgv",
+  "exDividendDate" TEXT,
   CONSTRAINT assets_pk PRIMARY KEY("ID" AUTOINCREMENT)
 );
 

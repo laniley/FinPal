@@ -82,6 +82,15 @@ export const loadPricesAndDividends = createAsyncThunk(
 				console.log(asset.name, '- divvydiary: ', json)
 
 				if(json.dividends[0]) {
+					let sql  = `
+						UPDATE assets SET exDividendDate = '${json.dividends[0].exDate}'
+						WHERE ID = ${asset.ID}`
+
+						window.API.sendToDB(sql)
+							.then((result:any) => {
+								console.log(result)
+							});
+
 					thunkAPI.dispatch(setDividends({ asset, dividends: json.dividends }))
 					thunkAPI.dispatch(setExDividendDate({ asset, exDividendDate: json.dividends[0].exDate }))
 					thunkAPI.dispatch(setPayDividendDate({ asset, payDividendDate: json.dividends[0].payDate }))

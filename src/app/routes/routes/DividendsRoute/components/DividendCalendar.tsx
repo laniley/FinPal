@@ -7,7 +7,9 @@ import { useAppSelector } from './../../../../hooks'
 export default function DividendCalendar() {
 
 	const assets = useAppSelector(state => state.assets)
-  const filtered_assets = assets.filter((asset) => asset.current_shares > 0 && asset.next_estimated_dividend_per_share > 0 && new Date(asset.payDividendDate) >= new Date())
+  const assets_with_current_shares_before_ex_date = assets.filter((asset) => asset.current_shares_before_ex_date > 0)
+  const assets_with_upcoming_dividends = assets_with_current_shares_before_ex_date.filter((asset) => asset.next_estimated_dividend_per_share > 0 && new Date(asset.payDividendDate) >= new Date())
+  const filtered_assets = assets_with_upcoming_dividends.filter((asset) => asset.next_estimated_dividend_per_share > 0 && new Date(asset.payDividendDate) >= new Date())
   const sorted_assets = selectAssetsSortedByDividendPayDate(filtered_assets, 'asc')
 
   const dividends = useAppSelector(state => state.dividends)
