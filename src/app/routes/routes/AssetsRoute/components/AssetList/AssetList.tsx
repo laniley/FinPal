@@ -3,10 +3,9 @@ import { useAppSelector } from './../../../../../hooks'
 import AssetListSumRow from './AssetListSumRow';
 import AssetListItem from './AssetListItem';
 import Table from '../../../../../components/Table/Table';
-import TableHeaderCell from '../../../../../components/Table/TableHeaderCell/TableHeaderCell';
 import * as assetsSelector from '../../../../../store/assets/assets.selectors';
 import RefreshButton from './../../components/RefreshButton';
-import AssetListHeaderRow from './AssetListHeaderRow';
+import AssetListHeaderRow from './components/AssetListHeaderRow';
 
 export default function AnalysisRoute() {
 
@@ -29,9 +28,55 @@ export default function AnalysisRoute() {
 
 	const sorted_Assets = assetsSelector.selectAssetsSortedByProfitLoss(assets, 'desc')
 
+	const columns = [
+		{
+			header: <RefreshButton />,
+		},
+		{
+			header: 'Name'
+		},
+		{
+			header: 'Shares'
+		},
+		{
+			header: 'Current Price per Share'
+		},
+		{
+			header: ''
+		},
+		{
+			header: 'Avg Price Paid'
+		},
+		{
+			header: 'Current Invest'
+		},
+		{
+			header: 'Current Value'
+		},
+		{
+			header: 'Current Profit/Loss',
+			additionalClassNames: "min-w-[180px]"
+		},
+		{
+			header: 'Ex Date'
+		},
+		{
+			header: 'Pay Date'
+		},
+		{
+			header: 'Upcoming Dividends'
+		},
+		{
+			header: 'Dividends Earned'
+		},
+		{
+			header: 'In-/Outcome'
+		}
+	]
+
 	return (
     <Table>
-      <AssetListHeaderRow/>
+      <AssetListHeaderRow columns={columns}/>
       <tbody>
         <AssetListSumRow sum_profit_loss={sum_profit_loss_formatted} sum_dividends={sum_dividends_formatted} sum_in_out={sum_in_out_formatted} />
         <AssetListRows assets={sorted_Assets}/>
