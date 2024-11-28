@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor, within } from '@testing-library/react'
-import { render } from '../../../../../../testing/test-utils'
+import { render } from '../../../../../../../testing/test-utils'
 import AssetListItem from './AssetListItem';
-import AssetsRoute from './../../AssetsRoute';
+import AssetsRoute from './../../../AssetsRoute';
 
 describe('AssetsListItem component', () => {
 

@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from '@testing-library/react'
+import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import { render } from '../../../../testing/test-utils'
 import AssetsRoute from './AssetsRoute';
 
@@ -19,10 +19,10 @@ describe('AssetsRoute component', () => {
       {ID: 3, name: 'test3', symbol: 'test_symbol_3', isin: 'test_isin_3', current_shares: 3, price: 100, current_invest: -50},
     ] as Asset[]
 
-    render(<AssetsRoute />, { preloadedState: { assets: assets } })
+    const {getAllById} = render(<AssetsRoute />, { preloadedState: { assets: assets } })
 
     await waitFor(() => {
-      const { getByText } = within(screen.getByTestId('TableCellSumProfitLoss'))
+      const { getByText } = within(getAllById('TableCellSumProfitLoss')[0])
       expect(getByText('400.00 €')).toBeDefined()
     })
   });

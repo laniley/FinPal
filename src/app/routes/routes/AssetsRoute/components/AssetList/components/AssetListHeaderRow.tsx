@@ -6,7 +6,7 @@ export default function AnalysisRoute(props: {columns: any[]}) {
     <thead>
       <tr>
         {
-          props.columns.map((column, i) => (<TableHeaderCell key={"column-" + i} additionalClassNames={column.additionalClassNames}>{column.header}</TableHeaderCell>))
+          props.columns.map((column, i) => (<TableHeaderCell key={"column-" + i} additionalClassNames={column.header.additionalClassNames}>{column.header.content}</TableHeaderCell>))
         }
       </tr>
     </thead>

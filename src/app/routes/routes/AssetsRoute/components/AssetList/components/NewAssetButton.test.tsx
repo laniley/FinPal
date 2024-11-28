@@ -1,16 +1,16 @@
 import { fireEvent, screen, waitFor, within } from '@testing-library/react'
-import { render } from '../../../../../../testing/test-utils'
-import AssetListSumRow from './AssetListSumRow';
-import AssetsRoute from './../../AssetsRoute';
+import { render } from '../../../../../../../testing/test-utils'
+import NewAssetButton from './NewAssetButton';
+import AssetsRoute from '../../../AssetsRoute';
 
-describe('AssetListSumRow component', () => {
+describe('AssetsListItem component', () => {
 
 	it('renders', async() => {
     
-    const {getAllById} = render(<AssetListSumRow sum_profit_loss="100.00 €" sum_dividends="15.00 €" sum_in_out="-200.00 €"/>) 
+    const {getAllById} = render(<NewAssetButton />) 
 		
     await waitFor(() => {
-			expect(getAllById('AssetListSumRow').length).toEqual(1);
+			expect(getAllById('newAssetButton').length).toEqual(1);
 		})
 	});
 

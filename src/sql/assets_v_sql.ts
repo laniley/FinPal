@@ -1,5 +1,5 @@
 const sql = `
-CREATE VIEW assets_v AS
+CREATE VIEW IF NOT EXISTS assets_v AS
 	WITH current_shares AS (
 		SELECT
 			assets.ID,

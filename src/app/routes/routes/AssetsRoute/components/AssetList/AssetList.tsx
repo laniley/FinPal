@@ -1,11 +1,12 @@
 import { useAppSelector } from './../../../../../hooks'
 
-import AssetListSumRow from './AssetListSumRow';
-import AssetListItem from './AssetListItem';
+import AssetListSumRow from './components/AssetListSumRow';
+import AssetListItem from './components/AssetListItem';
 import Table from '../../../../../components/Table/Table';
 import * as assetsSelector from '../../../../../store/assets/assets.selectors';
 import RefreshButton from './../../components/RefreshButton';
 import AssetListHeaderRow from './components/AssetListHeaderRow';
+import NewAssetButton from './components/NewAssetButton';
 
 export default function AnalysisRoute() {
 
@@ -22,55 +23,105 @@ export default function AnalysisRoute() {
 		sum_in_out += asset.current_sum_in_out
 	});
 	
-	var sum_profit_loss_formatted = (Math.round(sum_profit_lost * 100) / 100).toFixed(2)
-	var sum_dividends_formatted = (Math.round(sum_dividends * 100) / 100).toFixed(2)
-	var sum_in_out_formatted = (Math.round(sum_in_out * 100) / 100).toFixed(2)
+	var sum_profit_loss_formatted = (Math.round(sum_profit_lost * 100) / 100).toFixed(2) + " €"
+	var sum_dividends_formatted = (Math.round(sum_dividends * 100) / 100).toFixed(2) + " €"
+	var sum_in_out_formatted = (Math.round(sum_in_out * 100) / 100).toFixed(2) + " €"
 
 	const sorted_Assets = assetsSelector.selectAssetsSortedByProfitLoss(assets, 'desc')
 
 	const columns = [
 		{
-			header: <RefreshButton />,
+			header: {
+				content: <RefreshButton />
+			},
+			sum_row: {
+				content: '*',
+				additionalClassNames: "text-right"
+			}
 		},
 		{
-			header: 'Name'
+			header: {
+				content: 'Name'
+			},
+			sum_row: {
+				ID: 'TableCellSumNewAssetButton',
+				content: <NewAssetButton />,
+				additionalClassNames: "text-center"
+			}
 		},
 		{
-			header: 'Shares'
+			header: {
+				content: 'Shares'
+			}
 		},
 		{
-			header: 'Current Price per Share'
+			header: {
+				content: 'Current Price per Share'
+			}
 		},
 		{
-			header: ''
+			header: {
+				content: ''
+			}
 		},
 		{
-			header: 'Avg Price Paid'
+			header: {
+				content: 'Avg Price Paid'
+			}
 		},
 		{
-			header: 'Current Invest'
+			header: {
+				content: 'Current Invest'
+			}
 		},
 		{
-			header: 'Current Value'
+			header: {
+				content: 'Current Value'
+			}
 		},
 		{
-			header: 'Current Profit/Loss',
-			additionalClassNames: "min-w-[180px]"
+			header: {
+				content: 'Current Profit/Loss',
+				additionalClassNames: "min-w-[180px]"
+			},
+			sum_row: {
+				ID: 'TableCellSumProfitLoss',
+				content: sum_profit_loss_formatted,
+				additionalClassNames: "text-right"
+			}
 		},
 		{
-			header: 'Ex Date'
+			header: {
+				content: 'Ex Date'
+			}
 		},
 		{
-			header: 'Pay Date'
+			header: {
+				content: 'Pay Date'
+			}
 		},
 		{
-			header: 'Upcoming Dividends'
+			header: {
+				content: 'Upcoming Dividends'
+			}
 		},
 		{
-			header: 'Dividends Earned'
+			header: {
+				content: 'Dividends Earned'
+			},
+			sum_row: {
+				content: sum_dividends_formatted,
+				additionalClassNames: "text-right"
+			}
 		},
 		{
-			header: 'In-/Outcome'
+			header: {
+				content: 'In-/Outcome'
+			},
+			sum_row: {
+				content: sum_in_out_formatted,
+				additionalClassNames: "text-right"
+			}
 		}
 	]
 
@@ -78,15 +129,16 @@ export default function AnalysisRoute() {
     <Table>
       <AssetListHeaderRow columns={columns}/>
       <tbody>
-        <AssetListSumRow sum_profit_loss={sum_profit_loss_formatted} sum_dividends={sum_dividends_formatted} sum_in_out={sum_in_out_formatted} />
+        <AssetListSumRow columns={columns} />
         <AssetListRows assets={sorted_Assets}/>
       </tbody>
     </Table>
 	);
+
+	function AssetListRows(props:{assets:Asset[]}):JSX.Element {
+		return <>{
+			props.assets.map((asset, i) => (<AssetListItem key={"asset-" + asset.ID} i={i+1} asset={asset} />))
+		}</>
+	}
 }
 
-function AssetListRows(props:{assets:Asset[]}):JSX.Element {
-	return <>{
-		props.assets.map((asset, i) => (<AssetListItem key={"asset-" + asset.ID} i={i+1} asset={asset} />))
-	}</>
-}

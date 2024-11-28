@@ -94,7 +94,7 @@ export const loadPricesAndDividends = createAsyncThunk(
 					thunkAPI.dispatch(setDividends({ asset, dividends: json.dividends }))
 					thunkAPI.dispatch(setExDividendDate({ asset, exDividendDate: json.dividends[0].exDate }))
 					thunkAPI.dispatch(setPayDividendDate({ asset, payDividendDate: json.dividends[0].payDate }))
-					thunkAPI.dispatch(setNextEstimatedDividendPerShare({ asset, next_estimated_dividend_per_share: json.dividends[0].amount }))
+					thunkAPI.dispatch(setNextEstimatedDividendPerShare({ asset, next_estimated_dividend_per_share: new Date(json.dividends[0].payDate) >= new Date() ? json.dividends[0].amount : 0 }))
 				}
 			} 
 			catch (error) {
