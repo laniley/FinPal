@@ -5,8 +5,8 @@ import AssetListItem from './components/AssetListItem';
 import Table from '../../../../../components/Table/Table';
 import * as assetsSelector from '../../../../../store/assets/assets.selectors';
 import RefreshButton from './../../components/RefreshButton';
-import AssetListHeaderRow from './components/AssetListHeaderRow';
 import NewAssetButton from './components/NewAssetButton';
+import TableHeaderRow from '../../../../../components/Table/TableHeaderRow/TableHeaderRow';
 
 export default function AnalysisRoute() {
 
@@ -132,7 +132,7 @@ export default function AnalysisRoute() {
 
 	return (
     <Table>
-      <AssetListHeaderRow columns={columns}/>
+      <TableHeaderRow columns={columns}/>
       <tbody>
         <AssetListSumRow columns={columns} />
         <AssetListRows assets={sorted_Assets}/>

@@ -2,6 +2,7 @@ import { useAppSelector } from './../../../hooks'
 
 import DividendList from './components/DividendList';
 import DividendCalendar from './components/DividendCalendar';
+import UpcomingDividends from './components/UpcomingDividends';
 
 export default function DividendsRoute() {
 
@@ -10,7 +11,10 @@ export default function DividendsRoute() {
 			<div id="Main" className="flex p-3 overflow-auto">
 				<div className="flex grow justify-center align-center">
 					<DividendList />
-					<DividendCalendar />
+					<div>
+						<DividendCalendar />
+						<UpcomingDividends />
+					</div>
 				</div>
 			</div>
 		</div>

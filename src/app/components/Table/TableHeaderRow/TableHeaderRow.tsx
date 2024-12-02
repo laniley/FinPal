@@ -1,6 +1,6 @@
-import TableHeaderCell from '../../../../../../components/Table/TableHeaderCell/TableHeaderCell';
+import TableHeaderCell from './../TableHeaderCell/TableHeaderCell';
 
-export default function AnalysisRoute(props: {columns: any[]}) {
+export default function TableHeaderRow(props: {columns: any[]}) {
 
 	return (
     <thead>

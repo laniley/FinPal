@@ -6,26 +6,40 @@ import AssetFilter from './../../../../components/AssetFilter/AssetFilter'
 import DividendCreation from './DividendCreation';
 import DividendListItem from './DividendListItem';
 import Table from '../../../../components/Table/Table';
-import TableCell from '../../../../components/Table/TableCell/TableCell';
+import TableHeaderRow from '../../../../components/Table/TableHeaderRow/TableHeaderRow';
 
 export default function DividendList() {
 
 	const dividends = useAppSelector(state => state.dividends)
 	const filerForAssets = useAppSelector(state => state.dividendsFilter.assets)
 
+  const columns = [
+		{
+			header: {
+				content: '#'
+			}
+		},
+    {
+			header: {
+				content: 'Date'
+			}
+		},
+    {
+			header: {
+				content: <div>{'Asset '}<AssetFilter filter={filerForAssets} reducer={dividendsFilterReducer} /></div>
+			}
+		},
+    {
+			header: {
+				content: 'Income'
+			}
+		},
+  ]
+
 	return (
 		<div id="DividendList">
       <Table>
-        <thead>
-          <tr>
-            <TableCell>#</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Asset 
-              <AssetFilter filter={filerForAssets} reducer={dividendsFilterReducer} />
-            </TableCell>
-            <TableCell>Income</TableCell>
-          </tr>
-        </thead>
+        <TableHeaderRow columns={columns}/>
         <tbody>
           <DividendCreation/>
           {dividends.filter((dividend) => {

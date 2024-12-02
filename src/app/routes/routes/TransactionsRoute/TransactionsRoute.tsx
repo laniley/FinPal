@@ -5,11 +5,70 @@ import TransactionListItem from './components/TransactionListItem';
 import AssetFilter from './../../../components/AssetFilter/AssetFilter'
 import * as transactionFilterReducer from './../../../store/transactionFilter/transactionFilter.reducer';
 import Table from '../../../components/Table/Table';
+import TableHeaderRow from '../../../components/Table/TableHeaderRow/TableHeaderRow';
 
 export default function TransactionsRoute() {
 
 	const filerForAssets = useAppSelector(state => state.transactionFilter.assets)
 	const transactions = useAppSelector(state => state.transactions)
+
+	const columns = [
+		{
+			header: {
+				content: '#'
+			}
+		},
+    {
+			header: {
+				content: 'Date'
+			}
+		},
+		{
+			header: {
+				content: 'Type'
+			}
+		},
+    {
+			header: {
+				content: <div>{'Asset '}<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} /></div>
+			}
+		},
+    {
+			header: {
+				content: 'Shares'
+			}
+		},
+		{
+			header: {
+				content: 'Shares (cumulated)'
+			}
+		},
+		{
+			header: {
+				content: 'Price per share'
+			}
+		},
+		{
+			header: {
+				content: 'Fee'
+			}
+		},
+		{
+			header: {
+				content: 'Solidarity Surcharge'
+			}
+		},
+		{
+			header: {
+				content: 'Invest (cumulated)'
+			}
+		},
+		{
+			header: {
+				content: 'In-/Outcome'
+			}
+		},
+  ]
 
 	return (
 		<div
@@ -18,23 +77,7 @@ export default function TransactionsRoute() {
 			<div id="Main" className="flex p-3 overflow-auto">
 				<div className="flex grow justify-center align-center">
 					<Table>
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Date</th>
-								<th>Type</th>
-								<th>Asset 
-									<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />
-								</th>
-								<th>Shares</th>
-								<th>Shares (cumulated)</th>
-								<th>Price per share</th>
-								<th>Fee</th>
-								<th>Solidarity Surcharge</th>
-								<th>Invest (cumulated)</th>
-								<th>In-/Outcome</th>
-							</tr>
-						</thead>
+						<TableHeaderRow columns={columns}/>
 						<tbody>
 							<TransactionCreation/>
 							{transactions.filter((transaction) => {
