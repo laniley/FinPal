@@ -94,6 +94,7 @@ export const loadPricesAndDividends = createAsyncThunk(
 					thunkAPI.dispatch(setDividends({ asset, dividends: json.dividends }))
 					thunkAPI.dispatch(setExDividendDate({ asset, exDividendDate: json.dividends[0].exDate }))
 					thunkAPI.dispatch(setPayDividendDate({ asset, payDividendDate: json.dividends[0].payDate }))
+					thunkAPI.dispatch(setDividendFrequency({ asset, dividendFrequency: json.dividendFrequency }))
 					thunkAPI.dispatch(setNextEstimatedDividendPerShare({ asset, next_estimated_dividend_per_share: new Date(json.dividends[0].payDate) >= new Date() ? json.dividends[0].amount : 0 }))
 				}
 			} 
@@ -174,6 +175,28 @@ const assetsSlice = createSlice({
 			})
 			return mapped
 		},
+		setDividendFrequency(state, action) {
+			let mapped = state.map((item:Asset, index:number) => { 
+				if(item.ID === action.payload.asset.ID) {
+					return Object.assign({}, item, { dividendFrequency: action.payload.dividendFrequency })
+				}
+				else {
+					return item
+				}
+			})
+			return mapped
+		},
+		setDividendYield(state, action) {
+			let mapped = state.map((item:Asset, index:number) => { 
+				if(item.ID === action.payload.asset.ID) {
+					return Object.assign({}, item, { dividendYield: action.payload.dividendYield })
+				}
+				else {
+					return item
+				}
+			})
+			return mapped
+		},
 		setExDividendDate(state, action) {
 			let mapped = state.map((item:Asset, index:number) => { 
 				if(item.ID === action.payload.asset.ID) {
@@ -217,17 +240,6 @@ const assetsSlice = createSlice({
 				}
 			})
 			return mapped
-		},
-		setDividendYield(state, action) {
-			let mapped = state.map((item:Asset, index:number) => { 
-				if(item.ID === action.payload.asset.ID) {
-					return Object.assign({}, item, { dividendYield: action.payload.dividendYield })
-				}
-				else {
-					return item
-				}
-			})
-			return mapped
 		}
 	}
 })
@@ -240,6 +252,7 @@ export const {
 	setCurrencySymbol,
 	setCurrentInvest,
 	setDividends,
+	setDividendFrequency,
 	setDividendYield,
 	setExDividendDate,
 	setNextEstimatedDividendPerShare,

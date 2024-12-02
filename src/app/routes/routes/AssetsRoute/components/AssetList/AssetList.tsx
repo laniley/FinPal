@@ -87,7 +87,7 @@ export default function AnalysisRoute() {
 			sum_row: {
 				ID: 'TableCellSumProfitLoss',
 				content: sum_profit_loss_formatted,
-				additionalClassNames: "text-right"
+				additionalClassNames: "text-center"
 			}
 		},
 		{
@@ -98,6 +98,11 @@ export default function AnalysisRoute() {
 		{
 			header: {
 				content: 'Pay Date'
+			}
+		},
+		{
+			header: {
+				content: 'Frequency'
 			}
 		},
 		{

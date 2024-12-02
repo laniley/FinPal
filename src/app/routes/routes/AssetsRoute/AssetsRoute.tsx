@@ -9,9 +9,7 @@ export default function AnalysisRoute() {
 		<div
 			id="AssetsRoute"
 			data-testid="AssetsRoute">
-			<div className="flex justify-center p-3 overflow-auto">
-				<AssetList/>
-			</div>
+			<AssetList/>
 			<CreateAndEditAssetOverlay />
 		</div>
 	);
