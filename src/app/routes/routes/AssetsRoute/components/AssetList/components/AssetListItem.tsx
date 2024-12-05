@@ -33,6 +33,8 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const payDividendDate = new Date(props.asset.payDividendDate)
 	const payDividendDateFormatted = isNaN(payDividendDate.getTime()) ? '' : payDividendDate.toLocaleDateString("de-DE", options)
 
+	const dividendYieldFormatted = assetsSelector.get_dividend_yield_formatted(props.asset)
+
 	const bgColor_PriceComparison = price_comparison == "<" ? "bg-teal-600" : (price_comparison == "=" ? "bg-slate-500" : "bg-custom-red")
 	const bgColor_ProfitLoss = assetsSelector.get_current_profit_loss_bgColor(props.asset)
 	const bgColor_InOut = assetsSelector.get_current_sum_in_out_bgColor(props.asset)
@@ -56,7 +58,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<TableCell id={"AssetListItem_" + props.i + "_exDividendDate"} additionalClassNames={"text-right " + assetsSelector.get_ex_dividend_date_textColor(props.asset)}>{exDividendDateFormatted}</TableCell>
 			<TableCell id={"AssetListItem_" + props.i + "_payDividendDate"} additionalClassNames={"text-right " + assetsSelector.get_pay_dividend_date_textColor(props.asset)}>{payDividendDateFormatted}</TableCell>
 			<TableCell additionalClassNames="text-center">{props.asset.dividendFrequency}</TableCell>
-			<TableCell additionalClassNames="text-center">{props.asset.dividendYield ? (Math.round(props.asset.dividendYield * 10000) / 10000).toFixed(4) + ' %' : ''}</TableCell>
+			<TableCell additionalClassNames="text-center">{dividendYieldFormatted}</TableCell>
 			<TableCell additionalClassNames={"text-right " + assetsSelector.get_upcoming_dividends_textColor(props.asset)}>{upcoming_dividends} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames={"text-right " + assetsSelector.get_dividends_earned_textColor(props.asset)}>{dividends_formatted} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames="text-right" bgColor={bgColor_InOut}>{current_sum_in_out} €</TableCell>

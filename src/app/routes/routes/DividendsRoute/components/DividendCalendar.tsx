@@ -55,7 +55,7 @@ export function DividendsInYear(props:{year:number, dividends:Dividend[]}) {
           return(
             <tr key={props.year + '-' + i}>
               <TableCell>{monthNames[i]}</TableCell>
-              <TableCell additionalClassNames={"text-right " + (month <= 0 ? "text-slate-500" : "inherit")}>{(Math.round(month * 100) / 100).toFixed(2)} €</TableCell>
+              <TableCell id={props.year + "-" + i} additionalClassNames={"text-right " + (month <= 0 ? "text-slate-500" : "inherit")}>{(Math.round(month * 100) / 100).toFixed(2)} €</TableCell>
             </tr>   
           )
         })}

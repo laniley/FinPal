@@ -34,6 +34,8 @@ export function get_estimated_dividends_per_year(asset:Asset) {
 	return divs
 }
 
+export const get_dividend_yield_formatted = (asset:Asset) => (asset.dividendYield ? (Math.round(asset.dividendYield * 10000) / 10000).toFixed(4) + ' %' : '')
+
 export function selectAssetsSortedByProfitLoss(state: Asset[], direction:'asc'|'desc') {
   const active = state.filter((asset:Asset) => asset.current_shares != 0 && asset.current_shares != null)
 	const inactive = state.filter((asset:Asset) => asset.current_shares == 0 || asset.current_shares == null)

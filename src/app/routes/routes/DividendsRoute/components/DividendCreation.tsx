@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from './../../../../hooks'
 import * as dividendCreationReducer from './../../../../../../src/app/store/dividendCreation/dividendCreation.reducer';
 import TableCell from '../../../../components/Table/TableCell/TableCell';
 
-export default function TransactionsRoute() {
+export default function DividendCreation() {
 
 	const dispatch = useAppDispatch();
   const assets = useAppSelector(state => state.assets)
@@ -12,9 +12,13 @@ export default function TransactionsRoute() {
 	const incomeInput = useAppSelector(state => state.dividendCreation.incomeInput)
 
 	return (
-    <tr>
+    <tr id="DividendCreation">
       <TableCell>*</TableCell>
-      <TableCell><input id="dateInput" type="date" value={dateInput} onChange={(e) => dispatch(dividendCreationReducer.setDateInput(e.target.value))} onBlur={() => { dispatch(dividendCreationReducer.handleDateInputGotTouched()) }} /></TableCell>
+      <TableCell>
+        <input id="dateInput" type="date" value={dateInput} 
+          onChange={(e) => dispatch(dividendCreationReducer.setDateInput(e.target.value))} 
+          onBlur={() => { dispatch(dividendCreationReducer.handleDateInputGotTouched()) }} />
+      </TableCell>
       <TableCell>
       <select id="assetInput" name="assetInput" value={assetInput} onChange={(e) => dispatch(dividendCreationReducer.setAssetInput(e.target.value))} onBlur={() => { dispatch(dividendCreationReducer.handleAssetInputGotTouched()) }}>
           {assets.map((asset, i) => {
