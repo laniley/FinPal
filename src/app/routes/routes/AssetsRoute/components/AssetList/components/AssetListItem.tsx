@@ -20,7 +20,8 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const current_profit_loss_formatted = (Math.round(current_profit_loss * 100) / 100).toFixed(2)
 	const current_profit_loss_percentage = assetsSelector.get_current_profit_loss_percentage(props.asset)
 	const current_profit_loss_percentage_formatted = (current_profit_loss_percentage).toFixed(2)
-	const upcoming_dividends = (Math.round(assetsSelector.get_upcoming_dividends(props.asset) * 1000) / 1000).toFixed(3)
+	const upcoming_dividends = (Math.round(assetsSelector.get_upcoming_dividends(props.asset).value * 1000) / 1000).toFixed(3)
+	const estimated_dividends_per_year = (Math.round(assetsSelector.get_estimated_dividends_per_year(props.asset) * 1000) / 1000).toFixed(3)
 	const dividends_formatted = (Math.round(props.asset.dividends_earned * 100) / 100).toFixed(2)
 	const current_sum_in_out = (Math.round((props.asset.current_sum_in_out + props.asset.dividends_earned) * 100) / 100).toFixed(2)
 
@@ -55,6 +56,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<TableCell id={"AssetListItem_" + props.i + "_exDividendDate"} additionalClassNames={"text-right " + assetsSelector.get_ex_dividend_date_textColor(props.asset)}>{exDividendDateFormatted}</TableCell>
 			<TableCell id={"AssetListItem_" + props.i + "_payDividendDate"} additionalClassNames={"text-right " + assetsSelector.get_pay_dividend_date_textColor(props.asset)}>{payDividendDateFormatted}</TableCell>
 			<TableCell additionalClassNames="text-center">{props.asset.dividendFrequency}</TableCell>
+			<TableCell additionalClassNames="text-center">{props.asset.dividendYield ? (Math.round(props.asset.dividendYield * 10000) / 10000).toFixed(4) + ' %' : ''}</TableCell>
 			<TableCell additionalClassNames={"text-right " + assetsSelector.get_upcoming_dividends_textColor(props.asset)}>{upcoming_dividends} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames={"text-right " + assetsSelector.get_dividends_earned_textColor(props.asset)}>{dividends_formatted} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames="text-right" bgColor={bgColor_InOut}>{current_sum_in_out} €</TableCell>

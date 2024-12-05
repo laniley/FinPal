@@ -5,9 +5,34 @@ export const get_current_profit_loss_textColor = (asset:Asset) => (get_current_p
 export const get_current_sum_in_out_bgColor = (asset:Asset) => (asset.current_sum_in_out > 0 ? "bg-teal-600" : (asset.current_sum_in_out < 0 ? "bg-custom-red" : "inherit"))
 export const get_ex_dividend_date_textColor = (asset:Asset) => (new Date(asset.exDividendDate) < new Date() ? "text-slate-500" : "inherit")
 export const get_pay_dividend_date_textColor = (asset:Asset) => (new Date(asset.payDividendDate) < new Date() ? "text-slate-500" : "inherit")
-export const get_upcoming_dividends = (asset:Asset) => (asset.next_estimated_dividend_per_share ? asset.next_estimated_dividend_per_share * asset.current_shares_before_ex_date: 0)
-export const get_upcoming_dividends_textColor = (asset:Asset) => (get_upcoming_dividends(asset) <= 0 ? "text-slate-500" : "inherit")
 export const get_dividends_earned_textColor = (asset:Asset) => (asset.dividends_earned <= 0 ? "text-slate-500" : "inherit")
+
+export function get_upcoming_dividends(asset:Asset) {
+	let upcoming_div = { value: 0, is_estimated: true }
+	if(asset.current_shares_before_ex_date > 0) {
+		upcoming_div.value = asset.next_estimated_dividend_per_share ? asset.next_estimated_dividend_per_share * asset.current_shares_before_ex_date: 0
+		upcoming_div.is_estimated = false
+	}
+	else {
+		upcoming_div.value = asset.next_estimated_dividend_per_share ? asset.next_estimated_dividend_per_share : 0
+	}
+	return upcoming_div
+}
+
+export const get_upcoming_dividends_textColor = (asset:Asset) => (get_upcoming_dividends(asset).value <= 0 ? "text-slate-500" : (get_upcoming_dividends(asset).is_estimated ? "text-pink-600" : "inherit"))
+
+export function get_estimated_dividends_per_year(asset:Asset) {
+	let divs = 0
+	if(get_upcoming_dividends(asset).value > 0) {
+		if(asset.dividendFrequency == 'annually') 
+			divs = get_upcoming_dividends(asset).value
+		else if(asset.dividendFrequency == 'biannually')
+			divs = get_upcoming_dividends(asset).value * 2
+		else if(asset.dividendFrequency == 'quarterly')
+			divs = get_upcoming_dividends(asset).value * 4
+	}
+	return divs
+}
 
 export function selectAssetsSortedByProfitLoss(state: Asset[], direction:'asc'|'desc') {
   const active = state.filter((asset:Asset) => asset.current_shares != 0 && asset.current_shares != null)

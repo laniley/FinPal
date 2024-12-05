@@ -107,6 +107,11 @@ export default function AnalysisRoute() {
 		},
 		{
 			header: {
+				content: 'Dividend Yield'
+			}
+		},
+		{
+			header: {
 				content: 'Upcoming Dividends'
 			}
 		},

@@ -18,5 +18,6 @@ interface Asset {
   exDividendDate?: string,
   payDividendDate?: string,
   dividendFrequency?: string,
+  dividendYield?: float,
   next_estimated_dividend_per_share?: float
 }
