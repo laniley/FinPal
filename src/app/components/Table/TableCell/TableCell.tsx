@@ -5,7 +5,8 @@ type Props = {
   children?: ReactNode
   additionalClassNames?: string,
   bgColor?: string,
-  dataTestID?: string
+  dataTestID?: string,
+  tooltip?: string
 }
 
 export default function TableCell({ children, ...props }:Props) {
@@ -14,7 +15,7 @@ export default function TableCell({ children, ...props }:Props) {
   const dataTestID = "TableCell" + (props.dataTestID || '')
 
   return(
-    <td id={props.id || ''} data-testid={dataTestID} className={className}>{children}</td>
+    <td id={props.id || ''} data-testid={dataTestID} className={className} title={props.tooltip}>{children}</td>
   )
 }
 

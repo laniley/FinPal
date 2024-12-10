@@ -5,7 +5,7 @@ export const initialState = [] as Dividend[]
 export const loadDividends = createAsyncThunk(
   'dividends/loadDividends',
   async (props, thunkAPI) => {
-		var sql = 'SELECT * FROM dividends'
+		var sql = 'SELECT * FROM dividends_v'
 		console.log(sql)
 		var result = await window.API.sendToDB(sql)
 		console.log('result - load dividends: ', result)

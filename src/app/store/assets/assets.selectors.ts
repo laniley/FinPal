@@ -2,7 +2,7 @@ export const get_current_profit_loss = (asset:Asset) => (asset.current_shares * 
 export const get_current_profit_loss_percentage = (asset:Asset) => (asset.current_invest != 0 ? -1 * get_current_profit_loss(asset)/asset.current_invest * 100 : 0)
 export const get_current_profit_loss_bgColor = (asset:Asset) => (get_current_profit_loss(asset) > 0 ? "bg-teal-600" : (get_current_profit_loss(asset) == 0 ? "transparent" : "bg-custom-red"))
 export const get_current_profit_loss_textColor = (asset:Asset) => (get_current_profit_loss(asset) == 0 ? "text-slate-500" : "inherit")
-export const get_current_sum_in_out_bgColor = (asset:Asset) => (asset.current_sum_in_out > 0 ? "bg-teal-600" : (asset.current_sum_in_out < 0 ? "bg-custom-red" : "inherit"))
+export const get_current_sum_in_out_bgColor = (current_sum_in_out:number) => (current_sum_in_out > 0 ? "bg-teal-600" : (current_sum_in_out < 0 ? "bg-custom-red" : "inherit"))
 export const get_ex_dividend_date_textColor = (asset:Asset) => (new Date(asset.exDividendDate) < new Date() ? "text-slate-500" : "inherit")
 export const get_pay_dividend_date_textColor = (asset:Asset) => (new Date(asset.payDividendDate) < new Date() ? "text-slate-500" : "inherit")
 export const get_dividends_earned_textColor = (asset:Asset) => (asset.dividends_earned <= 0 ? "text-slate-500" : "inherit")
@@ -34,7 +34,7 @@ export function get_estimated_dividends_per_year(asset:Asset) {
 	return divs
 }
 
-export const get_dividend_yield_formatted = (asset:Asset) => (asset.dividendYield ? (Math.round(asset.dividendYield * 10000) / 10000).toFixed(4) + ' %' : '')
+export const get_dividend_yield_formatted = (asset:Asset) => (asset.dividendYield ? (Math.round(asset.dividendYield * 10000) / 100).toFixed(2) + ' %' : '')
 
 export function selectAssetsSortedByProfitLoss(state: Asset[], direction:'asc'|'desc') {
   const active = state.filter((asset:Asset) => asset.current_shares != 0 && asset.current_shares != null)

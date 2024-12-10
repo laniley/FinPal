@@ -52,9 +52,11 @@ export default function RootRoute() {
 			setupAssets().then(() => {
 				setupTransactions().then(() => {
 					setupDividends().then(() => {
-						setupAssetsView().then(() => {
-							dispatch(assetsReducer.loadAssets()).then(() => {
-								dispatch(transactionsReducer.loadTransactions())
+						setupDividendsView().then(() => {
+							setupAssetsView().then(() => {
+								dispatch(assetsReducer.loadAssets()).then(() => {
+									dispatch(transactionsReducer.loadTransactions())
+								})
 							})
 						})
 					})
@@ -115,6 +117,18 @@ export default function RootRoute() {
 		console.log('New ID (dividends): ' + newID)
 		dispatch(dividendCreationReducer.setNewID(newID))
 		await dispatch(dividendsReducer.loadDividends())
+	}
+
+	async function setupDividendsView() {
+		await sendToDB(dividends_sql)
+		let sql  = `CREATE VIEW IF NOT EXISTS dividends_v AS 
+									SELECT 
+										d.*, 
+										a.name as asset_name 
+									FROM dividends d
+									LEFT JOIN assets a ON d.asset_ID = a.ID;`
+		var result = await sendToDB(sql)
+		console.log('result - dividends_v: ', result)
 	}
 
 	async function setupAssetsView() {

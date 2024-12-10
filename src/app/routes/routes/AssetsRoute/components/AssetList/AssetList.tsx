@@ -20,12 +20,12 @@ export default function AnalysisRoute() {
 		const current_profit_loss = (asset.current_shares * asset.price) + asset.current_invest
 		sum_profit_lost += current_profit_loss
 		sum_dividends += asset.dividends_earned
-		sum_in_out += asset.current_sum_in_out
+		sum_in_out += asset.current_sum_in_out + asset.dividends_earned + (asset.current_shares * asset.price)
 	});
 	
 	var sum_profit_loss_formatted = (Math.round(sum_profit_lost * 100) / 100).toFixed(2) + " €"
 	var sum_dividends_formatted = (Math.round(sum_dividends * 100) / 100).toFixed(2) + " €"
-	var sum_in_out_formatted = (Math.round(sum_in_out * 100) / 100).toFixed(2) + " €"
+	var sum_in_out_formatted = (Math.round(sum_in_out  * 100) / 100).toFixed(2) + " €"
 
 	const sorted_Assets = assetsSelector.selectAssetsSortedByProfitLoss(assets, 'desc')
 

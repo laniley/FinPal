@@ -15,7 +15,8 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const avg_price_paid_formatted = (Math.round(props.asset.avg_price_paid * 100) / 100).toFixed(2)
 	const price_comparison = props.asset.price < props.asset.avg_price_paid ? "<" : props.asset.price > props.asset.avg_price_paid ? ">" : "="
 	const current_invest = (Math.round(props.asset.current_invest * 100) / 100).toFixed(2)
-	const current_value = (Math.round(props.asset.current_shares * props.asset.price * 100) / 100).toFixed(2)
+	const current_value = props.asset.current_shares * props.asset.price
+	const current_value_formatted = (Math.round(props.asset.current_shares * props.asset.price * 100) / 100).toFixed(2)
 	const current_profit_loss = assetsSelector.get_current_profit_loss(props.asset)
 	const current_profit_loss_formatted = (Math.round(current_profit_loss * 100) / 100).toFixed(2)
 	const current_profit_loss_percentage = assetsSelector.get_current_profit_loss_percentage(props.asset)
@@ -23,7 +24,8 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const upcoming_dividends = (Math.round(assetsSelector.get_upcoming_dividends(props.asset).value * 1000) / 1000).toFixed(3)
 	const estimated_dividends_per_year = (Math.round(assetsSelector.get_estimated_dividends_per_year(props.asset) * 1000) / 1000).toFixed(3)
 	const dividends_formatted = (Math.round(props.asset.dividends_earned * 100) / 100).toFixed(2)
-	const current_sum_in_out = (Math.round((props.asset.current_sum_in_out + props.asset.dividends_earned) * 100) / 100).toFixed(2)
+	const current_sum_in_out = props.asset.current_sum_in_out + current_value + props.asset.dividends_earned
+	const current_sum_in_out_formatted = (Math.round((current_sum_in_out) * 100) / 100).toFixed(2)
 
 	const options = { day: '2-digit', month: '2-digit', year: 'numeric' } as Intl.DateTimeFormatOptions;
 
@@ -37,7 +39,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 
 	const bgColor_PriceComparison = price_comparison == "<" ? "bg-teal-600" : (price_comparison == "=" ? "bg-slate-500" : "bg-custom-red")
 	const bgColor_ProfitLoss = assetsSelector.get_current_profit_loss_bgColor(props.asset)
-	const bgColor_InOut = assetsSelector.get_current_sum_in_out_bgColor(props.asset)
+	const bgColor_InOut = assetsSelector.get_current_sum_in_out_bgColor(current_sum_in_out)
 	
 	const theme = useAppSelector(state => state.appState.theme)
 	const button_text_color = selectors.get_button_text_color(theme)
@@ -53,7 +55,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<TableCell additionalClassNames="text-right" bgColor={bgColor_PriceComparison}>{price_comparison}</TableCell>
 			<TableCell additionalClassNames="text-right">{avg_price_paid_formatted} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames="text-right">{current_invest} {props.asset.currencySymbol}</TableCell>
-			<TableCell additionalClassNames="text-right">{current_value} {props.asset.currencySymbol}</TableCell>
+			<TableCell additionalClassNames="text-right">{current_value_formatted} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames={"text-center " + assetsSelector.get_current_profit_loss_textColor(props.asset)} bgColor={bgColor_ProfitLoss}>{current_profit_loss_formatted} {props.asset.currencySymbol} / {current_profit_loss_percentage_formatted} %</TableCell>
 			<TableCell id={"AssetListItem_" + props.i + "_exDividendDate"} additionalClassNames={"text-right " + assetsSelector.get_ex_dividend_date_textColor(props.asset)}>{exDividendDateFormatted}</TableCell>
 			<TableCell id={"AssetListItem_" + props.i + "_payDividendDate"} additionalClassNames={"text-right " + assetsSelector.get_pay_dividend_date_textColor(props.asset)}>{payDividendDateFormatted}</TableCell>
@@ -61,7 +63,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<TableCell additionalClassNames="text-center">{dividendYieldFormatted}</TableCell>
 			<TableCell additionalClassNames={"text-right " + assetsSelector.get_upcoming_dividends_textColor(props.asset)}>{upcoming_dividends} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames={"text-right " + assetsSelector.get_dividends_earned_textColor(props.asset)}>{dividends_formatted} {props.asset.currencySymbol}</TableCell>
-			<TableCell additionalClassNames="text-right" bgColor={bgColor_InOut}>{current_sum_in_out} €</TableCell>
+			<TableCell additionalClassNames="text-right" bgColor={bgColor_InOut}>{current_sum_in_out_formatted} €</TableCell>
     </tr>
   );
 
