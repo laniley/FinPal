@@ -50,7 +50,7 @@ export function DividendsInYear(props:{year:number, dividends:Dividend[]}) {
       <thead>
         <tr>
           <TableHeaderCell>{props.year}</TableHeaderCell>
-          <TableHeaderCell>{sum} €</TableHeaderCell>
+          <TableHeaderCell>{(Math.round(sum * 100) / 100).toFixed(2)} €</TableHeaderCell>
         </tr>
       </thead>
       <tbody>

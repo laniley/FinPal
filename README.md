@@ -64,21 +64,15 @@ npm run test:watch # Test the app with auto-reload
 npm run test:coverage # Check the code coverage
 ```
 
-#### Build the app (automatic)
+#### Build the app
 
 ```
 npm run package
 ```
 
-#### Build the app (manual)
-
+#### Make a distributable
 ```
-npm run build
-```
-
-#### Run the app in prod (after `npm run build`)
-```
-npm run prod
+npm run make
 ```
 
 ### Code of Conduct
