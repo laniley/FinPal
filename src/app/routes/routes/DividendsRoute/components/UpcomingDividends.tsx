@@ -1,6 +1,7 @@
 import Table from '../../../../components/Table/Table';
 import TableCell from '../../../../components/Table/TableCell/TableCell';
 import TableHeaderRow from '../../../../components/Table/TableHeaderRow/TableHeaderRow';
+import * as assetsSelector from '../../../../store/assets/assets.selectors';
 import { useAppSelector } from './../../../../hooks'
 
 export default function UpcomingDividends() {
@@ -63,7 +64,7 @@ export default function UpcomingDividends() {
                 <TableCell>{new Date(dividend.payDate).toLocaleDateString("de-DE", options)}</TableCell>
                 <TableCell>{new Date(dividend.exDate).toLocaleDateString("de-DE", options)}</TableCell>
                 <TableCell>{dividend.asset ? dividend.asset.name : ''}</TableCell>
-                <TableCell>{(Math.round((dividend.amount * dividend.asset.current_shares_before_ex_date) * 1000) / 1000).toFixed(3)} €</TableCell>
+                <TableCell>{(Math.round(assetsSelector.get_upcoming_dividends(dividend.asset).value * 1000) / 1000).toFixed(3)} €</TableCell>
               </tr>
             )
           })} 

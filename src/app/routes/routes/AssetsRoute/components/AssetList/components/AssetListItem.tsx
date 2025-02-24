@@ -36,6 +36,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const payDividendDateFormatted = isNaN(payDividendDate.getTime()) ? '' : payDividendDate.toLocaleDateString("de-DE", options)
 
 	const dividendYieldFormatted = assetsSelector.get_dividend_yield_formatted(props.asset)
+	const nextEstimatedDividendPerShareFormatted = isNaN(props.asset.next_estimated_dividend_per_share) ? '0.000' : (Math.round((props.asset.next_estimated_dividend_per_share) * 1000) / 1000).toFixed(3)
 
 	const bgColor_PriceComparison = price_comparison == "<" ? "bg-teal-600" : (price_comparison == "=" ? "bg-slate-500" : "bg-custom-red")
 	const bgColor_ProfitLoss = assetsSelector.get_current_profit_loss_bgColor(props.asset)
@@ -61,7 +62,13 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<TableCell id={"AssetListItem_" + props.i + "_payDividendDate"} additionalClassNames={"text-right " + assetsSelector.get_pay_dividend_date_textColor(props.asset)}>{payDividendDateFormatted}</TableCell>
 			<TableCell additionalClassNames="text-center">{props.asset.dividendFrequency}</TableCell>
 			<TableCell additionalClassNames="text-center">{dividendYieldFormatted}</TableCell>
-			<TableCell additionalClassNames={"text-right " + assetsSelector.get_upcoming_dividends_textColor(props.asset)}>{upcoming_dividends} {props.asset.currencySymbol}</TableCell>
+			<TableCell
+				additionalClassNames={"text-right " + assetsSelector.get_upcoming_dividends_per_share_textColor(props.asset)}>
+					{nextEstimatedDividendPerShareFormatted} €
+			</TableCell>
+			<TableCell 
+				additionalClassNames={"text-right " + assetsSelector.get_upcoming_dividends_textColor(props.asset)}
+				tooltip={props.asset.next_estimated_dividend_per_share + ' * ' + props.asset.current_shares_before_ex_date}>{upcoming_dividends} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames={"text-right " + assetsSelector.get_dividends_earned_textColor(props.asset)}>{dividends_formatted} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames="text-right" bgColor={bgColor_InOut}>{current_sum_in_out_formatted} €</TableCell>
     </tr>

@@ -91,11 +91,20 @@ export const loadPricesAndDividends = createAsyncThunk(
 								console.log(result)
 							});
 
+					let next_estimated_dividend_per_share = new Date(json.dividends[0].payDate) >= new Date() ? json.dividends[0].amount : 0
+
+					if(resultYahooFinance.price.currency == 'USD') {
+						next_estimated_dividend_per_share *= USD_conversion_rate
+					}
+					else if(resultYahooFinance.price.currency == 'DKK') {
+						next_estimated_dividend_per_share *= DKK_conversion_rate
+					}
+
 					thunkAPI.dispatch(setDividends({ asset, dividends: json.dividends }))
 					thunkAPI.dispatch(setExDividendDate({ asset, exDividendDate: json.dividends[0].exDate }))
 					thunkAPI.dispatch(setPayDividendDate({ asset, payDividendDate: json.dividends[0].payDate }))
 					thunkAPI.dispatch(setDividendFrequency({ asset, dividendFrequency: json.dividendFrequency }))
-					thunkAPI.dispatch(setNextEstimatedDividendPerShare({ asset, next_estimated_dividend_per_share: new Date(json.dividends[0].payDate) >= new Date() ? json.dividends[0].amount : 0 }))
+					thunkAPI.dispatch(setNextEstimatedDividendPerShare({ asset, next_estimated_dividend_per_share}))
 				}
 			} 
 			catch (error) {

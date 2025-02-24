@@ -14,12 +14,14 @@ export function get_upcoming_dividends(asset:Asset) {
 		upcoming_div.is_estimated = false
 	}
 	else {
-		upcoming_div.value = asset.next_estimated_dividend_per_share ? asset.next_estimated_dividend_per_share : 0
+		0
 	}
 	return upcoming_div
 }
 
 export const get_upcoming_dividends_textColor = (asset:Asset) => (get_upcoming_dividends(asset).value <= 0 ? "text-slate-500" : (get_upcoming_dividends(asset).is_estimated ? "text-pink-600" : "inherit"))
+export const get_upcoming_dividends_per_share_textColor = (asset:Asset) => (asset.next_estimated_dividend_per_share <= 0 || isNaN(asset.next_estimated_dividend_per_share) ? "text-slate-500" : "inherit")
+
 
 export function get_estimated_dividends_per_year(asset:Asset) {
 	let divs = 0
