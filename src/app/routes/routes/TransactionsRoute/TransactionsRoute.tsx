@@ -9,7 +9,7 @@ import TableHeaderRow from '../../../components/Table/TableHeaderRow/TableHeader
 
 export default function TransactionsRoute() {
 
-	const filerForAssets = useAppSelector(state => state.transactionFilter.assets)
+	const filterForAssets = useAppSelector(state => state.transactionFilter.assets)
 	const transactions = useAppSelector(state => state.transactions)
 
 	const columns = [
@@ -30,7 +30,7 @@ export default function TransactionsRoute() {
 		},
     {
 			header: {
-				content: <div>{'Asset '}<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} /></div>
+				content: <div>{'Asset '}<AssetFilter filter={filterForAssets} reducer={transactionFilterReducer} /></div>
 			}
 		},
     {
@@ -81,8 +81,8 @@ export default function TransactionsRoute() {
 						<tbody>
 							<TransactionCreation/>
 							{transactions.filter((transaction) => {
-								if(filerForAssets.length > 0) {
-									if(filerForAssets.includes(transaction.asset_ID)) {
+								if(filterForAssets.length > 0) {
+									if(filterForAssets.includes(transaction.asset_ID)) {
 										return transaction
 									}
 								}

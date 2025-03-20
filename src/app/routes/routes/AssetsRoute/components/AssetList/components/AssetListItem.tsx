@@ -62,10 +62,6 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<TableCell id={"AssetListItem_" + props.i + "_payDividendDate"} additionalClassNames={"text-right " + assetsSelector.get_pay_dividend_date_textColor(props.asset)}>{payDividendDateFormatted}</TableCell>
 			<TableCell additionalClassNames="text-center">{props.asset.dividendFrequency}</TableCell>
 			<TableCell additionalClassNames="text-center">{dividendYieldFormatted}</TableCell>
-			<TableCell
-				additionalClassNames={"text-right " + assetsSelector.get_upcoming_dividends_per_share_textColor(props.asset)}>
-					{nextEstimatedDividendPerShareFormatted} €
-			</TableCell>
 			<TableCell 
 				additionalClassNames={"text-right " + assetsSelector.get_upcoming_dividends_textColor(props.asset)}
 				tooltip={props.asset.next_estimated_dividend_per_share + ' * ' + props.asset.current_shares_before_ex_date}>{upcoming_dividends} {props.asset.currencySymbol}</TableCell>

@@ -112,11 +112,6 @@ export default function AnalysisRoute() {
 		},
 		{
 			header: {
-				content: 'Upcoming Dividends per Share'
-			}
-		},
-		{
-			header: {
 				content: 'Upcoming Dividends'
 			}
 		},

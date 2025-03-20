@@ -17,10 +17,12 @@ export const loadTransactions = createAsyncThunk(
 		});
 		result.forEach((transaction:Transaction) => {
 			var prev_trans = result.find((other_trans:Transaction) => other_trans.asset_ID == transaction.asset_ID && other_trans.rank == transaction.rank-1)
-			if(transaction.rank > 1 && transaction.type == 'Buy')
-				transaction.invest_cumulated = transaction.in_out + prev_trans.invest_cumulated
-			else if(transaction.rank > 1 && transaction.type == 'Sell')
-				transaction.invest_cumulated = transaction.shares_cumulated * prev_trans.invest_cumulated
+			if(transaction.rank > 1) {
+				if(transaction.type == 'Buy')
+					transaction.invest_cumulated = transaction.in_out + prev_trans.invest_cumulated
+				else
+					transaction.invest_cumulated = transaction.shares_cumulated * prev_trans.invest_cumulated
+			} 
 		});
 
 		console.log('result - load transactions: ', result)
