@@ -5,6 +5,7 @@ module.exports = {
   "modulePaths": [
     "<rootDir>"
   ],
+  "testPathIgnorePatterns": ["out", "node_modules"],
   "moduleNameMapper": { "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js" },
   transform: {
     '^.+\\.[tj]sx?$': [
