@@ -3,13 +3,13 @@ import { useAppSelector } from './../../../hooks'
 import TransactionCreation from './components/TransactionCreation';
 import TransactionListItem from './components/TransactionListItem';
 import AssetFilter from './../../../components/AssetFilter/AssetFilter'
-import * as transactionFilterReducer from './../../../store/transactionFilter/transactionFilter.reducer';
 import Table from '../../../components/Table/Table';
 import TableHeaderRow from '../../../components/Table/TableHeaderRow/TableHeaderRow';
+import * as appStateReducer from '../../../store/appState/appState.reducer';
 
 export default function TransactionsRoute() {
 
-	const filterForAssets = useAppSelector(state => state.transactionFilter.assets)
+	const filterForAssets = useAppSelector(state => state.appState.transactions_AssetFilter)
 	const transactions = useAppSelector(state => state.transactions)
 
 	const columns = [
@@ -30,7 +30,7 @@ export default function TransactionsRoute() {
 		},
     {
 			header: {
-				content: <div>{'Asset '}<AssetFilter filter={filterForAssets} reducer={transactionFilterReducer} /></div>
+				content: <div>{'Asset '}<AssetFilter filter={filterForAssets} onChange={appStateReducer.transactions_AssetFilter_ToggleAsset} /></div>
 			}
 		},
     {

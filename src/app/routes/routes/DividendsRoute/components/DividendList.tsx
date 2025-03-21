@@ -1,17 +1,16 @@
 import { useAppSelector, useAppDispatch } from './../../../../hooks'
 
-import * as dividendsFilterReducer from './../../../../store/dividendsFilter/dividendsFilter.reducer';
-
 import AssetFilter from './../../../../components/AssetFilter/AssetFilter'
 import DividendCreation from './DividendCreation';
 import DividendListItem from './DividendListItem';
 import Table from '../../../../components/Table/Table';
 import TableHeaderRow from '../../../../components/Table/TableHeaderRow/TableHeaderRow';
+import * as appStateReducer from '../../../../store/appState/appState.reducer';
 
 export default function DividendList() {
 
 	const dividends = useAppSelector(state => state.dividends)
-	const filerForAssets = useAppSelector(state => state.dividendsFilter.assets)
+	const filerForAssets = useAppSelector(state => state.appState.dividends_AssetFilter)
 
   const columns = [
 		{
@@ -26,7 +25,7 @@ export default function DividendList() {
 		},
     {
 			header: {
-				content: <div>{'Asset '}<AssetFilter filter={filerForAssets} reducer={dividendsFilterReducer} /></div>
+				content: <div>{'Asset '}<AssetFilter filter={filerForAssets} onChange={appStateReducer.dividends_AssetFilter_ToggleAsset} /></div>
 			}
 		},
     {

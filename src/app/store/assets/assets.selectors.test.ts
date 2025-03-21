@@ -74,14 +74,14 @@ describe('Assets selectors', () => {
 			const asset = {
         current_sum_in_out: 100
       } as Asset
-			expect(assetsSelector.get_current_sum_in_out_bgColor(asset)).toEqual("bg-teal-600")
+			expect(assetsSelector.get_current_sum_in_out_bgColor(50)).toEqual("bg-teal-600")
 		})
 
 		it('should return "bg-custom-red" if asset.current_profit_loss < 0', () => {
 			const asset = {
         current_sum_in_out: -100
       } as Asset
-			expect(assetsSelector.get_current_sum_in_out_bgColor(asset)).toEqual("bg-custom-red")
+			expect(assetsSelector.get_current_sum_in_out_bgColor(-50)).toEqual("bg-custom-red")
 		})
 
 	})

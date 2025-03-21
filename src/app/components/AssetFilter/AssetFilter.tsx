@@ -7,7 +7,7 @@ import {
 	Popover
 } from '@blueprintjs/core';
 
-export default function AssetFilter(props: {filter:number[], reducer:any}) {
+export default function AssetFilter(props: {filter:number[], onChange:any}) {
 
   function AssetFilterOptions() {
 
@@ -24,7 +24,7 @@ export default function AssetFilter(props: {filter:number[], reducer:any}) {
                 data-testid={"assetsFilter_" + asset.ID} 
                 type="checkbox" 
                 checked={props.filter.includes(asset.ID)} 
-                onChange={(e) => dispatch(props.reducer.toggleAsset(asset.ID))} />
+                onChange={(e) => dispatch(props.onChange(asset.ID))} />
               <label htmlFor={"assetsFilter_" + asset.ID}>{asset.name}</label>
             </div>
           )

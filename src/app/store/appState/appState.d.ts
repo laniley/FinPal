@@ -3,5 +3,7 @@ export default interface AppState {
   theme: string,
   database: string,
   assetOverlayType: AssetOverlayType,
-  showAssetOverlay: boolean
+  showAssetOverlay: boolean,
+  transactions_AssetFilter: integer[],
+  dividends_AssetFilter: integer[]
 }
