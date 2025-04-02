@@ -29,6 +29,16 @@ export const changeSelectedTab = createAsyncThunk(
   }
 )
 
+export const transactions_AssetFilter_ToggleAsset = createAsyncThunk(
+	'appState/transactions_AssetFilter_ToggleAsset',
+	async (assetID:number, thunkAPI) => {
+		console.log("Toggling asset with ID: " + assetID)
+		thunkAPI.dispatch(toggleTransactionsAssetFilter(assetID))
+		let state:any = thunkAPI.getState()
+		window.API.appState.save_Transactions_AssetFilter(state.appState.transactions_AssetFilter)
+	}
+)
+
 const appStateSlice = createSlice({
 	name: 'appState',
 	initialState,
@@ -48,7 +58,10 @@ const appStateSlice = createSlice({
 		setShowAssetOverlay(state, action) {
 			state.showAssetOverlay = action.payload
 		},
-		transactions_AssetFilter_ToggleAsset(state, action: { payload: number }) {
+		setTransactionsAssetFilter(state, action) {
+			state.transactions_AssetFilter = action.payload
+		},
+		toggleTransactionsAssetFilter(state, action: { payload: number }) {
 			console.log("Toggling asset with ID: " + action.payload)
 			if(!state.transactions_AssetFilter.includes(action.payload)) {
 				console.log("Adding asset to filter")
@@ -82,7 +95,8 @@ export const {
 	setDatabase,
 	setAssetOverlayType,
 	setShowAssetOverlay,
-	transactions_AssetFilter_ToggleAsset,
+	setTransactionsAssetFilter,
+	toggleTransactionsAssetFilter,
 	dividends_AssetFilter_ToggleAsset
 } = actions
 

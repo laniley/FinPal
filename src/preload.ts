@@ -13,7 +13,8 @@ declare global {
         load(filePath:string):any,
         saveTheme(theme:string):any,
         saveSelectedTab(selectedTab:string):any,
-        saveDatabase(database:string):any
+        saveDatabase(database:string):any,
+        save_Transactions_AssetFilter(assetIDs:number[]):any,
       },
       selectFolder?():any,
       dbFileExists?():boolean,

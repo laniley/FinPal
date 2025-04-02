@@ -6,10 +6,16 @@ const path = require('path');
 export const dataPath = app.getPath('userData');
 export const filePath = path.join(dataPath, 'config.json');
 
-export var _current_content = {
+export var _current_content: {
+  selectedTab: string;
+  theme: string;
+  database: string;
+  transactions_AssetFilter: number[];
+} = {
   selectedTab: "",
   theme: "",
-  database: ""
+  database: "",
+  transactions_AssetFilter: []
 }
 
 export function load(filePath:string) {
@@ -46,5 +52,11 @@ export function saveSelectedTab(selectedTab:string) {
 export function saveDatabase(database:string) {
   load(filePath)
   Object.assign(_current_content, { database: database });
+  fs.writeFileSync( filePath, JSON.stringify(_current_content))
+}
+
+export function save_Transactions_AssetFilter(assetIDs:number[]) {
+  load(filePath)
+  Object.assign(_current_content, { transactions_AssetFilter: assetIDs });
   fs.writeFileSync( filePath, JSON.stringify(_current_content))
 }

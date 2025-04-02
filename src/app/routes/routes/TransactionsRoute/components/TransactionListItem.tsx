@@ -71,7 +71,8 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 			<TableCell>{props.i}</TableCell>
       <TableCell><input id={"dateInput_" + props.transaction.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => validateAndSave()} /></TableCell>
       <TableCell>
-				<select className={bgColorType} id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} value={typeInput} 
+				<select className={bgColorType} id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} 
+					value={typeInput} 
 					onChange={(e) => setTypeInput(e.target.value)} 
 					onBlur={(e) => validateAndSave()}>
 					<option value="Buy">Buy</option>
@@ -81,7 +82,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
       <TableCell>
 				<select 
 					id={"assetInput_" + props.transaction.ID} 
-					name={"assetInput_" +  + props.transaction.ID} 
+					name={"assetInput_" +  + props.transaction.ID}
 					value={assetInput} 
 					onChange={(e) => setAssetInput(e.target.value)}
 					onBlur={(e) => validateAndSave()}>

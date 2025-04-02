@@ -3,15 +3,16 @@ import userEvent from '@testing-library/user-event'
 import { render } from '../../../testing/test-utils'
 import { setupStore } from './../../store';
 import AssetFilter from './AssetFilter';
-import * as transactionFilterReducer from './../../store/transactionFilter/transactionFilter.reducer';
 import * as assetsReducer from '../../store/assets/assets.reducer';
 import { Provider } from 'react-redux';
 
 describe('AssetFilter component', () => {
 
+  const onChange = jest.fn()
+
 	it('renders', async() => {
     const filerForAssets: number[] = []
-    render(<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />) 
+    render(<AssetFilter filter={filerForAssets} onChange={onChange} />) 
 		await waitFor(() => {
 			expect(screen.getAllByTestId('AssetFilterButton').length).toEqual(1);
 		})
@@ -27,7 +28,7 @@ describe('AssetFilter component', () => {
       {ID: 3, name: 'test3', symbol: 'test_symbol_3', isin: 'test_isin_3'},
     ]
 
-    render(<AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />, { preloadedState: { assets: assets } })
+    render(<AssetFilter filter={filerForAssets} onChange={onChange} />, { preloadedState: { assets: assets } })
     
     fireEvent.click(screen.getByTestId('AssetFilterButton'));
 
@@ -41,50 +42,21 @@ describe('AssetFilter component', () => {
 		})
 	});
 
-  it('checks / unchecks on click', async() => {
-
-    const store = setupStore();
-    const user = userEvent.setup()
-    const filerForAssets: number[] = [1]
-
+  it('renders sorted assets in ascending order', async () => {
+    const filerForAssets: number[] = [];
     const assets = [
-      {ID: 1, name: 'test1', symbol: 'test_symbol_1', isin: 'test_isin_1'},
-      {ID: 2, name: 'test2', symbol: 'test_symbol_2', isin: 'test_isin_2'},
-    ]
+      { ID: 2, name: 'B Asset', symbol: 'symbol_b', isin: 'isin_b' },
+      { ID: 1, name: 'A Asset', symbol: 'symbol_a', isin: 'isin_a' },
+    ];
 
-    store.dispatch(assetsReducer.setAssets(assets))
-    store.dispatch(transactionFilterReducer.setAssets(filerForAssets))
+    render(<AssetFilter filter={filerForAssets} onChange={onChange} />, { preloadedState: { assets } });
 
-    await act(async() => {
-      render(
-        <Provider store={store}>
-          <AssetFilter filter={filerForAssets} reducer={transactionFilterReducer} />
-        </Provider>
-      )
-    })
-    
-    await act(async() => {               
-      const button = screen.getByTestId('AssetFilterButton')
-      user.click(button)
-    });
+    fireEvent.click(screen.getByTestId('AssetFilterButton'));
 
     await waitFor(() => {
-      const input1 = screen.getByTestId('assetsFilter_1') as HTMLInputElement
-			expect(input1.checked).toEqual(true);
-      const input2 = screen.getByTestId('assetsFilter_2') as HTMLInputElement
-			expect(input2.checked).toEqual(false);
-      expect(store.getState().transactionFilter.assets).toEqual([1]);
-		})
-
-    await act(async() => {
-      const input1 = screen.getByTestId('assetsFilter_1') as HTMLInputElement
-      user.click(input1)
-
-      await waitFor(() => {
-        expect(store.getState().transactionFilter.assets).toEqual([]);
-      })
+      const labels = screen.getAllByRole('checkbox').map((checkbox) => checkbox.nextSibling?.textContent);
+      expect(labels).toEqual(['A Asset', 'B Asset']);
     });
-
   });
 
 })

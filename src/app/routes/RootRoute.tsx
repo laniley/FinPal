@@ -31,6 +31,7 @@ export default function RootRoute() {
 	console.log("appState loaded: ", result)
 
 	setTheme(result.theme)
+	setTransactionsAssetFilter(result.transactions_AssetFilter)
 	
 	if (result.database && result.database != "" && window.API.dbFileExists()) {
 		console.log("database: " + result.database);
@@ -173,6 +174,11 @@ export function setDatabase(database:string) {
 		console.log("database: " + database);
 		dispatch(appStateReducer.setDatabase(database))
 	}
+}
+
+export function setTransactionsAssetFilter(assetIDs:number[]) {
+	const dispatch = useAppDispatch();
+	dispatch(appStateReducer.setTransactionsAssetFilter(assetIDs))
 }
 
 export function Content() {
