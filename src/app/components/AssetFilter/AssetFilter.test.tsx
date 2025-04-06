@@ -1,46 +1,55 @@
-import { act, screen, waitFor, fireEvent } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { screen, waitFor, fireEvent } from '@testing-library/react'
 import { render } from '../../../testing/test-utils'
-import { setupStore } from './../../store';
+import { act } from 'react-dom/test-utils';
 import AssetFilter from './AssetFilter';
-import * as assetsReducer from '../../store/assets/assets.reducer';
 import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+const mockOnChange = jest.fn();
 
 describe('AssetFilter component', () => {
 
   const onChange = jest.fn()
 
-	it('renders', async() => {
-    const filerForAssets: number[] = []
-    render(<AssetFilter filter={filerForAssets} onChange={onChange} />) 
-		await waitFor(() => {
-			expect(screen.getAllByTestId('AssetFilterButton').length).toEqual(1);
-		})
-	});
+  let store:any;
 
-  it('renders the popup content, after button click', async() => {
+  beforeEach(() => {
+    store = mockStore({
+      assets: [
+        { ID: 1, name: 'Asset A' },
+        { ID: 2, name: 'Asset B' },
+      ],
+    });
+  });
 
-    const filerForAssets: number[] = [1, 2]
+  it('renders the AssetFilter button', async () => {
 
-    const assets = [
-      {ID: 1, name: 'test1', symbol: 'test_symbol_1', isin: 'test_isin_1'},
-      {ID: 2, name: 'test2', symbol: 'test_symbol_2', isin: 'test_isin_2'},
-      {ID: 3, name: 'test3', symbol: 'test_symbol_3', isin: 'test_isin_3'},
-    ]
+    await act( async () => render(
+      <Provider store={store}>
+        <AssetFilter filter={[]} onChange={mockOnChange} />
+      </Provider>)
+    );
 
-    render(<AssetFilter filter={filerForAssets} onChange={onChange} />, { preloadedState: { assets: assets } })
+    expect(screen.getByTestId('asset-filter-button')).toBeInTheDocument();
+  });
+
+  it('renders the asset filter popup with items', async () => {
     
-    fireEvent.click(screen.getByTestId('AssetFilterButton'));
+    await act( async () => render(
+      <Provider store={store}>
+        <AssetFilter filter={[1]} onChange={mockOnChange} />
+      </Provider>
+    ))
 
-    await waitFor(() => {
-      const input1 = screen.getByTestId('assetsFilter_1') as HTMLInputElement
-			expect(input1.checked).toEqual(true);
-      const input2 = screen.getByTestId('assetsFilter_2') as HTMLInputElement
-			expect(input2.checked).toEqual(true);
-      const input3 = screen.getByTestId('assetsFilter_3') as HTMLInputElement
-			expect(input3.checked).toEqual(false);
-		})
-	});
+    await act( async () => {
+      fireEvent.click(screen.getByTestId('asset-filter-button'));
+    }) 
+
+    expect(screen.getByTestId('asset-filter-popup-content')).toBeInTheDocument();
+    expect(screen.getByTestId('asset-filter-item-1')).toBeInTheDocument();
+    expect(screen.getByTestId('asset-filter-item-2')).toBeInTheDocument();
+  });
 
   it('renders sorted assets in ascending order', async () => {
     const filerForAssets: number[] = [];
@@ -51,12 +60,35 @@ describe('AssetFilter component', () => {
 
     render(<AssetFilter filter={filerForAssets} onChange={onChange} />, { preloadedState: { assets } });
 
-    fireEvent.click(screen.getByTestId('AssetFilterButton'));
+    act(() => {
+      fireEvent.click(screen.getByTestId('asset-filter-button'));
+    });
 
     await waitFor(() => {
       const labels = screen.getAllByRole('checkbox').map((checkbox) => checkbox.nextSibling?.textContent);
       expect(labels).toEqual(['A Asset', 'B Asset']);
     });
+  });
+
+  it('calls onChange when a checkbox is clicked', async () => {
+
+    await act( async () => render(
+      <Provider store={store}>
+        <AssetFilter filter={[1]} onChange={mockOnChange} />
+      </Provider>
+    ))
+
+    await act( async () => {
+      fireEvent.click(screen.getByTestId('asset-filter-button'));
+    })
+    
+    const checkbox = screen.getByTestId('asset-filter-checkbox-2');
+    
+    await act( async () => {
+      fireEvent.click(checkbox);
+    });
+
+    expect(mockOnChange).toHaveBeenCalledWith(2);
   });
 
 })

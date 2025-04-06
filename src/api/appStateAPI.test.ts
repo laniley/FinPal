@@ -1,4 +1,4 @@
-import { _current_content, load, saveDatabase, saveSelectedTab, saveTheme } from "./appStateAPI";
+import { _current_content, load, saveDatabase, saveSelectedTab, saveTheme, save_Transactions_AssetFilter } from "./appStateAPI";
 
 describe('appStateAPI', () => {
 
@@ -73,6 +73,15 @@ describe('appStateAPI', () => {
     saveDatabase("C:\\Users\\melan\\Dropbox\\Melle\\Development\\FinPal\\db_test.sqlite3")
     const result2 = load(filePath)
     expect(result2.database).toEqual("C:\\Users\\melan\\Dropbox\\Melle\\Development\\FinPal\\db_test.sqlite3")
+  });
+
+  it('handles save_Transactions_AssetFilter(assetIDs:number[])', async() => {
+
+    const filePath = process.cwd() + '\\src\\testing\\test_configs\\config.json'
+
+    save_Transactions_AssetFilter([1,2,3])
+    const result = load(filePath)
+    expect(result.transactions_AssetFilter).toEqual([1,2,3])
   });
 
 })

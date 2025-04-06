@@ -28,18 +28,11 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
   function validateAndSave() {
 		
 		if(dateInput && typeInput && assetInput && amountInput && priceInput) {
-			let sql  = 'INSERT OR REPLACE INTO transactions (ID, date, type, asset_ID, amount, price_per_share, fee, solidarity_surcharge) '
-					sql += 'VALUES (\'' + props.transaction.ID 
-					sql += '\',\'' + dateInput 
-					sql += '\',\'' + typeInput 
-					sql += '\',\'' + assetInput 
-					sql += '\',\'' + amountInput 
-					sql += '\',\'' + priceInput.replace(',', '.')
-					sql += '\',\'' + feeInput.replace(',', '.')
-					sql += '\',\'' + solidaritySurchargeInput.replace(',', '.')
-					sql += '\')'
-					console.log(sql)
-				window.API.sendToDB(sql).then((result:any) => {
+			let sql  = `
+				INSERT OR REPLACE INTO transactions (ID, date, type, asset_ID, amount, price_per_share, fee, solidarity_surcharge)
+				VALUES ('${props.transaction.ID}','${dateInput}','${typeInput}','${assetInput}','${amountInput}','${priceInput.replace(',', '.')}','${feeInput.replace(',', '.')}','${solidaritySurchargeInput.replace(',', '.')}')`
+			console.log(sql)
+			window.API.sendToDB(sql).then((result:any) => {
 				console.log(result)
 				window.API.sendToDB('SELECT * FROM transactions_v').then(async (result:Transaction[]) => {
 					console.log(result)
