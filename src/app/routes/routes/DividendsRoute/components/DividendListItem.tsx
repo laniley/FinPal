@@ -13,9 +13,9 @@ export default function DividendListItem(props: {i: number, dividend:Dividend}) 
 	const [incomeInput, setIncomeInput] = useState(props.dividend.income || '');
 
   return (
-    <tr id={"DividendListItem_" + props.i}>
+    <tr data-testid={"DividendListItem_" + props.i}>
 			<TableCell>{props.i}</TableCell>
-      <TableCell><input id={"dateInput_" + props.dividend.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => dispatch(dividendCreationReducer.validateAndSave())} /></TableCell>
+      <TableCell><input data-testid={"dateInput_" + props.dividend.ID} type="date" value={dateInput} onChange={(e) => setDateInput(e.target.value)} onBlur={(e) => dispatch(dividendCreationReducer.validateAndSave())} /></TableCell>
       <TableCell>
 				<select 
 					id={"assetInput_" + props.dividend.ID} 

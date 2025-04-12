@@ -32,6 +32,23 @@ describe('AppState reducer', () => {
 		)
 	})
 
+	describe('toggleTransactionsAssetFilter', () => {
+		it('should add AssetID if not yet in array', () => {
+			expect(reducer(appStateReducer.initialState, appStateReducer.toggleTransactionsAssetFilter(1))).toEqual(
+				Object.assign({}, appStateReducer.initialState, {
+					transactions_AssetFilter: [1]
+				})
+			)
+		})
+		it('should remove AssetID if already in array', () => {
+			expect(reducer(Object.assign({}, appStateReducer.initialState, { transactions_AssetFilter: [1,2,3] }), appStateReducer.toggleTransactionsAssetFilter(2))).toEqual(
+				Object.assign({}, appStateReducer.initialState, {
+					transactions_AssetFilter: [1,3]
+				})
+			)
+		})
+	})
+
 	describe('AppState Thunks', () => {
 
 		it('should handle changeSelectedTab', async() => {
@@ -47,6 +64,6 @@ describe('AppState reducer', () => {
 			)
 		})
 
-	})
+			})
 
 })

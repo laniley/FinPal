@@ -5,7 +5,7 @@ import Settings from './Settings';
 import { setupStore } from './../../../../store';
 import TopNavBar from '../TopNavBar';
 
-describe('TableCell component', () => {
+describe('Settings component', () => {
 
 	it('renders', async() => {
     render(<Settings />) 

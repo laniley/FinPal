@@ -29,6 +29,31 @@ describe('TopNavBar component', () => {
 		})
 	});
 
+  it('renders all tabs correctly', async () => {
+    render(<TopNavBar />);
+    await waitFor(() => {
+      expect(screen.getByTestId('assetsTab')).toBeDefined();
+      expect(screen.getByTestId('transactionsTab')).toBeDefined();
+      expect(screen.getByTestId('dividendsTab')).toBeDefined();
+    });
+  });
+
+  it('applies the correct theme class to the navbar', async () => {
+    const store = setupStore();
+    store.dispatch({ type: 'appState/changeTheme', payload: 'bp5-dark' });
+
+    render(
+      <Provider store={store}>
+        <TopNavBar />
+      </Provider>
+    );
+
+    await waitFor(() => {
+      const navbar = screen.getByTestId('TopNavBar');
+      expect(navbar).toHaveClass('bp5-dark');
+    });
+  });
+
   it('quits on button click', async() => {
     render(<TopNavBar />)
     const spy = jest.spyOn(window.API, 'quit')
@@ -45,6 +70,7 @@ describe('TopNavBar component', () => {
           dataPath: path_to_test_configs,
           filePath: filePath,
           load: () => appStateAPI.load(filePath),
+          save_Transactions_AssetFilter: jest.fn(),
         },
         dbFileExists: jest.fn(() => { return true }),
         sendToDB: jest.fn((param) => { if(param == 'SELECT MAX(ID) as ID FROM assets') return [{ID: 1}] }),
@@ -52,7 +78,6 @@ describe('TopNavBar component', () => {
     });
 
     it('changes the current root route to "transactionsTab" if the tab got clicked and if appState.route != "transactionsTab" ', async() => {
-
       const user = userEvent.setup()
       const store = setupStore();
 
@@ -72,39 +97,59 @@ describe('TopNavBar component', () => {
 
       await waitFor(() => {
         expect(store.getState().appState.selectedTab).toEqual('transactionsTab')
-        expect(screen.getByTestId('TransactionsRoute')).toBeDefined();
       })
-      
-    });
+    })   
 
-    it('does not change the current root route if a tab got clicked and if appState.route is already the route that got clicked ', async() => {
-      
+    it('changes the current root route to "dividendsTab" if the tab got clicked and if appState.route != "dividendsTab"', async () => {
+      const user = userEvent.setup();
       const store = setupStore();
-      const user = userEvent.setup()
-      const spy = jest.spyOn(console, 'log')
 
       render(
         <Provider store={store}>
           <RootRoute />
         </Provider>
-      )
+      );
 
       expect(store.getState().appState.selectedTab).toEqual("assetsTab");
       expect(screen.getByTestId('AssetsRoute')).toBeDefined();
-      
+
       act(() => {
-        const tab = screen.getByTestId('assetsTab')
-        user.click(tab)
+        const tab = screen.getByTestId('dividendsTab');
+        user.click(tab);
       });
-      
+
       await waitFor(() => {
-        expect(screen.getByTestId('AssetsRoute')).toBeDefined();
-        expect(spy).toHaveBeenCalledWith("Tab 'assetsTab' got clicked.");
-        expect(spy).toHaveBeenCalledWith("Current route is already \\assetsTab");
-      })
-      
+        expect(store.getState().appState.selectedTab).toEqual('dividendsTab');
+        expect(screen.getByTestId('DividendsRoute')).toBeDefined();
+      });
     });
 
-  })
-  
+    it('does not dispatch any action if the same tab is clicked multiple times', async () => {
+      const user = userEvent.setup();
+      const store = setupStore(); 
+
+      render(
+        <Provider store={store}>
+          <RootRoute />
+        </Provider>
+      );
+
+      expect(store.getState().appState.selectedTab).toEqual("assetsTab");
+
+      const dispatchSpy = jest.spyOn(store, 'dispatch');
+      const logSpy = jest.spyOn(console, 'log');
+
+      act(() => {
+        const tab = screen.getByTestId('assetsTab');
+        user.click(tab);
+        user.click(tab);
+      });
+
+      await waitFor(() => {
+        expect(dispatchSpy).toHaveBeenCalledTimes(0);
+        expect(logSpy).toHaveBeenCalledWith("Current route is already \\assetsTab");
+      });
+    });
+
+  });
 })

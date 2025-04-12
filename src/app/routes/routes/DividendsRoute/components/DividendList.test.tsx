@@ -1,14 +1,14 @@
-import { screen, waitFor, within } from '@testing-library/react'
-import { render } from '../../../../../testing/test-utils'
+import { screen, waitFor, fireEvent } from '@testing-library/react';
+import { render } from '../../../../../testing/test-utils';
 import DividendList from './DividendList';
 
 describe('DividendList component', () => {
 
-	it('renders', async() => {
-    const {getAllById} = render(<DividendList />) 
-		await waitFor(() => {
-			expect(getAllById('DividendList').length).toEqual(1);
-		})
+	it('renders', async () => {
+    render(<DividendList />); 
+    await waitFor(() => {
+      expect(screen.getAllByTestId('DividendList').length).toEqual(1);
+    });
 	});
 
   it('renders dividends', async() => {
@@ -17,10 +17,11 @@ describe('DividendList component', () => {
       {ID: 1, date: "2024-11-01", asset_ID: 14, income: 0.39}
     ] as Dividend[]
 
-    const {getAllById} = render(<DividendList />, { preloadedState: { dividends: dividends } })
+    render(<DividendList />, { preloadedState: { dividends: dividends } })
 
     await waitFor(() => {
-      expect(getAllById('DividendListItem_1').length).toEqual(1)
+      expect(screen.getByTestId('DividendListItem_1')).toBeDefined()
+      expect(screen.getByTestId('dateInput_1').getAttribute("value")).toEqual('2024-11-01')
     })
   });
 
@@ -33,11 +34,19 @@ describe('DividendList component', () => {
       {ID: 2, date: "2024-02-01", asset_ID: 15, income: 0.79}
     ] as Dividend[]
 
-    const {getAllById} = render(<DividendList />, { preloadedState: { dividends: dividends, dividendsFilter: { assets: assets } } })
+    const { getAllByTestId } = render(<DividendList />, { preloadedState: { dividends: dividends, appState: {
+      dividends_AssetFilter: assets,
+      selectedTab: 'databaseTab',
+      theme: '',
+      database: '',
+      assetOverlayType: undefined,
+      showAssetOverlay: false,
+      transactions_AssetFilter: []
+    } } })
 
     await waitFor(() => {
-      expect(getAllById('dateInput_1')[0].getAttribute("value")).toEqual('2024-01-01')
-      expect(getAllById).not.toContain("2024-02-01")
+      expect(getAllByTestId('dateInput_1')[0].getAttribute("value")).toEqual('2024-01-01')
+      expect(screen.queryByText("2024-02-01")).not.toBeInTheDocument()
     })
   });
 

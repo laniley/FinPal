@@ -7,7 +7,7 @@ import UpcomingDividends from './components/UpcomingDividends';
 export default function DividendsRoute() {
 
 	return (
-		<div id="DividendsRoute">
+		<div data-testid="DividendsRoute">
 			<div id="Main" className="flex p-3 overflow-auto">
 				<div className="flex grow justify-center align-center">
 					<DividendList />

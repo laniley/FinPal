@@ -18,9 +18,7 @@ export default function UpcomingDividends() {
       dividends.push(dividend)
     })
   })
-  console.log('dividends',dividends)
   const sorted_dividends = dividends ? dividends.slice().sort((a:any, b:any) => a.payDate ? a.payDate.localeCompare(b.payDate) : 0) : []
-  console.log('sorted_dividends', sorted_dividends)
   const options = { day: '2-digit', month: '2-digit', year: 'numeric' } as Intl.DateTimeFormatOptions;
 
   const columns = [

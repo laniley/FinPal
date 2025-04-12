@@ -36,7 +36,7 @@ export default function DividendList() {
   ]
 
 	return (
-		<div id="DividendList">
+		<div data-testid="DividendList">
       <Table>
         <TableHeaderRow columns={columns}/>
         <tbody>

@@ -15,18 +15,18 @@ export default function DividendCreation() {
     <tr id="DividendCreation">
       <TableCell>*</TableCell>
       <TableCell>
-        <input id="dateInput" type="date" value={dateInput} 
+        <input data-testid="dateInput" type="date" value={dateInput} 
           onChange={(e) => dispatch(dividendCreationReducer.setDateInput(e.target.value))} 
           onBlur={() => { dispatch(dividendCreationReducer.handleDateInputGotTouched()) }} />
       </TableCell>
       <TableCell>
-      <select id="assetInput" name="assetInput" value={assetInput} onChange={(e) => dispatch(dividendCreationReducer.setAssetInput(e.target.value))} onBlur={() => { dispatch(dividendCreationReducer.handleAssetInputGotTouched()) }}>
+      <select data-testid="assetInput" name="assetInput" value={assetInput} onChange={(e) => dispatch(dividendCreationReducer.setAssetInput(e.target.value))} onBlur={() => { dispatch(dividendCreationReducer.handleAssetInputGotTouched()) }}>
           {assets.map((asset, i) => {
 							return (<option key={asset.ID} value={asset.ID}>{asset.name}</option>)
 					})}
         </select>
       </TableCell>
-      <TableCell><input id="incomeInput" type="text" value={incomeInput} onChange={(e) => dispatch(dividendCreationReducer.setIncomeInput(e.target.value))} onBlur={() => { dispatch(dividendCreationReducer.handleIncomeInputGotTouched()) }} /></TableCell>
+      <TableCell><input data-testid="incomeInput" type="text" value={incomeInput} onChange={(e) => dispatch(dividendCreationReducer.setIncomeInput(e.target.value))} onBlur={() => { dispatch(dividendCreationReducer.handleIncomeInputGotTouched()) }} /></TableCell>
     </tr>
 	);
 }

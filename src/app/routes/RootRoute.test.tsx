@@ -15,7 +15,8 @@ var API = {
 		load: () => appStateAPI.load(''),
 		saveTheme: jest.fn(),
 		saveSelectedTab: jest.fn(),
-		saveDatabase: jest.fn()
+		saveDatabase: jest.fn(),
+		save_Transactions_AssetFilter: jest.fn(),
 	},
 	selectFolder: jest.fn(),
 	dbFileExists: jest.fn(() => { return true }),
@@ -224,6 +225,7 @@ describe('RootRoute component', () => {
 						dataPath: path_to_test_configs,
 						filePath: filePath,
 						load: () => appStateAPI.load(filePath),
+						save_Transactions_AssetFilter: () => jest.fn(),
 					},
 					sendToDB: jest.fn((param) => { return 'SQLITE_ERROR: TEST' }),
 				})

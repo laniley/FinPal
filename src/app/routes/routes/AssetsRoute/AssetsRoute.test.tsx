@@ -27,4 +27,15 @@ describe('AssetsRoute component', () => {
     })
   });
 
+  it('renders correctly with empty assets', async () => {
+    const assets: Asset[] = [];
+
+    const { getAllById } = render(<AssetsRoute />, { preloadedState: { assets: assets } });
+
+    await waitFor(() => {
+      expect(getAllById('AssetsRoute').length).toEqual(1);
+      expect(screen.queryByText('400.00 €')).toBeNull();
+    });
+  });
+
 })

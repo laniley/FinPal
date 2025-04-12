@@ -86,6 +86,18 @@ describe('Assets selectors', () => {
 
 	})
 
+	describe('get_upcoming_dividends(asset:Asset)', () => {
+
+		it('should return "{"is_estimated": false, "value": 15}"', () => {
+			const asset = {
+        current_shares_before_ex_date: 10,
+        next_estimated_dividend_per_share: 1.5,
+      } as Asset
+			expect(assetsSelector.get_upcoming_dividends(asset)).toEqual({"is_estimated": false, "value": 15})
+		})
+
+	})
+
 	describe('selectAssetsSortedByName(state: Assets[], direction:\'asc\'|\'desc\')', () => {
 
 		it('should return [] if state is undefined', () => {
