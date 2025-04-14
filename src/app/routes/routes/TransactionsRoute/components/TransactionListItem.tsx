@@ -2,7 +2,6 @@ import { useAppSelector, useAppDispatch } from '../../../../hooks'
 import { useState } from 'react';
 import * as transactionsReducer from '../../../../store/transactions/transactions.reducer';
 import TableCell from '../../../../components/Table/TableCell/TableCell';
-import * as assetsReducer from '../../../../store/assets/assets.reducer';
 import * as assetsSelector from './../../../../store/assets/assets.selectors';
 
 export default function TransactionListItem(props: {i: number, transaction:Transaction}) {
@@ -26,21 +25,16 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 	const [solidaritySurchargeInput, setSolidaritySurchargeInput] = useState(solidarity_surcharge);
 
   function validateAndSave() {
-		
-		if(dateInput && typeInput && assetInput && amountInput && priceInput) {
-			let sql  = `
-				INSERT OR REPLACE INTO transactions (ID, date, type, asset_ID, amount, price_per_share, fee, solidarity_surcharge)
-				VALUES ('${props.transaction.ID}','${dateInput}','${typeInput}','${assetInput}','${amountInput}','${priceInput.replace(',', '.')}','${feeInput.replace(',', '.')}','${solidaritySurchargeInput.replace(',', '.')}')`
-			console.log(sql)
-			window.API.sendToDB(sql).then((result:any) => {
-				console.log(result)
-				window.API.sendToDB('SELECT * FROM transactions_v').then(async (result:Transaction[]) => {
-					console.log(result)
-					await dispatch(transactionsReducer.setTransactions(result))
-					await dispatch(assetsReducer.loadAssets())
-				});
-			});
-		}	
+		dispatch(transactionsReducer.saveTransaction({
+			transaction: props.transaction, 
+			dateInput, 
+			typeInput, 
+			assetInput, 
+			amountInput, 
+			priceInput, 
+			feeInput, 
+			solidaritySurchargeInput}
+		))
 	}
 
 	function deleteTransaction(ID:number) {
@@ -67,7 +61,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 				<select className={bgColorType} id={"typeInput" + props.transaction.ID} name={"typeInput" + props.transaction.ID} 
 					value={typeInput} 
 					onChange={(e) => setTypeInput(e.target.value)} 
-					onBlur={(e) => validateAndSave()}>
+					onBlur={ (e) => validateAndSave()}>
 					<option value="Buy">Buy</option>
 					<option value="Sell">Sell</option>
 				</select>
@@ -78,7 +72,7 @@ export default function TransactionListItem(props: {i: number, transaction:Trans
 					name={"assetInput_" +  + props.transaction.ID}
 					value={assetInput} 
 					onChange={(e) => setAssetInput(e.target.value)}
-					onBlur={(e) => validateAndSave()}>
+					onBlur={ (e) => validateAndSave()}>
           {sorted_Assets.map((asset, i) => {
 							return (<option key={asset.ID} value={asset.ID}>{asset.name}</option>)
 					})}

@@ -5,33 +5,70 @@ import { setupStore } from '..';
 describe('AssetCreation reducer', () => {
 
   it('should return the initial state', () => {
-		expect(reducer(undefined, { type: 'unknown' })).toEqual(assetsReducer.initialState)
-	})
-/*
-  describe('Assets Thunks', () => {
+    expect(reducer(undefined, { type: 'unknown' })).toEqual(assetsReducer.initialState)
+  })
 
-    it('should handle updateCurrentInvest', async() => {
-      const store = setupStore();
-      var assets = [{
+  describe('Assets Actions', () => {
+
+    it('should handle setAssets action', () => {
+      const initialState = assetsReducer.initialState;
+      const assets = [{
         ID: 1,
         name: '3M',
         symbol: 'MMM'
-      }] as Asset[]
-      var transactions = [] as Transaction[]
-      store.dispatch(assetsReducer.setAssets(assets))
-      await store.dispatch(assetsReducer.updateCurrentInvest())
-      expect(store.getState().assets).toEqual(
-        {
-          assets: [{
-            ID: 1,
-            name: '3M',
-            symbol: 'MMM',
-            current_invest: 0
-          }]
-        }
-      )
-    })
-
-  })
+      }] as Asset[];
+      const newState = reducer(initialState, assetsReducer.setAssets(assets));
+      expect(newState).toEqual(assets);
+    });
+/*
+    it('should handle clearAssets action', () => {
+      const initialState = {
+        ...assetsReducer.initialState,
+        assets: [{
+          ID: 1,
+          name: '3M',
+          symbol: 'MMM'
+        }]
+      };
+      const newState = reducer(initialState, assetsReducer.clearAssets());
+      expect(newState).toEqual([]);
+    });
 */
-})
+  });
+
+  describe('Assets Thunks', () => {
+
+    it('should handle updateCurrentInvest', async () => {
+      const store = setupStore();
+      const assets = [{
+        ID: 1,
+        name: '3M',
+        symbol: 'MMM'
+      }] as Asset[];
+      store.dispatch(assetsReducer.setAssets(assets));
+      await store.dispatch(assetsReducer.updateCurrentInvest());
+      expect(store.getState().assets).toEqual(
+        [{
+          ID: 1,
+          name: '3M',
+          symbol: 'MMM',
+          current_invest: 0
+        }]
+      );
+    });
+/*
+    it('should handle fetchAssets thunk', async () => {
+      const store = setupStore();
+      const mockAssets = [{
+        ID: 1,
+        name: '3M',
+        symbol: 'MMM'
+      }] as Asset[];
+      jest.spyOn(assetsReducer, 'fetchAssets').mockResolvedValueOnce(mockAssets);
+      await store.dispatch(assetsReducer.fetchAssets() as any);
+      expect(store.getState().assets.assets).toEqual(mockAssets);
+    });
+*/
+  });
+
+});
