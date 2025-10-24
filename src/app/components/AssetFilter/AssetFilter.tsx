@@ -24,7 +24,7 @@ export default function AssetFilter(props: {filter:number[], onChange:any}) {
                 data-testid={`asset-filter-checkbox-${asset.ID}`} 
                 type="checkbox" 
                 checked={props.filter.includes(asset.ID)} 
-                onChange={(e) => props.onChange(asset.ID)} />
+                onChange={(e) => dispatch(props.onChange(asset.ID))} />
               <label 
                 htmlFor={`assetsFilter_${asset.ID}`} 
                 data-testid={`asset-filter-label-${asset.ID}`}>

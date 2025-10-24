@@ -38,6 +38,12 @@ export function get_estimated_dividends_per_year(asset:Asset) {
 
 export const get_dividend_yield_formatted = (asset:Asset) => (asset.dividendYield ? (Math.round(asset.dividendYield * 10000) / 100).toFixed(2) + ' %' : '')
 
+export function selectAssetsWithUpcomingDividends(state: Asset[]) {
+	const assets_with_current_shares_before_ex_date = state != undefined ? state.filter((asset:Asset) => asset.current_shares_before_ex_date > 0) : []
+	const assets_with_upcoming_dividends = assets_with_current_shares_before_ex_date.filter((asset) => asset.next_estimated_dividend_per_share > 0 && new Date(asset.payDividendDate) >= new Date())
+	return assets_with_upcoming_dividends
+}
+
 export function selectAssetsSortedByProfitLoss(state: Asset[], direction:'asc'|'desc') {
   const active = state.filter((asset:Asset) => asset.current_shares != 0 && asset.current_shares != null)
 	const inactive = state.filter((asset:Asset) => asset.current_shares == 0 || asset.current_shares == null)

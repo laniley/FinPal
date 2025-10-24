@@ -98,6 +98,45 @@ describe('Assets selectors', () => {
 
 	})
 
+	describe('selectAssetsWithUpcomingDividends(state: Assets[])', () => {
+
+		it('should return [] if state is undefined', () => {
+			expect(assetsSelector.selectAssetsWithUpcomingDividends(undefined)).toEqual([])
+		})
+
+		it('should only return assets with upcoming dividends', () => {
+
+			const assets = [
+				{
+					ID: 1,
+					name: 'Coca-Cola',
+					current_shares_before_ex_date: 10,
+					next_estimated_dividend_per_share: 1.5,
+					payDividendDate: new Date('2999-12-31T23:00:00.000Z') // tomorrow
+				},
+				{
+					ID: 2,
+					name: '3M',
+					current_shares_before_ex_date: 0
+				},
+				,
+				{
+					ID: 3,
+					name: 'Amazon',
+					current_shares_before_ex_date: 5,
+					next_estimated_dividend_per_share: 0
+				}
+			] as Asset[]
+			expect(assetsSelector.selectAssetsWithUpcomingDividends(assets)).toEqual(
+				[
+					{"ID": 1, "name":'Coca-Cola', "current_shares_before_ex_date": 10, "next_estimated_dividend_per_share": 1.5, payDividendDate: new Date('2999-12-31T23:00:00.000Z')},
+					
+				]
+			)
+		})
+
+	})
+
 	describe('selectAssetsSortedByName(state: Assets[], direction:\'asc\'|\'desc\')', () => {
 
 		it('should return [] if state is undefined', () => {

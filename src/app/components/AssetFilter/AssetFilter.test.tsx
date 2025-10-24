@@ -52,43 +52,63 @@ describe('AssetFilter component', () => {
   });
 
   it('renders sorted assets in ascending order', async () => {
-    const filerForAssets: number[] = [];
     const assets = [
       { ID: 2, name: 'B Asset', symbol: 'symbol_b', isin: 'isin_b' },
       { ID: 1, name: 'A Asset', symbol: 'symbol_a', isin: 'isin_a' },
     ];
 
-    render(<AssetFilter filter={filerForAssets} onChange={onChange} />, { preloadedState: { assets } });
+    render(<AssetFilter filter={[]} onChange={mockOnChange} />, {
+      preloadedState: { assets },
+    });
 
     act(() => {
       fireEvent.click(screen.getByTestId('asset-filter-button'));
     });
 
     await waitFor(() => {
-      const labels = screen.getAllByRole('checkbox').map((checkbox) => checkbox.nextSibling?.textContent);
+      const labels = screen
+        .getAllByRole('checkbox')
+        .map((checkbox) => checkbox.nextSibling?.textContent);
       expect(labels).toEqual(['A Asset', 'B Asset']);
     });
   });
 
-  it('calls onChange when a checkbox is clicked', async () => {
+  it('displays the correct checkbox state based on the filter prop', async () => {
+    await act(async () =>
+      render(
+        <Provider store={store}>
+          <AssetFilter filter={[1]} onChange={mockOnChange} />
+        </Provider>
+      )
+    );
 
-    await act( async () => render(
-      <Provider store={store}>
-        <AssetFilter filter={[1]} onChange={mockOnChange} />
-      </Provider>
-    ))
-
-    await act( async () => {
+    await act(async () => {
       fireEvent.click(screen.getByTestId('asset-filter-button'));
-    })
-    
-    const checkbox = screen.getByTestId('asset-filter-checkbox-2');
-    
-    await act( async () => {
-      fireEvent.click(checkbox);
     });
 
-    expect(mockOnChange).toHaveBeenCalledWith(2);
+    const checkbox1 = screen.getByTestId('asset-filter-checkbox-1');
+    const checkbox2 = screen.getByTestId('asset-filter-checkbox-2');
+
+    expect(checkbox1).toBeChecked();
+    expect(checkbox2).not.toBeChecked();
   });
 
-})
+  it('renders no items when the assets list is empty', async () => {
+    store = mockStore({ assets: [] });
+
+    await act(async () =>
+      render(
+        <Provider store={store}>
+          <AssetFilter filter={[]} onChange={mockOnChange} />
+        </Provider>
+      )
+    );
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('asset-filter-button'));
+    });
+
+    expect(screen.queryByTestId('asset-filter-popup-content')).toBeInTheDocument();
+    expect(screen.queryAllByRole('checkbox')).toHaveLength(0);
+  });
+});

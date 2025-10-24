@@ -7,8 +7,7 @@ import { useAppSelector } from './../../../../hooks'
 export default function UpcomingDividends() {
 
 	const assets = useAppSelector(state => state.assets)
-  const assets_with_current_shares_before_ex_date = assets.filter((asset) => asset.current_shares_before_ex_date > 0)
-  const assets_with_upcoming_dividends = assets_with_current_shares_before_ex_date.filter((asset) => asset.next_estimated_dividend_per_share > 0 && new Date(asset.payDividendDate) >= new Date())
+  const assets_with_upcoming_dividends = assetsSelector.selectAssetsWithUpcomingDividends(assets)
   const filtered_assets = assets_with_upcoming_dividends.filter((asset) => asset.next_estimated_dividend_per_share > 0 && new Date(asset.payDividendDate) >= new Date())
   var dividends: any[] = []
   filtered_assets.forEach((asset) => {
