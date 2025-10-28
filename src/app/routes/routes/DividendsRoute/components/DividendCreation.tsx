@@ -15,7 +15,11 @@ export default function DividendCreation() {
     <tr id="DividendCreation">
       <TableCell>*</TableCell>
       <TableCell>
-        <input data-testid="dateInput" type="date" value={dateInput} 
+        <input 
+          id="dateInput" /* id is needed by the reset function, to focus this element */ 
+          data-testid="dateInput" 
+          type="date" 
+          value={dateInput} 
           onChange={(e) => dispatch(dividendCreationReducer.setDateInput(e.target.value))} 
           onBlur={() => { dispatch(dividendCreationReducer.handleDateInputGotTouched()) }} />
       </TableCell>

@@ -20,6 +20,24 @@ export const loadAssets = createAsyncThunk(
   }
 )
 
+export const loadAsset = createAsyncThunk(
+  'assets/loadAsset',
+  async (props: {assetID:number}, thunkAPI) => {
+		console.log('loading asset with ID ' + props.assetID + ' from DB...')
+		let sql = 'SELECT * FROM assets_v WHERE ID = ' + props.assetID
+		let assets = await window.API.sendToDB(sql)
+		console.log('result: ', assets)
+		for(const asset of assets) {
+			asset.currencySymbol = '€'
+			console.log('loaded asset: ', asset)
+			thunkAPI.dispatch(setAsset(asset))
+		}
+		
+		thunkAPI.dispatch(updateCurrentInvest())
+		thunkAPI.dispatch(loadPricesAndDividends())
+  }
+)
+
 export const updateCurrentInvest = createAsyncThunk(
   'assets/updateCurrentInvest',
   async (props, thunkAPI) => {
@@ -148,6 +166,17 @@ const assetsSlice = createSlice({
 	name: 'assets',
 	initialState,
 	reducers: {
+		setAsset(state, action) {
+			let mapped = state.map((item:Asset, index:number) => { 
+				if(item.ID === action.payload.asset.ID) {
+					return Object.assign({}, item, action.payload)
+				}
+				else {
+					return item
+				}
+			})
+			return mapped
+		},
 		setAssets(state, action:{payload:Asset[]}) {
 			return action.payload
 		},
@@ -257,6 +286,7 @@ const assetsSlice = createSlice({
 const { actions, reducer } = assetsSlice
 // Extract and export each action creator by name
 export const {
+	setAsset,
 	setAssets,
 	setCurrencySymbol,
 	setCurrentInvest,

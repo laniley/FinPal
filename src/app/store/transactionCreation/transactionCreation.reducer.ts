@@ -99,7 +99,7 @@ export const validateAndSave = createAsyncThunk(
           sql += 'VALUES (\'' + state.transactionCreation.newID
           sql += '\',\'' + state.transactionCreation.dateInput
           sql += '\',\'' + state.transactionCreation.typeInput.replace('\'', '\'\'')
-          sql += '\',\'' + state.transactionCreation.assetInput.replace('\'', '\'\'')
+          sql += '\',\'' + state.transactionCreation.assetInput
           sql += '\',\'' + state.transactionCreation.amountInput.replace(',', '.') 
           sql += '\',\'' + state.transactionCreation.priceInput.replace(',', '.') 
           sql += '\',\'' + state.transactionCreation.feeInput.replace(',', '.')
@@ -113,12 +113,11 @@ export const validateAndSave = createAsyncThunk(
         console.log(sql)
         window.API.sendToDB(sql).then((result:any) => {
           thunkAPI.dispatch(setNewID(result[0].ID + 1))
-          thunkAPI.dispatch(transactionsReducer.loadTransactions()).then(() => {
-            thunkAPI.dispatch(assetsReducer.loadAssets())
-          })
+          thunkAPI.dispatch(transactionsReducer.loadTransactions())
+          thunkAPI.dispatch(assetsReducer.loadAsset({ assetID: parseInt(state.transactionCreation.assetInput) }))
+          thunkAPI.dispatch(reset())
         });
       });
-      thunkAPI.dispatch(reset())
     }
   }
 )

@@ -55,7 +55,7 @@ export default function TransactionsRoute() {
 		},
 		{
 			header: {
-				content: 'Solidarity Surcharge'
+				content: 'Tax'
 			}
 		},
 		{

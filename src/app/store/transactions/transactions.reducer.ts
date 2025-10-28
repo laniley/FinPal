@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { updateCurrentInvest, loadAssets } from './../assets/assets.reducer'
+import { updateCurrentInvest, loadAsset } from './../assets/assets.reducer'
 
 export const initialState = [] as Transaction[]
 
@@ -63,7 +63,7 @@ export const saveTransaction = createAsyncThunk(
 				window.API.sendToDB('SELECT * FROM transactions_v').then(async (result:Transaction[]) => {
 					console.log(result)
 					await thunkAPI.dispatch(setTransactions(result))
-					await thunkAPI.dispatch(loadAssets())
+					await thunkAPI.dispatch(loadAsset({ assetID: parseInt(props.assetInput) }))
 				});
 			});
 		}

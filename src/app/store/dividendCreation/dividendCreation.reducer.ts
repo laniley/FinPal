@@ -53,7 +53,7 @@ export const validateAndSave = createAsyncThunk(
         VALUES (
           '${state.dividendCreation.newID}',
           '${state.dividendCreation.dateInput}',
-          '${state.dividendCreation.assetInput.replace('\'', '\'\'')}',
+          '${state.dividendCreation.assetInput}',
           '${state.dividendCreation.incomeInput.replace(',', '.')}'
         )`
      
@@ -64,7 +64,7 @@ export const validateAndSave = createAsyncThunk(
 			await window.API.sendToDB(sql).then(async (result:any) => {
 				thunkAPI.dispatch(setNewID(result[0].ID + 1))
 				await thunkAPI.dispatch(dividendsReducer.loadDividends())
-        await thunkAPI.dispatch(assetsReducer.loadAssets())
+        await thunkAPI.dispatch(assetsReducer.loadAsset({ assetID: parseInt(state.dividendCreation.assetInput) }))
 			});
      });
      thunkAPI.dispatch(reset())
@@ -83,11 +83,6 @@ export const reset = createAsyncThunk(
 		thunkAPI.dispatch(setIncomeInput(''))
 
     let state = thunkAPI.getState() as State
-    console.log(
-      state.dividendCreation.dateInputGotTouched, 
-      state.dividendCreation.assetInputGotTouched,
-      state.dividendCreation.incomeInputGotTouched,
-    )
     document.getElementById("dateInput").focus();
   }
 )
