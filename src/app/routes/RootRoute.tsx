@@ -14,6 +14,7 @@ import AssetsRoute from './routes/AssetsRoute/AssetsRoute';
 import DatabaseRoute from './routes/DatabaseRoute/DatabaseRoute';
 
 import assets_sql from '../../sql/assets_sql'
+import transactions_sql from '../../sql/transactions_sql'
 import dividends_sql from '../../sql/dividends_sql'
 import assets_v_sql from '../../sql/assets_v_sql'
 import transactions_v_sql from '../../sql/transactions_v_sql'
@@ -86,17 +87,8 @@ export default function RootRoute() {
 	}
 
 	async function setupTransactions() {
-		let sql  = 'CREATE TABLE IF NOT EXISTS transactions ('
-				sql += 'ID INTEGER PRIMARY KEY, '
-				sql += 'date DATE, '
-				sql += 'type VARCHAR NOT NULL, '
-				sql += 'asset_ID INTEGER NOT NULL, '
-				sql += 'amount REAL, '
-				sql += 'price_per_share REAL, '
-				sql += 'fee REAL, '
-				sql += 'solidarity_surcharge REAL)'
-		await sendToDB(sql)
-		sql  = 'SELECT MAX(ID) as ID FROM transactions'
+		await sendToDB(transactions_sql)
+		let sql  = 'SELECT MAX(ID) as ID FROM transactions'
 		var result = await sendToDB(sql)
 		var newID = 0
 		if(result) {
