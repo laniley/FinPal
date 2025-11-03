@@ -11,8 +11,8 @@ const sql = `
 		)
 	  SELECT transactions.*,
 		  pre_calcs.rank,
-		  pre_calcs.shares_cumulated,
-			  pre_calcs.in_out
+		  ROUND(pre_calcs.shares_cumulated, 10) as shares_cumulated,
+			pre_calcs.in_out
 	  FROM transactions
 			LEFT JOIN pre_calcs ON transactions.ID = pre_calcs.ID
 		  LEFT JOIN pre_calcs AS previous ON pre_calcs.asset_ID = previous.asset_ID AND previous.rank = pre_calcs.rank-1

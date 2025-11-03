@@ -1,4 +1,5 @@
 export const get_current_shares_textColor = (asset:Asset) => (asset.current_shares == 0 ? "text-slate-500" : "inherit")
+export const get_current_invest_textColor = (asset:Asset) => (asset.current_invest == 0 ? "text-slate-500" : "inherit")
 export const get_current_profit_loss = (asset:Asset) => (asset.current_shares * asset.price) + asset.current_invest
 export const get_current_profit_loss_percentage = (asset:Asset) => (asset.current_invest != 0 ? -1 * get_current_profit_loss(asset)/asset.current_invest * 100 : 0)
 export const get_current_profit_loss_bgColor = (asset:Asset) => (get_current_profit_loss(asset) > 0 ? "bg-teal-600" : (get_current_profit_loss(asset) == 0 ? "transparent" : "bg-custom-red"))

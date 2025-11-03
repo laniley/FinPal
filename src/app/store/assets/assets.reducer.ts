@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { sortBy as sortTransactionsBy } from './../transactions/transactions.reducer'
 import { Convert } from "easy-currencies";
 
 export const initialState = [] as Asset[]
@@ -15,7 +14,6 @@ export const loadAssets = createAsyncThunk(
 			asset.currencySymbol = '€'
 		}
 		thunkAPI.dispatch(setAssets(assets))
-		thunkAPI.dispatch(updateCurrentInvest())
 		thunkAPI.dispatch(loadPricesAndDividends())
   }
 )
@@ -29,32 +27,12 @@ export const loadAsset = createAsyncThunk(
 		console.log('result: ', assets)
 		for(const asset of assets) {
 			asset.currencySymbol = '€'
+
 			console.log('loaded asset: ', asset)
 			thunkAPI.dispatch(setAsset(asset))
 		}
 		
-		thunkAPI.dispatch(updateCurrentInvest())
 		thunkAPI.dispatch(loadPricesAndDividends())
-  }
-)
-
-export const updateCurrentInvest = createAsyncThunk(
-  'assets/updateCurrentInvest',
-  async (props, thunkAPI) => {
-		let state = thunkAPI.getState() as State
-		const assets = state.assets
-
-		assets.forEach((asset:Asset) => {
-			const filtered = state.transactions.filter((trans:Transaction) => trans.asset_ID == asset.ID)
-			const sorted = filtered.slice().sort((a:Transaction, b:Transaction) => sortTransactionsBy(a, b, 'date', 'desc'))
-
-			let current_invest = 0
-			
-			if(sorted[0])
-				current_invest = sorted[0].invest_cumulated
-				
-			thunkAPI.dispatch(setCurrentInvest({asset, current_invest}))
-		})
   }
 )
 

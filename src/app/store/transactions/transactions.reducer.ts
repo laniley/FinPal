@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { updateCurrentInvest, loadAsset } from './../assets/assets.reducer'
+import { loadAsset, setCurrentInvest } from './../assets/assets.reducer'
 
 export const initialState = [] as Transaction[]
 
@@ -28,8 +28,27 @@ export const loadTransactions = createAsyncThunk(
 		console.log('result - load transactions: ', result)
 
 		thunkAPI.dispatch(setTransactions(result))
-
 		thunkAPI.dispatch(updateCurrentInvest())
+  }
+)
+
+export const updateCurrentInvest = createAsyncThunk(
+  'assets/updateCurrentInvest',
+  async (props, thunkAPI) => {
+		let state = thunkAPI.getState() as State
+		const assets = state.assets
+
+		assets.forEach((asset:Asset) => {
+			const filtered = state.transactions.filter((trans:Transaction) => trans.asset_ID == asset.ID)
+			const sorted = filtered.slice().sort((a:Transaction, b:Transaction) => sortBy(a, b, 'date', 'desc'))
+
+			let current_invest = 0
+			
+			if(sorted[0])
+				current_invest = sorted[0].invest_cumulated
+				
+			thunkAPI.dispatch(setCurrentInvest({asset, current_invest}))
+		})
   }
 )
 

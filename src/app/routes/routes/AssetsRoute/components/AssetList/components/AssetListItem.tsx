@@ -22,7 +22,6 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 	const current_profit_loss_percentage = assetsSelector.get_current_profit_loss_percentage(props.asset)
 	const current_profit_loss_percentage_formatted = (current_profit_loss_percentage).toFixed(2)
 	const upcoming_dividends = (Math.round(assetsSelector.get_upcoming_dividends(props.asset).value * 1000) / 1000).toFixed(3)
-	//const estimated_dividends_per_year = (Math.round(assetsSelector.get_estimated_dividends_per_year(props.asset) * 1000) / 1000).toFixed(3)
 	const dividends_formatted = (Math.round(props.asset.dividends_earned * 100) / 100).toFixed(2)
 	const current_sum_in_out = props.asset.current_sum_in_out + current_value + props.asset.dividends_earned
 	const current_sum_in_out_formatted = (Math.round((current_sum_in_out) * 100) / 100).toFixed(2)
@@ -55,7 +54,7 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
 			<TableCell additionalClassNames="text-right w-[6rem]">{current_price} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames="text-right" bgColor={bgColor_PriceComparison}>{price_comparison}</TableCell>
 			<TableCell additionalClassNames="text-right">{avg_price_paid_formatted} {props.asset.currencySymbol}</TableCell>
-			<TableCell additionalClassNames="text-right">{current_invest} {props.asset.currencySymbol}</TableCell>
+			<TableCell additionalClassNames={"text-right " + assetsSelector.get_current_invest_textColor(props.asset)}>{current_invest} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames="text-right">{current_value_formatted} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames={"text-center " + assetsSelector.get_current_profit_loss_textColor(props.asset)} bgColor={bgColor_ProfitLoss}>{current_profit_loss_formatted} {props.asset.currencySymbol} / {current_profit_loss_percentage_formatted} %</TableCell>
 			<TableCell id={"AssetListItem_" + props.i + "_exDividendDate"} additionalClassNames={"text-right " + assetsSelector.get_ex_dividend_date_textColor(props.asset)}>{exDividendDateFormatted}</TableCell>
