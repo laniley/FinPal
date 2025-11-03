@@ -49,9 +49,9 @@ export default function AssetListItem(props: {i: number, asset:Asset}) {
     <tr id={"AssetListItem_" + props.i}>
 			<TableCell additionalClassNames="text-right">{props.i}</TableCell>
       <TableCell>
-				<Button data-testid={"openOverlayButton_" + props.i} text={props.asset.name} minimal style={{ color: button_text_color }} fill alignText={Alignment.LEFT} onClick={(e) => openAssetOverlay()} />
+				<Button data-testid={"openOverlayButton_" + props.asset.ID} text={props.asset.name} minimal style={{ color: button_text_color }} fill alignText={Alignment.LEFT} onClick={(e) => openAssetOverlay()} />
 			</TableCell>
-			<TableCell additionalClassNames="text-right">{shares_formatted}</TableCell>
+			<TableCell additionalClassNames={"text-right " + assetsSelector.get_current_shares_textColor(props.asset)}>{shares_formatted}</TableCell>
 			<TableCell additionalClassNames="text-right w-[6rem]">{current_price} {props.asset.currencySymbol}</TableCell>
 			<TableCell additionalClassNames="text-right" bgColor={bgColor_PriceComparison}>{price_comparison}</TableCell>
 			<TableCell additionalClassNames="text-right">{avg_price_paid_formatted} {props.asset.currencySymbol}</TableCell>

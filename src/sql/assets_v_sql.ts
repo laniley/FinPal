@@ -19,7 +19,7 @@ CREATE VIEW IF NOT EXISTS assets_v AS
 	    SUM(CASE WHEN type = 'Buy' THEN amount * price_per_share ELSE 0 END) AS invested,
 	    SUM(CASE WHEN type = 'Sell' THEN amount * price_per_share ELSE 0 END) AS profit,
 	    SUM(fee) AS fees,
-	    current_shares.current_shares,
+	    CASE WHEN current_shares.current_shares < 0 THEN 0 ELSE  current_shares.current_shares END as current_shares,
 	    SUM(CASE WHEN exDividendDate IS NULL OR (current_shares.current_shares > 0 AND transactions.date < exDividendDate) THEN
 	    		CASE WHEN type = 'Buy' THEN amount ELSE amount * -1 END
 	    	ELSE 0 END) AS current_shares_before_ex_date,
